@@ -8,6 +8,7 @@ apply from: "main.gradle"
 
 // Should exist on all loaders and is loader specific
 repositories {
+	mavenLocal()
 	maven {url "https://modmaven.dev/" }// UnionLib
 	maven {url "https://girafi.dk/maven/"}
 	maven {url "https://www.cursemaven.com"} //CurseForge
@@ -23,7 +24,6 @@ dependencies {
   		//parchment("org.parchmentmc.data:parchment-"+mappingsVersion+"@zip")
 	}
 	modImplementation "net.fabricmc:fabric-loader:${project._loader_version}"
-	modImplementation "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.1.0"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project._loader_api_version}"
 
 	modImplementation ("com.stereowalker.unionlib:UnionLib:${_minecraft_version}-${_unionlib_version}-${_loader}")
