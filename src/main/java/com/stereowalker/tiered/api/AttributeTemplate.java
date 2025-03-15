@@ -203,7 +203,7 @@ public class AttributeTemplate {
      */
     private void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, ResourceLocation id) {
     	AttributeModifier cloneModifier = new AttributeModifier(
-    			id.withPath("tiered_"+attributeModifier.id().getPath()),
+    			id.withPrefix("tiered_"+attributeModifier.id().getPath()),
                 attributeModifier.amount(),
                 attributeModifier.operation()
         );
