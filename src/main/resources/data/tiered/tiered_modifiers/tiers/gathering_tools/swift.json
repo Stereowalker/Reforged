@@ -8,7 +8,7 @@
   },
   "attributes": [
     {
-      "type": "unionlib:generic.dig_speed",
+      "type": "player.block_break_speed",
       "modifier": {
         "name": "tiered:swift",
         "operation": "ADD_MULTIPLIED_TOTAL",
