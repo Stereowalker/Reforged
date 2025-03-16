@@ -10,7 +10,7 @@
     {
       "type": "generic.armor",
       "modifier": {
-        "name": "tiered:reinforced",
+        "id": "tiered:reinforced",
         "operation": "ADD_VALUE",
         "amount": 2
       },

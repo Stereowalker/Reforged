@@ -10,7 +10,7 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:keen",
+        "id": "tiered:keen",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.10
       },

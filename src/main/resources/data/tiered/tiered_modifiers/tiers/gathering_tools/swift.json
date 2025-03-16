@@ -10,7 +10,7 @@
     {
       "type": "player.block_break_speed",
       "modifier": {
-        "name": "tiered:swift",
+        "id": "tiered:swift",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.10
       },
@@ -21,7 +21,7 @@
     {
       "type": "generic.movement_speed",
       "modifier": {
-        "name": "tiered:swift",
+        "id": "tiered:swift",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.10
       },

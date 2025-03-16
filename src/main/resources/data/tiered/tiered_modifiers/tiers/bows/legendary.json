@@ -10,7 +10,7 @@
     {
       "type": "unionlib:generic.draw_speed",
       "modifier": {
-        "name": "tiered:legendary_bow",
+        "id": "tiered:legendary_bow",
         "operation": "ADD_VALUE",
         "amount": 1.0
       },
@@ -21,7 +21,7 @@
     {
       "type": "unionlib:generic.accuracy",
       "modifier": {
-        "name": "tiered:legendary_bow",
+        "id": "tiered:legendary_bow",
         "operation": "ADD_VALUE",
         "amount": 0.25
       },
@@ -32,7 +32,7 @@
     {
       "type": "unionlib:generic.arrow_damage",
       "modifier": {
-        "name": "tiered:legendary_bow",
+        "id": "tiered:legendary_bow",
         "operation": "ADD_VALUE",
         "amount": 1.0
       },
@@ -43,7 +43,7 @@
     {
       "type": "unionlib:generic.arrow_velocity",
       "modifier": {
-        "name": "tiered:legendary_bow",
+        "id": "tiered:legendary_bow",
         "operation": "ADD_VALUE",
         "amount": 1.0
       },
