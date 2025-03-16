@@ -1,15 +1,6 @@
-[1.0.5]
-- Replaced armor with attack speed on certain tool and weapon tiers
-
-[1.0.4]
-- Added a config option to prevent crafted items from getting tiers with attributes
-
-[1.0.3]
-- The mace can now receive tiers
-
-[1.0.2]
-- Fix NPE when re rolling tiers
+[1.0.6]
+- Backported 1.20.6 to 1.20.1
 - Updated UnionLib
-
-[1.0.1]
-- Added a config option to allow reforging a damaged item
+- Created a separate extended tier that can be reforged using a weaponsmiths hammer
+- Fix the swift tier not using the correct break speed attribute
+- Used id instead of name for attribute modifiers to match 1.21
