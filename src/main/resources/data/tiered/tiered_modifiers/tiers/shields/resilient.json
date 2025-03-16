@@ -10,7 +10,7 @@
     {
       "type": "generic.max_health",
       "modifier": {
-        "name": "tiered:resilient",
+        "id": "tiered:resilient",
         "operation": "ADD_VALUE",
         "amount": 1
       },

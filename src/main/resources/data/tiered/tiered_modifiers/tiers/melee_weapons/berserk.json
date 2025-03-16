@@ -10,7 +10,7 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:berserk",
+        "id": "tiered:berserk",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.25
       },
@@ -21,7 +21,7 @@
     {
       "type": "generic.attack_speed",
       "modifier": {
-        "name": "tiered:berserk",
+        "id": "tiered:berserk",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": -0.25
       },
@@ -32,7 +32,7 @@
     {
       "type": "minecraft:player.block_interaction_range",
       "modifier": {
-        "name": "tiered:berserk",
+        "id": "tiered:berserk",
         "operation": "ADD_VALUE",
         "amount": -1
       },
@@ -43,7 +43,7 @@
     {
       "type": "minecraft:player.entity_interaction_range",
       "modifier": {
-        "name": "tiered:berserk",
+        "id": "tiered:berserk",
         "operation": "ADD_VALUE",
         "amount": -1
       },

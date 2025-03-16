@@ -10,7 +10,7 @@
     {
       "type": "generic.max_health",
       "modifier": {
-        "name": "tiered:epic_armor",
+        "id": "tiered:epic_armor",
         "operation": "ADD_VALUE",
         "amount": 6
       },
@@ -24,7 +24,7 @@
     {
       "type": "generic.armor",
       "modifier": {
-        "name": "tiered:epic_armor",
+        "id": "tiered:epic_armor",
         "operation": "ADD_VALUE",
         "amount": 2
       },
@@ -38,7 +38,7 @@
     {
       "type": "generic.armor_toughness",
       "modifier": {
-        "name": "tiered:legendary_armor",
+        "id": "tiered:legendary_armor",
         "operation": "ADD_VALUE",
         "amount": 1
       },

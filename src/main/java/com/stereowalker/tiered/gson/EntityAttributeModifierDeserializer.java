@@ -13,7 +13,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 public class EntityAttributeModifierDeserializer implements JsonDeserializer<AttributeModifier> {
 
-    private static final String JSON_NAME_KEY = "name";
+    private static final String JSON_NAME_KEY = "id";
     private static final String JSON_AMOUNT_KEY = "amount";
     private static final String JSON_OPERATION_KEY = "operation";
 

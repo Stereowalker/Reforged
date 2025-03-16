@@ -10,7 +10,7 @@
     {
       "type": "generic.max_health",
       "modifier": {
-        "name": "tiered:rare_armor",
+        "id": "tiered:rare_armor",
         "operation": "ADD_VALUE",
         "amount": 4
       },
@@ -24,7 +24,7 @@
     {
       "type": "generic.armor",
       "modifier": {
-        "name": "tiered:rare_armor",
+        "id": "tiered:rare_armor",
         "operation": "ADD_VALUE",
         "amount": 1
       },

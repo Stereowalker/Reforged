@@ -10,7 +10,7 @@
     {
       "type": "unionlib:generic.draw_speed",
       "modifier": {
-        "name": "tiered:elastic",
+        "id": "tiered:elastic",
         "operation": "ADD_VALUE",
         "amount": 1.5
       },
