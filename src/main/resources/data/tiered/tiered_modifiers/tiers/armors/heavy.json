@@ -10,7 +10,7 @@
     {
       "type": "generic.knockback_resistance",
       "modifier": {
-        "name": "tiered:heavy",
+        "id": "tiered:heavy",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.1
       },

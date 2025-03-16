@@ -10,7 +10,7 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:critical",
+        "id": "tiered:critical",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": -0.10
       },
@@ -21,7 +21,7 @@
     {
       "type": "unionlib:generic.critical_rate",
       "modifier": {
-        "name": "tiered:critical",
+        "id": "tiered:critical",
         "operation": "ADD_VALUE",
         "amount": 0.25
       },

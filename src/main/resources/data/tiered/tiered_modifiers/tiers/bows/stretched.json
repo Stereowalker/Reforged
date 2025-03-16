@@ -10,7 +10,7 @@
     {
       "type": "unionlib:generic.arrow_damage",
       "modifier": {
-        "name": "tiered:stretched",
+        "id": "tiered:stretched",
         "operation": "ADD_VALUE",
         "amount": -0.2
       },
@@ -21,7 +21,7 @@
     {
       "type": "unionlib:generic.arrow_velocity",
       "modifier": {
-        "name": "tiered:stretched",
+        "id": "tiered:stretched",
         "operation": "ADD_VALUE",
         "amount": -0.2
       },

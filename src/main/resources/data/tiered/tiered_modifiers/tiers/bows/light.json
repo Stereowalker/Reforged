@@ -10,7 +10,7 @@
     {
       "type": "unionlib:generic.accuracy",
       "modifier": {
-        "name": "tiered:light",
+        "id": "tiered:light",
         "operation": "ADD_VALUE",
         "amount": 0.4
       },

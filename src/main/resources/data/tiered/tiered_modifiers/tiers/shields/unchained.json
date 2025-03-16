@@ -10,7 +10,7 @@
     {
       "type": "generic.armor",
       "modifier": {
-        "name": "tiered:unchained",
+        "id": "tiered:unchained",
         "operation": "ADD_VALUE",
         "amount": -2
       },
@@ -21,7 +21,7 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:unchained",
+        "id": "tiered:unchained",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.25
       },

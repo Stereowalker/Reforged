@@ -10,7 +10,7 @@
     {
       "type": "player.block_break_speed",
       "modifier": {
-        "name": "hasteful",
+        "id": "hasteful",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.10
       },
