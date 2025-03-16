@@ -1,1 +1,4 @@
-- Replaced armor with attack speed on certain tool and weapon tiers
+- Updated UnionLib
+- Created a separate extended tier that can be reforged using a weaponsmiths hammer
+- Fix the swift tier not using the correct break speed attribute
+- Used id instead of name for attribute modifiers to match 1.21
