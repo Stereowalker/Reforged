@@ -10,7 +10,7 @@
     {
       "type": "generic.max_health",
       "modifier": {
-        "name": "tiered:legendary_armor",
+        "id": "tiered:legendary_armor",
         "operation": "ADD_VALUE",
         "amount": 10
       },
@@ -24,7 +24,7 @@
     {
       "type": "generic.armor",
       "modifier": {
-        "name": "tiered:legendary_armor",
+        "id": "tiered:legendary_armor",
         "operation": "ADD_VALUE",
         "amount": 4
       },
@@ -38,7 +38,7 @@
     {
       "type": "generic.luck",
       "modifier": {
-        "name": "tiered:legendary_armor",
+        "id": "tiered:legendary_armor",
         "operation": "ADD_VALUE",
         "amount": 0.5
       },
@@ -52,7 +52,7 @@
     {
       "type": "generic.armor_toughness",
       "modifier": {
-        "name": "tiered:legendary_armor",
+        "id": "tiered:legendary_armor",
         "operation": "ADD_VALUE",
         "amount": 2
       },

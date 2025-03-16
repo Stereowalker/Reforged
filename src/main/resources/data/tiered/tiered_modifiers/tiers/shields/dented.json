@@ -10,7 +10,7 @@
     {
       "type": "generic.armor",
       "modifier": {
-        "name": "tiered:dented",
+        "id": "tiered:dented",
         "operation": "ADD_VALUE",
         "amount": -1
       },

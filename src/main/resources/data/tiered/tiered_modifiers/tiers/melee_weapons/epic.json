@@ -10,7 +10,7 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:epic_tool",
+        "id": "tiered:epic_tool",
         "operation": "ADD_VALUE",
         "amount": 0.375
       },
@@ -21,7 +21,7 @@
     {
       "type": "generic.attack_speed",
       "modifier": {
-        "name": "tiered:epic_tool",
+        "id": "tiered:epic_tool",
         "operation": "ADD_VALUE",
         "amount": 0.5
       },

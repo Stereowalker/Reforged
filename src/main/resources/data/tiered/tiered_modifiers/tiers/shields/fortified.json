@@ -10,7 +10,7 @@
     {
       "type": "generic.armor",
       "modifier": {
-        "name": "tiered:fortified",
+        "id": "tiered:fortified",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.25
       },

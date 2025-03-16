@@ -10,7 +10,7 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:dull",
+        "id": "tiered:dull",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": -0.10
       },

@@ -10,7 +10,7 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:rare_tool",
+        "id": "tiered:rare_tool",
         "operation": "ADD_VALUE",
         "amount": 0.25
       },
@@ -21,7 +21,7 @@
     {
       "type": "generic.attack_speed",
       "modifier": {
-        "name": "tiered:rare_tool",
+        "id": "tiered:rare_tool",
         "operation": "ADD_VALUE",
         "amount": 0.1
       },

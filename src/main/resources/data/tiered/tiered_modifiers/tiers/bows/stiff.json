@@ -10,7 +10,7 @@
     {
       "type": "unionlib:generic.draw_speed",
       "modifier": {
-        "name": "tiered:stiff",
+        "id": "tiered:stiff",
         "operation": "ADD_VALUE",
         "amount": -0.5
       },
@@ -21,7 +21,7 @@
     {
       "type": "unionlib:generic.arrow_velocity",
       "modifier": {
-        "name": "tiered:stiff",
+        "id": "tiered:stiff",
         "operation": "ADD_VALUE",
         "amount": 0.2
       },

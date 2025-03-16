@@ -16,7 +16,7 @@ public class EntityAttributeModifierSerializer implements JsonSerializer<Attribu
         JsonObject obj = new JsonObject();
         obj.addProperty("amount", src.amount());
         obj.addProperty("operation", src.operation().toString());
-        obj.addProperty("name", src.name());
+        obj.addProperty("id", src.name());
         return obj;
     }
 }

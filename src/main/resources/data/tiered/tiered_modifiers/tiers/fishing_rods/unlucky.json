@@ -10,7 +10,7 @@
     {
       "type": "generic.luck",
       "modifier": {
-        "name": "tiered:unlucky",
+        "id": "tiered:unlucky",
         "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": -0.25
       },
