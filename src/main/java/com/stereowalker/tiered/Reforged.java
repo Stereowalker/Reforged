@@ -5,14 +5,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.UnaryOperator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Function;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.stereowalker.tiered.api.AttributeTemplate;
 import com.stereowalker.tiered.api.ModifierUtils;
 import com.stereowalker.tiered.api.PotentialAttribute;
@@ -41,13 +43,15 @@ import com.stereowalker.unionlib.util.VersionHelper;
 import com.stereowalker.unionlib.world.entity.AccessorySlot;
 import com.stereowalker.unionlib.world.item.AccessoryItem;
 
+import net.fabricmc.fabric.api.item.v1.ModifyItemAttributeModifiersCallback;
 import net.minecraft.Util;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ArmorItem;
@@ -101,6 +105,15 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 		super("tiered", () -> new ReforgedClientSegment(), () -> new ServerSegment());
 		instance = this;
 		UnionLib.Modulo.Default_Bow_Draw_Speed.enable();
+		
+		//New On Fabric
+		ModifyItemAttributeModifiersCallback.EVENT.register((thisStack, slot, c) -> {
+			c.clear();
+			c.putAll(Reforged.AppendAttributesToOriginal(thisStack, slot, Reforged.isPreferredEquipmentSlot(thisStack, slot), "AttributeModifiers", thisStack.getItem().getAttributeModifiers(thisStack, slot),
+					template -> template.getRequiredEquipmentSlot(), 
+					template -> template.getOptionalEquipmentSlot(), 
+					(template, newMap) -> template.realize(newMap::put, slot)));
+		});
 	}
 	
 	@Override
@@ -110,8 +123,8 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	
 	//TODO: Copy this over to 1.20.1 >
 	public static boolean hasModifier(ItemStack stack) {
-		//return left.getTagElement(NBT_SUBTAG_KEY) != null;
-		return stack.has(ComponentsRegistry.MODIFIER);
+		return stack.getTagElement(ComponentsRegistry.NBT_SUBTAG_KEY) != null;
+//		return stack.has(ComponentsRegistry.MODIFIER);
 	}
 
 	@Override
@@ -142,7 +155,8 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 		});
 		collector.addInsert(Inserts.ITEM_CRAFTED, (player, stack, matrix, slot) -> {
 			if (!Config.canCraftedReceiveTier) {
-				stack.set(ComponentsRegistry.MODIFIER, ModifierUtils.getBlankAttributeIDFor(stack.getItem()));
+//				stack.set(ComponentsRegistry.MODIFIER, ModifierUtils.getBlankAttributeIDFor(stack.getItem()));
+				stack.getOrCreateTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).putString(ComponentsRegistry.NBT_SUBTAG_DATA_KEY, ModifierUtils.getBlankAttributeIDFor(stack.getItem()).toString());
 			}
 		});
 		collector.addInsert(ServerInserts.VILLAGER_TRADES, (profession, trades, experimental) -> {
@@ -170,11 +184,13 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 		});
 		collector.addInsert(Inserts.ANVIL_CONTENT_CHANGE, (left,right,name,player,output,cost,materialCost,cancel)->{
 			if ((Config.canReforgeBroken || !left.isDamaged()) && hasModifier(left)) {
-				PotentialAttribute reforgedAttribute = Reforged.TIER_DATA.getTiers().get(left.get(ComponentsRegistry.MODIFIER));
+//				PotentialAttribute reforgedAttribute = Reforged.TIER_DATA.getTiers().get(left.get(ComponentsRegistry.MODIFIER));
+				PotentialAttribute reforgedAttribute = Reforged.TIER_DATA.getTiers().get(new ResourceLocation(left.getTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).getString("Tier")));
 				if (reforgedAttribute.getReforgeItem() != null) {
 					if (RegistryHelper.getItemKey(right.getItem()).equals(VersionHelper.toLoc(reforgedAttribute.getReforgeItem())) && (right.getMaxDamage() - right.getDamageValue()) >= reforgedAttribute.getReforgeDurabilityCost()) {
 						ItemStack copy = left.copy();
-						copy.remove(ComponentsRegistry.MODIFIER);
+//						copy.remove(ComponentsRegistry.MODIFIER);
+						copy.removeTagKey(ComponentsRegistry.NBT_SUBTAG_KEY);
 						output.set(copy);
 						cost.set(reforgedAttribute.getReforgeExperienceCost());
 					}
@@ -187,7 +203,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 
 	@Override
 	public void setupRegistries(RegistryCollector collector) {
-		collector.addRegistryHolder(Registries.DATA_COMPONENT_TYPE, ComponentsRegistry.class);
+//		collector.addRegistryHolder(Registries.DATA_COMPONENT_TYPE, ComponentsRegistry.class);
 		collector.addRegistryHolder(Registries.ITEM, ItemRegistries.class);
 	}
 
@@ -201,16 +217,18 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	}
 
 
-	@RegistryHolder(namespace = "tiered")
+//	@RegistryHolder(namespace = "tiered")
 	public class ComponentsRegistry {
-		@RegistryObject("tiered_modifier")
-		public static final DataComponentType<ResourceLocation> MODIFIER = register(
-				p_333150_ -> p_333150_.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC)
-				);
-
-		private static <T> DataComponentType<T> register(UnaryOperator<DataComponentType.Builder<T>> pBuilder) {
-			return pBuilder.apply(DataComponentType.builder()).build();
-		}
+//		@RegistryObject("tiered_modifier")
+//		public static final DataComponentType<ResourceLocation> MODIFIER = register(
+//				p_333150_ -> p_333150_.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC)
+//				);
+//
+//		private static <T> DataComponentType<T> register(UnaryOperator<DataComponentType.Builder<T>> pBuilder) {
+//			return pBuilder.apply(DataComponentType.builder()).build();
+//		}
+		public static final String NBT_SUBTAG_KEY = "Reforged";
+		public static final String NBT_SUBTAG_DATA_KEY = "Tier";
 	}
 
 	@RegistryHolder(namespace = "tiered")
@@ -227,7 +245,8 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 		if(!hasModifier(stack) && !stack.isEmpty()) {
 			ResourceLocation potentialAttributeID = ModifierUtils.getRandomAttributeIDFor(stack.getItem());
 			if(potentialAttributeID != null) {
-				stack.set(ComponentsRegistry.MODIFIER, potentialAttributeID);
+//				stack.set(ComponentsRegistry.MODIFIER, potentialAttributeID);
+				stack.getOrCreateTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).putString(ComponentsRegistry.NBT_SUBTAG_DATA_KEY, potentialAttributeID.toString());
 			}
 		}
 	}
@@ -283,14 +302,16 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 		collector.registerClientboundPacket(ClientboundTierSyncerPacket.id, ClientboundTierSyncerPacket.class, ClientboundTierSyncerPacket::new);
 	}
 
-	public static <T> void AppendAttributesToOriginal(ItemStack stack, T slot, boolean isPreferredSlot, String customAttributes, 
-			Function<AttributeTemplate,T[]> requiredSlotsArray, 
-			Function<AttributeTemplate,T[]> optionalSlotsArray, Consumer<AttributeTemplate> realize) {
-		//		Multimap<Attribute, AttributeModifier> newMap = LinkedListMultimap.create();
+	public static <T> Multimap<Attribute, AttributeModifier> AppendAttributesToOriginal(ItemStack stack, T slot, boolean isPreferredSlot, String customAttributes, 
+			Multimap<Attribute, AttributeModifier> original, Function<AttributeTemplate,T[]> requiredSlotsArray, 
+			Function<AttributeTemplate,T[]> optionalSlotsArray, BiConsumer<AttributeTemplate,Multimap<Attribute, AttributeModifier>> realize) {
+		Multimap<Attribute, AttributeModifier> newMap = LinkedListMultimap.create();
+		newMap.putAll(original);
 		if(hasModifier(stack)) {
-			ResourceLocation tier = stack.get(ComponentsRegistry.MODIFIER);
+//			ResourceLocation tier = stack.get(ComponentsRegistry.MODIFIER);
+			ResourceLocation tier = new ResourceLocation(stack.getOrCreateTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).getString(ComponentsRegistry.NBT_SUBTAG_DATA_KEY));
 
-//			if(!stack.hasTag() || !stack.getTag().contains(customAttributes, 9)) {
+			if(!stack.hasTag() || !stack.getTag().contains(customAttributes, 9)) {
 				PotentialAttribute potentialAttribute = Reforged.TIER_DATA.getTiers().get(tier);
 
 				if(potentialAttribute != null) {
@@ -299,7 +320,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 						if(requiredSlotsArray.apply(template) != null) {
 							List<T> requiredSlots = new ArrayList<>(Arrays.asList(requiredSlotsArray.apply(template)));
 							if(requiredSlots.contains(slot))
-								realize.accept(template);
+								realize.accept(template, newMap);
 						}
 
 						// get optional equipment slots
@@ -307,11 +328,12 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 							List<T> optionalSlots = new ArrayList<>(Arrays.asList(optionalSlotsArray.apply(template)));
 							// optional equipment slots are valid ONLY IF the equipment slot is valid for the thing
 							if(optionalSlots.contains(slot) && isPreferredSlot)
-								realize.accept(template);
+								realize.accept(template, newMap);
 						}
 					});
 				}
-//			}
+			}
 		}
+		return newMap;
 	}
 }

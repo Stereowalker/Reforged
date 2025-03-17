@@ -1,20 +1,25 @@
 package com.stereowalker.tiered.mixin.unionlib;
 
-import java.util.function.Consumer;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
 import com.stereowalker.tiered.Reforged;
 import com.stereowalker.tiered.api.PotentialAttribute;
 import com.stereowalker.unionlib.hook.AccessoryStackCalls;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -27,22 +32,41 @@ import net.minecraft.world.item.ItemStack;
 public abstract class AccessoryStackCallsClientMixin {
 
     private static boolean isTiered = false;
-
     @SuppressWarnings("rawtypes")
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;amount()D"), method = "gatherAttributes")
-    private static void storeAttributeModifier(ItemStack stack, Consumer arg0, Player arg1, Holder arg2, AttributeModifier pModfier, CallbackInfo ci) {
-        isTiered = pModfier.name().contains("_tiered_");
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;getAmount()D"), method = "gatherAttributes", locals = LocalCapture.CAPTURE_FAILHARD)
+    private static void storeAttributeModifier(ItemStack arg0, Player arg1, Multimap multimap, List list, String name, CallbackInfo ci, Iterator var5, Map.Entry entry, AttributeModifier attributemodifier) {
+        isTiered = attributemodifier.getName().contains("tiered:");
     }
 
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 1), method = "gatherAttributes")
-    private static MutableComponent getTextFormatting(MutableComponent translatableText, ChatFormatting formatting, ItemStack stack, Consumer<Component> pTooltipAdder, @Nullable Player pPlayer, Holder<Attribute> pAttribute, AttributeModifier pModfier) {
-        if(Reforged.hasModifier(stack) && isTiered) {
-            ResourceLocation tier = stack.get(Reforged.ComponentsRegistry.MODIFIER);
+    private static MutableComponent getTextFormatting(MutableComponent translatableText, ChatFormatting formatting, ItemStack stack, @Nullable Player pPlayer, Multimap<Attribute, AttributeModifier> multimap, List<Component> list, String name) {
+        if(stack.hasTag() && stack.getTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY) != null && isTiered) {
+            ResourceLocation tier = new ResourceLocation(stack.getOrCreateTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).getString(Reforged.ComponentsRegistry.NBT_SUBTAG_DATA_KEY));
             PotentialAttribute attribute = Reforged.TIER_DATA.getTiers().get(tier);
 
             return translatableText.setStyle(attribute.getStyle());
         } else {
             return translatableText.withStyle(formatting);
         }
+    }
+
+    @ModifyVariable(remap = false, 
+            method = "gatherAttributes", argsOnly = true,
+            at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Multimap;isEmpty()Z")
+    )
+    private static Multimap<Attribute, AttributeModifier> sort(Multimap<Attribute, AttributeModifier> map) {
+        Multimap<Attribute, AttributeModifier> vanillaFirst = LinkedListMultimap.create();
+        Multimap<Attribute, AttributeModifier> remaining = LinkedListMultimap.create();
+
+        map.forEach((entityAttribute, entityAttributeModifier) -> {
+            if (!entityAttributeModifier.getName().contains("tiered")) {
+                vanillaFirst.put(entityAttribute, entityAttributeModifier);
+            } else {
+                remaining.put(entityAttribute, entityAttributeModifier);
+            }
+        });
+
+        vanillaFirst.putAll(remaining);
+        return vanillaFirst;
     }
 }

@@ -13,7 +13,6 @@ import com.stereowalker.unionlib.util.VersionHelper;
 
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
 public class ClientboundTierSyncerPacket extends ClientboundUnionPacket {
@@ -27,7 +26,7 @@ public class ClientboundTierSyncerPacket extends ClientboundUnionPacket {
         this.size = attribute.size();
     }
 
-	public ClientboundTierSyncerPacket(RegistryFriendlyByteBuf buf) {
+	public ClientboundTierSyncerPacket(FriendlyByteBuf buf) {
 		super(buf);
 		this.size = buf.readInt();
 		this.attribute = Maps.newHashMap();

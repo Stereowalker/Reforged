@@ -118,7 +118,7 @@ public class AttributeTemplate {
      * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    public void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, EquipmentSlot slot) {
+    public void realize(BiConsumer<Attribute, AttributeModifier> actions, EquipmentSlot slot) {
         realize(actions, Reforged.MODIFIERS[slot.getFilterFlag()], slot.getName());
     }
 
@@ -129,7 +129,7 @@ public class AttributeTemplate {
      * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    public void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, AccessorySlot slot) {
+    public void realize(BiConsumer<Attribute, AttributeModifier> actions, AccessorySlot slot) {
         realize(actions, Reforged.MODIFIERS[slot.getIndex()+6], slot.getName());
     }
 
@@ -140,7 +140,7 @@ public class AttributeTemplate {
      * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    public void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, AccessorySlot.Group slot) {
+    public void realize(BiConsumer<Attribute, AttributeModifier> actions, AccessorySlot.Group slot) {
         realize(actions, Reforged.MODIFIERS[slot.ordinal()+15], slot.getName());
     }
 
@@ -151,7 +151,7 @@ public class AttributeTemplate {
      * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    public void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, String slot) {
+    public void realize(BiConsumer<Attribute, AttributeModifier> actions, String slot) {
         realize(actions, Reforged.CURIO_MODIFIERS.getOrDefault(slot, UUID.fromString("fee48d8c-1b51-4c46-9f4b-c58162623a7c")), slot);
     }
 
@@ -162,20 +162,20 @@ public class AttributeTemplate {
      * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    private void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, UUID id, String name) {
+    private void realize(BiConsumer<Attribute, AttributeModifier> actions, UUID id, String name) {
         AttributeModifier cloneModifier = new AttributeModifier(
                 id,
-                attributeModifier.name() + "_tiered_" + name,
-                attributeModifier.amount(),
-                attributeModifier.operation()
+                attributeModifier.getName() + "_tiered_" + name,
+                attributeModifier.getAmount(),
+                attributeModifier.getOperation()
         );
 
-        Optional<Reference<Attribute>> key = BuiltInRegistries.ATTRIBUTE.getHolder((VersionHelper.toLoc(attributeTypeID)));
-//        Holder<Attribute> key = RegistryHelper.getAttribute(VersionHelper.toLoc(attributeTypeID));
-        if(key == null || key.isEmpty()) {
+//        Optional<Reference<Attribute>> key = BuiltInRegistries.ATTRIBUTE.getHolder((VersionHelper.toLoc(attributeTypeID)));
+        Attribute key = RegistryHelper.getAttribute(VersionHelper.toLoc(attributeTypeID));
+        if(key == null/* || key.isEmpty()*/) {
             Reforged.LOGGER.warn(String.format("%s was referenced as an attribute type, but it does not exist! A data file in /tiered/item_attributes/ has an invalid type property.", attributeTypeID));
         } else {
-            actions.accept(key.get(), cloneModifier);
+            actions.accept(key/*.get()*/, cloneModifier);
         }
     }
 }

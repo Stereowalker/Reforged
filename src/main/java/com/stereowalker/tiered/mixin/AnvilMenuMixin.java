@@ -32,7 +32,8 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 	@Inject(method = "onTake", at =@At(value = "INVOKE", target = "Lnet/minecraft/world/Container;setItem(ILnet/minecraft/world/item/ItemStack;)V", ordinal = 0))
 	private void saveReforgedAttribute(Player p_150474_, ItemStack p_150475_, CallbackInfo ci) {
 		if (Reforged.hasModifier(this.inputSlots.getItem(0))) {
-			reforgedAttribute = this.inputSlots.getItem(0).get(Reforged.ComponentsRegistry.MODIFIER);
+//			reforgedAttribute = this.inputSlots.getItem(0).get(Reforged.ComponentsRegistry.MODIFIER);
+			reforgedAttribute = VersionHelper.toLoc(this.inputSlots.getItem(0).getTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).getString("Tier"));
 		}
 	}
 
@@ -56,7 +57,8 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 				}
 				// found an ID
 				if(potentialAttributeID != null) {
-					p_150475_.set(Reforged.ComponentsRegistry.MODIFIER, potentialAttributeID);
+//					p_150475_.set(Reforged.ComponentsRegistry.MODIFIER, potentialAttributeID);
+					p_150475_.getOrCreateTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).putString(Reforged.ComponentsRegistry.NBT_SUBTAG_DATA_KEY, potentialAttributeID.toString());
 				}
 				else {
 					Reforged.LOGGER.info("Failed to find an appropriate modifier for this item");
