@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_18",
 	"plugin": "com.stereowalker.tiered.mixin.TieredMixinPlugin",
   "mixins": [
-    "ItemStackMixin",
     "ServerPlayerEntityMixin",
     "AnvilMenuMixin",
     "unionlib.AccessoryStackCallsMixin"
