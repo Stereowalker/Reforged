@@ -4,6 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import com.stereowalker.tiered.Reforged;
 import com.stereowalker.unionlib.hook.AccessoryStackCalls;
@@ -21,10 +22,12 @@ public abstract class AccessoryStackCallsMixin {
 			at = @At(value = "INVOKE", target = "Lcom/stereowalker/unionlib/world/item/AccessoryItem;getAttributeModifiers(Lcom/stereowalker/unionlib/world/entity/AccessorySlot;Lnet/minecraft/world/item/ItemStack;)Lcom/google/common/collect/Multimap;")
 			)
 	private static Multimap<Attribute, AttributeModifier> go(AccessoryItem item, AccessorySlot slot, ItemStack stack) {
-		return Reforged.AppendAttributesToOriginal(stack, slot, Reforged.isPreferredAccessorySlot(stack, slot), "AccessoryAttributeModifiers", item.getAttributeModifiers(slot, stack),
+		Multimap<Attribute, AttributeModifier> newMap = LinkedListMultimap.create();
+		newMap.putAll(item.getAttributeModifiers(slot, stack));
+		return Reforged.AppendAttributesToOriginal(stack, slot, Reforged.isPreferredAccessorySlot(stack, slot), "AccessoryAttributeModifiers",
 				template -> template.getRequiredAccessorySlot(), 
 				template -> template.getOptionalAccessorySlot(), 
-				(template, newMap) -> template.realize(newMap::put, slot));
+				(template) -> template.realize(newMap::put, slot));
 	}
 
 	@Redirect(remap = false, 
@@ -32,9 +35,11 @@ public abstract class AccessoryStackCallsMixin {
 			at = @At(value = "INVOKE", target = "Lcom/stereowalker/unionlib/world/item/AccessoryItem;getAttributeModifiers(Lcom/stereowalker/unionlib/world/entity/AccessorySlot$Group;Lnet/minecraft/world/item/ItemStack;)Lcom/google/common/collect/Multimap;")
 			)
 	private static Multimap<Attribute, AttributeModifier> go2(AccessoryItem item, AccessorySlot.Group group, ItemStack stack) {
-		return Reforged.AppendAttributesToOriginal(stack, group, Reforged.isPreferredAccessorySlot(stack, group), "AccessoryAttributeModifiers", item.getAttributeModifiers(group, stack),
+		Multimap<Attribute, AttributeModifier> newMap = LinkedListMultimap.create();
+		newMap.putAll(item.getAttributeModifiers(group, stack));
+		return Reforged.AppendAttributesToOriginal(stack, group, Reforged.isPreferredAccessorySlot(stack, group), "AccessoryAttributeModifiers",
 				template -> template.getRequiredAccessoryGroup(), 
 				template -> template.getOptionalAccessoryGroup(), 
-				(template, newMap) -> template.realize(newMap::put, group));
+				(template) -> template.realize(newMap::put, group));
 	}
 }

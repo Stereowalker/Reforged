@@ -105,15 +105,6 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 		super("tiered", () -> new ReforgedClientSegment(), () -> new ServerSegment());
 		instance = this;
 		UnionLib.Modulo.Default_Bow_Draw_Speed.enable();
-		
-		//New On Fabric
-		ModifyItemAttributeModifiersCallback.EVENT.register((thisStack, slot, c) -> {
-			c.clear();
-			c.putAll(Reforged.AppendAttributesToOriginal(thisStack, slot, Reforged.isPreferredEquipmentSlot(thisStack, slot), "AttributeModifiers", thisStack.getItem().getAttributeModifiers(thisStack, slot),
-					template -> template.getRequiredEquipmentSlot(), 
-					template -> template.getOptionalEquipmentSlot(), 
-					(template, newMap) -> template.realize(newMap::put, slot)));
-		});
 	}
 	
 	@Override
@@ -198,6 +189,12 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 					LOGGER.info(Reforged.getKey(reforgedAttribute)+" cannot be reforged because it either does not provide any reforging info or the info it provides is not complete");
 				}
 			}
+		});
+		collector.addInsert(Inserts.ITEM_ATTRIBUTE_MODIFIER, (item, slot, mod) -> {
+			Reforged.AppendAttributesToOriginal(item, slot, Reforged.isPreferredEquipmentSlot(item, slot), "AttributeModifiers",
+					template -> template.getRequiredEquipmentSlot(), 
+					template -> template.getOptionalEquipmentSlot(), 
+					(template) -> template.realize(mod::add, slot));
 		});
 	}
 
@@ -303,10 +300,9 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	}
 
 	public static <T> Multimap<Attribute, AttributeModifier> AppendAttributesToOriginal(ItemStack stack, T slot, boolean isPreferredSlot, String customAttributes, 
-			Multimap<Attribute, AttributeModifier> original, Function<AttributeTemplate,T[]> requiredSlotsArray, 
-			Function<AttributeTemplate,T[]> optionalSlotsArray, BiConsumer<AttributeTemplate,Multimap<Attribute, AttributeModifier>> realize) {
+			Function<AttributeTemplate,T[]> requiredSlotsArray, 
+			Function<AttributeTemplate,T[]> optionalSlotsArray, /*BiConsumer<AttributeTemplate,Multimap<Attribute, AttributeModifier>> realize*/Consumer<AttributeTemplate> realize) {
 		Multimap<Attribute, AttributeModifier> newMap = LinkedListMultimap.create();
-		newMap.putAll(original);
 		if(hasModifier(stack)) {
 //			ResourceLocation tier = stack.get(ComponentsRegistry.MODIFIER);
 			ResourceLocation tier = new ResourceLocation(stack.getOrCreateTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).getString(ComponentsRegistry.NBT_SUBTAG_DATA_KEY));
@@ -320,7 +316,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 						if(requiredSlotsArray.apply(template) != null) {
 							List<T> requiredSlots = new ArrayList<>(Arrays.asList(requiredSlotsArray.apply(template)));
 							if(requiredSlots.contains(slot))
-								realize.accept(template, newMap);
+								realize.accept(template);
 						}
 
 						// get optional equipment slots
@@ -328,7 +324,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 							List<T> optionalSlots = new ArrayList<>(Arrays.asList(optionalSlotsArray.apply(template)));
 							// optional equipment slots are valid ONLY IF the equipment slot is valid for the thing
 							if(optionalSlots.contains(slot) && isPreferredSlot)
-								realize.accept(template, newMap);
+								realize.accept(template);
 						}
 					});
 				}
