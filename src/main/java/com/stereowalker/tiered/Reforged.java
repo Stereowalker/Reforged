@@ -187,6 +187,12 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 				}
 			}
 		});
+		collector.addInsert(Inserts.ITEM_ATTRIBUTE_MODIFIER, (item, slot, mod) -> {
+			Reforged.AppendAttributesToOriginal(item, slot, Reforged.isPreferredEquipmentSlot(item, slot), "AttributeModifiers",
+					template -> template.getRequiredLiteralEquipmentSlot(), 
+					template -> template.getOptionalLiteralEquipmentSlot(), 
+					(template) -> template.realize(mod::add, slot));
+		});
 	}
 
 	@Override
