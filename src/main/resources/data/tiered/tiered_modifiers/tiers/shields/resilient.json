@@ -10,8 +10,8 @@
     {
       "type": "generic.max_health",
       "modifier": {
-        "name": "tiered:resilient",
-        "operation": "ADDITION",
+        "id": "tiered:resilient",
+        "operation": "ADD_VALUE",
         "amount": 1
       },
       "optional_equipment_slots": [

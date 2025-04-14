@@ -8,7 +8,13 @@
       "tag": "minecraft:axes"
     },
     {
-      "tag": "forge:tools/bows"
+      "tag": "c:tools/spears"
+    },
+    {
+      "tag": "c:tools/bows"
+    },
+    {
+      "id": "minecraft:mace"
     }
   ],
   "tiers": [

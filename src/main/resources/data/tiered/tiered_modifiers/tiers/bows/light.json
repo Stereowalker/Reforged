@@ -10,8 +10,8 @@
     {
       "type": "unionlib:generic.accuracy",
       "modifier": {
-        "name": "tiered:light",
-        "operation": "ADDITION",
+        "id": "tiered:light",
+        "operation": "ADD_VALUE",
         "amount": 0.4
       },
       "optional_equipment_slots": [

@@ -41,6 +41,7 @@
 	"tier.tiered.standard_tools.rare": "Rare",
 	"tier.tiered.standard_weapons.common": "Common",
 	"tier.tiered.tools.extended": "Extended",
+	"tier.tiered.melee_weapons.extended": "Extended",
 
 	"item.tiered.weaponsmiths_hammer": "Weaponsmiths Hammer",
 	"item.tiered.toolsmiths_hammer": "Toolsmiths Hammer",

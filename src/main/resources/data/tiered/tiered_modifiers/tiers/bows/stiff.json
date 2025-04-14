@@ -10,8 +10,8 @@
     {
       "type": "unionlib:generic.draw_speed",
       "modifier": {
-        "name": "tiered:stiff",
-        "operation": "ADDITION",
+        "id": "tiered:stiff",
+        "operation": "ADD_VALUE",
         "amount": -0.5
       },
       "optional_equipment_slots": [
@@ -21,8 +21,8 @@
     {
       "type": "unionlib:generic.arrow_velocity",
       "modifier": {
-        "name": "tiered:stiff",
-        "operation": "ADDITION",
+        "id": "tiered:stiff",
+        "operation": "ADD_VALUE",
         "amount": 0.2
       },
       "optional_equipment_slots": [

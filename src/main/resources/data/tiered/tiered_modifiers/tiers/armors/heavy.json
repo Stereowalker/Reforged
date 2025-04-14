@@ -10,8 +10,8 @@
     {
       "type": "generic.knockback_resistance",
       "modifier": {
-        "name": "tiered:heavy",
-        "operation": "MULTIPLY_TOTAL",
+        "id": "tiered:heavy",
+        "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.1
       },
       "optional_equipment_slots": [

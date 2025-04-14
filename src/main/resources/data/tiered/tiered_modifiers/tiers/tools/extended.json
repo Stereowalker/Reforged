@@ -8,10 +8,10 @@
   },
   "attributes": [
     {
-      "type": "forge:reach_distance",
+      "type": "minecraft:player.block_interaction_range",
       "modifier": {
-        "name": "tiered:extended",
-        "operation": "ADDITION",
+        "id": "tiered:extended",
+        "operation": "ADD_VALUE",
         "amount": 1
       },
       "optional_equipment_slots": [
@@ -19,10 +19,10 @@
       ]
     },
     {
-      "type": "forge:attack_range",
+      "type": "minecraft:player.entity_interaction_range",
       "modifier": {
-        "name": "tiered:extended",
-        "operation": "ADDITION",
+        "id": "tiered:extended",
+        "operation": "ADD_VALUE",
         "amount": 1
       },
       "optional_equipment_slots": [

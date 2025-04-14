@@ -10,8 +10,8 @@
     {
       "type": "generic.armor",
       "modifier": {
-        "name": "tiered:dented",
-        "operation": "ADDITION",
+        "id": "tiered:dented",
+        "operation": "ADD_VALUE",
         "amount": -1
       },
       "optional_equipment_slots": [

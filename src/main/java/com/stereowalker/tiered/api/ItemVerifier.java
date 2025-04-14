@@ -1,7 +1,8 @@
 package com.stereowalker.tiered.api;
 
-import com.stereowalker.tiered.Tiered;
+import com.stereowalker.tiered.Reforged;
 import com.stereowalker.unionlib.util.RegistryHelper;
+import com.stereowalker.unionlib.util.VersionHelper;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -41,12 +42,12 @@ public class ItemVerifier {
         if(id != null) {
             return itemID.equals(id);
         } else if(tag != null) {
-            TagKey<Item> itemTag = TagKey.create(RegistryHelper.itemKey(), new ResourceLocation(tag));
+            TagKey<Item> itemTag = TagKey.create(RegistryHelper.itemKey(), VersionHelper.toLoc(tag));
 
             if(itemTag != null) {
-                return new ItemStack(RegistryHelper.getItem(new ResourceLocation(itemID))).is(itemTag);
+                return new ItemStack(RegistryHelper.getItem(VersionHelper.toLoc(itemID))).is(itemTag);
             } else {
-                Tiered.LOGGER.error(tag + " was specified as an item verifier tag, but it does not exist!");
+                Reforged.LOGGER.error(tag + " was specified as an item verifier tag, but it does not exist!");
             }
         }
 

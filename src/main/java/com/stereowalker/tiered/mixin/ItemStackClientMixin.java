@@ -15,8 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-import com.stereowalker.tiered.Tiered;
+import com.stereowalker.tiered.Reforged;
 import com.stereowalker.tiered.api.PotentialAttribute;
+import com.stereowalker.unionlib.util.VersionHelper;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -32,27 +33,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 
 @Mixin(ItemStack.class)
-public abstract class ItemStackClientMixin {
+public abstract class ItemStackClientMixin/* implements DataComponentHolder */ {
 
     @Shadow public abstract CompoundTag getOrCreateTagElement(String key);
 
     @Shadow public abstract boolean hasTag();
 
     @Shadow public abstract CompoundTag getTagElement(String key);
-
+    
     private boolean isTiered = false;
 
     @SuppressWarnings("rawtypes")
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;getAmount()D"), method = "getTooltipLines", locals = LocalCapture.CAPTURE_FAILHARD)
-    private void storeAttributeModifier(Player player, TooltipFlag context, CallbackInfoReturnable<List> cir, List list, MutableComponent component, int i , EquipmentSlot var6[], int var7, int var8, EquipmentSlot equipmentSlot, Multimap multimap, Iterator var11, Map.Entry entry, AttributeModifier entityAttributeModifier) {
-        isTiered = entityAttributeModifier.getName().contains("tiered:");
+    private void storeAttributeModifier(Player player, TooltipFlag context, CallbackInfoReturnable<List> cir, List list, MutableComponent component, int i, EquipmentSlot var6[], int var7, int var8, EquipmentSlot equipmentSlot, Multimap multimap, Iterator var11, Map.Entry entry, AttributeModifier entityAttributeModifier) {
+        isTiered = entityAttributeModifier.getName().contains("tiered_");
     }
 
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 5), method = "getTooltipLines")
     private MutableComponent getTextFormatting(MutableComponent translatableText, ChatFormatting formatting) {
-        if(this.hasTag() && this.getTagElement(Tiered.NBT_SUBTAG_KEY) != null && isTiered) {
-            ResourceLocation tier = new ResourceLocation(this.getOrCreateTagElement(Tiered.NBT_SUBTAG_KEY).getString(Tiered.NBT_SUBTAG_DATA_KEY));
-            PotentialAttribute attribute = Tiered.TIER_DATA.getTiers().get(tier);
+    	if(Reforged.hasModifier((ItemStack)(Object)this) && isTiered) {
+        	ResourceLocation tier = VersionHelper.toLoc(this.getOrCreateTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).getString(Reforged.ComponentsRegistry.NBT_SUBTAG_DATA_KEY));
+            PotentialAttribute attribute = Reforged.TIER_DATA.getTiers().get(tier);
 
             return translatableText.setStyle(attribute.getStyle());
         } else {
@@ -87,16 +88,16 @@ public abstract class ItemStackClientMixin {
             cancellable = true
     )
     private void modifyName(CallbackInfoReturnable<Component> cir) {
-        if(this.hasTag() && this.getTagElement("display") == null && this.getTagElement(Tiered.NBT_SUBTAG_KEY) != null) {
-            ResourceLocation tier = new ResourceLocation(getOrCreateTagElement(Tiered.NBT_SUBTAG_KEY).getString(Tiered.NBT_SUBTAG_DATA_KEY));
+        if(this.hasTag() && this.getTagElement("display") == null && this.getTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY) != null) {
+            ResourceLocation tier = new ResourceLocation(getOrCreateTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).getString(Reforged.ComponentsRegistry.NBT_SUBTAG_DATA_KEY));
 
             // attempt to display attribute if it is valid
-            PotentialAttribute potentialAttribute = Tiered.TIER_DATA.getTiers().get(tier);
+            PotentialAttribute potentialAttribute = Reforged.TIER_DATA.getTiers().get(tier);
 
             if(potentialAttribute != null) {
             	MutableComponent title;
             	if (potentialAttribute.getLiteralName() != null) title = Component.literal(potentialAttribute.getLiteralName());
-            	else title = Component.translatable(Util.makeDescriptionId("tier", Tiered.getKey(potentialAttribute)));
+            	else title = Component.translatable(Util.makeDescriptionId("tier", Reforged.getKey(potentialAttribute)));
                 cir.setReturnValue(title.append(" ").append(cir.getReturnValue()).setStyle(potentialAttribute.getStyle()));
             }
         }

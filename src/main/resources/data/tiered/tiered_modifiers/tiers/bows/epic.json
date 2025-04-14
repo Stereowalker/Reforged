@@ -10,8 +10,8 @@
     {
       "type": "unionlib:generic.draw_speed",
       "modifier": {
-        "name": "tiered:epic_bow",
-        "operation": "ADDITION",
+        "id": "tiered:epic_bow",
+        "operation": "ADD_VALUE",
         "amount": 0.3
       },
       "optional_equipment_slots": [
@@ -21,8 +21,8 @@
     {
       "type": "unionlib:generic.arrow_damage",
       "modifier": {
-        "name": "tiered:epic_bow",
-        "operation": "ADDITION",
+        "id": "tiered:epic_bow",
+        "operation": "ADD_VALUE",
         "amount": 0.6
       },
       "optional_equipment_slots": [
@@ -32,8 +32,8 @@
     {
       "type": "unionlib:generic.arrow_velocity",
       "modifier": {
-        "name": "tiered:epic_bow",
-        "operation": "ADDITION",
+        "id": "tiered:epic_bow",
+        "operation": "ADD_VALUE",
         "amount": 0.4
       },
       "optional_equipment_slots": [

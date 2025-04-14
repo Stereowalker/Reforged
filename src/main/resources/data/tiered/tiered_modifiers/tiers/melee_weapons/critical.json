@@ -10,8 +10,8 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:critical",
-        "operation": "MULTIPLY_TOTAL",
+        "id": "tiered:critical",
+        "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": -0.10
       },
       "optional_equipment_slots": [
@@ -21,8 +21,8 @@
     {
       "type": "unionlib:generic.critical_rate",
       "modifier": {
-        "name": "tiered:critical",
-        "operation": "ADDITION",
+        "id": "tiered:critical",
+        "operation": "ADD_VALUE",
         "amount": 0.25
       },
       "optional_equipment_slots": [

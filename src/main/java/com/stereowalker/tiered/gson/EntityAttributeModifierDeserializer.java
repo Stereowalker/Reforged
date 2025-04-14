@@ -13,7 +13,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 public class EntityAttributeModifierDeserializer implements JsonDeserializer<AttributeModifier> {
 
-    private static final String JSON_NAME_KEY = "name";
+    private static final String JSON_NAME_KEY = "id";
     private static final String JSON_AMOUNT_KEY = "amount";
     private static final String JSON_OPERATION_KEY = "operation";
 
@@ -25,7 +25,14 @@ public class EntityAttributeModifierDeserializer implements JsonDeserializer<Att
         JsonElement amount = getJsonElement(jsonObject, JSON_AMOUNT_KEY, "Entity Attribute Modifier requires an amount!");
         JsonElement operation = getJsonElement(jsonObject, JSON_OPERATION_KEY, "Entity Attribute Modifier requires an operation!");
 
-        return new AttributeModifier(name.getAsString(), amount.getAsFloat(), AttributeModifier.Operation.valueOf(operation.getAsString().toUpperCase()));
+        return new AttributeModifier(name.getAsString(), amount.getAsFloat(), AttributeModifier.Operation.valueOf(stToOp(operation.getAsString().toUpperCase())));
+    }
+    
+    private String stToOp(String op) {
+    	if (op.equals("ADD_VALUE")) return "ADDITION";
+    	else if (op.equals("ADD_MULTIPLIED_TOTAL")) return "MULTIPLY_TOTAL";
+    	else if (op.equals("ADD_MULTIPLIED_BASE")) return "MULTIPLY_BASE";
+    	return op;
     }
 
     private JsonElement getJsonElement(JsonObject jsonObject, String jsonNameKey, String s) {

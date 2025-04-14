@@ -53,7 +53,7 @@ public class PotentialAttribute implements WeightedObject {
 		return Math.max(reforge_durability_cost, 1);
 	}
 
-	public int getReforgeExperienceCost() {
+	public long getReforgeExperienceCost() {
 		return Math.max(reforge_experience_cost, 1);
 	}
 

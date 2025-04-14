@@ -2,7 +2,7 @@
   "weight": 2,
   "verifiers": [
     {
-      "tag": "forge:tools/bows"
+      "tag": "c:tools/bows"
     }
   ],
   "tiers": [

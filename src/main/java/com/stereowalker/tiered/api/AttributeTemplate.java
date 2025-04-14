@@ -1,15 +1,19 @@
 package com.stereowalker.tiered.api;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
 import com.google.common.collect.Multimap;
 import com.google.gson.annotations.SerializedName;
-import com.stereowalker.tiered.Tiered;
+import com.stereowalker.tiered.Reforged;
 import com.stereowalker.unionlib.util.RegistryHelper;
+import com.stereowalker.unionlib.util.VersionHelper;
 import com.stereowalker.unionlib.world.entity.AccessorySlot;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Holder.Reference;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -111,66 +115,67 @@ public class AttributeTemplate {
      * Uses this {@link AttributeTemplate} to create an {@link AttributeModifier}, which is placed into the given {@link Multimap}.
      * <p>Note that this method assumes the given {@link Multimap} is mutable.
      *
-     * @param multimap  map to add {@link AttributeTemplate}
+     * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    public void realize(Multimap<Attribute, AttributeModifier> multimap, EquipmentSlot slot) {
-        realize(multimap::put, Tiered.MODIFIERS[slot.getFilterFlag()], slot.getName());
+    public void realize(BiConsumer<Attribute, AttributeModifier> actions, EquipmentSlot slot) {
+        realize(actions, Reforged.MODIFIERS[slot.getFilterFlag()], slot.getName());
     }
 
     /**
      * Uses this {@link AttributeTemplate} to create an {@link AttributeModifier}, which is placed into the given {@link Multimap}.
      * <p>Note that this method assumes the given {@link Multimap} is mutable.
      *
-     * @param multimap  map to add {@link AttributeTemplate}
+     * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    public void realize(Multimap<Attribute, AttributeModifier> multimap, AccessorySlot slot) {
-        realize(multimap::put, Tiered.MODIFIERS[slot.getIndex()+6], slot.getName());
+    public void realize(BiConsumer<Attribute, AttributeModifier> actions, AccessorySlot slot) {
+        realize(actions, Reforged.MODIFIERS[slot.getIndex()+6], slot.getName());
     }
 
     /**
      * Uses this {@link AttributeTemplate} to create an {@link AttributeModifier}, which is placed into the given {@link Multimap}.
      * <p>Note that this method assumes the given {@link Multimap} is mutable.
      *
-     * @param multimap  map to add {@link AttributeTemplate}
+     * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    public void realize(Multimap<Attribute, AttributeModifier> multimap, AccessorySlot.Group slot) {
-        realize(multimap::put, Tiered.MODIFIERS[slot.ordinal()+15], slot.getName());
+    public void realize(BiConsumer<Attribute, AttributeModifier> actions, AccessorySlot.Group slot) {
+        realize(actions, Reforged.MODIFIERS[slot.ordinal()+15], slot.getName());
     }
 
     /**
      * Uses this {@link AttributeTemplate} to create an {@link AttributeModifier}, which is placed into the given {@link Multimap}.
      * <p>Note that this method assumes the given {@link Multimap} is mutable.
      *
-     * @param multimap  map to add {@link AttributeTemplate}
+     * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    public void realize(BiConsumer<Attribute, AttributeModifier> multimap, String slot) {
-        realize(multimap, Tiered.CURIO_MODIFIERS.getOrDefault(slot, UUID.fromString("fee48d8c-1b51-4c46-9f4b-c58162623a7c")), slot);
+    public void realize(BiConsumer<Attribute, AttributeModifier> actions, String slot) {
+        realize(actions, Reforged.CURIO_MODIFIERS.getOrDefault(slot, UUID.fromString("fee48d8c-1b51-4c46-9f4b-c58162623a7c")), slot);
     }
 
     /**
      * Uses this {@link AttributeTemplate} to create an {@link AttributeModifier}, which is placed into the given {@link Multimap}.
      * <p>Note that this method assumes the given {@link Multimap} is mutable.
      *
-     * @param multimap  map to add {@link AttributeTemplate}
+     * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    private void realize(BiConsumer<Attribute, AttributeModifier> multimap, UUID id, String name) {
+    private void realize(BiConsumer<Attribute, AttributeModifier> actions, UUID id, String name) {
         AttributeModifier cloneModifier = new AttributeModifier(
                 id,
-                attributeModifier.getName() + "_" + name,
+                attributeModifier.getName() + "_tiered_" + name,
                 attributeModifier.getAmount(),
                 attributeModifier.getOperation()
         );
 
-        Attribute key = RegistryHelper.getAttribute(new ResourceLocation(attributeTypeID));
-        if(key == null) {
-            Tiered.LOGGER.warn(String.format("%s was referenced as an attribute type, but it does not exist! A data file in /tiered/item_attributes/ has an invalid type property.", attributeTypeID));
+//        Optional<Reference<Attribute>> key = BuiltInRegistries.ATTRIBUTE.getHolder((VersionHelper.toLoc(attributeTypeID)));
+        Attribute key = RegistryHelper.getAttribute(VersionHelper.toLoc(attributeTypeID));
+        if(key == null/* || key.isEmpty()*/) {
+            Reforged.LOGGER.warn(String.format("%s was referenced as an attribute type, but it does not exist! A data file in /tiered/item_attributes/ has an invalid type property.", attributeTypeID));
         } else {
-            multimap.accept(key, cloneModifier);
+            actions.accept(key/*.get()*/, cloneModifier);
         }
     }
 }

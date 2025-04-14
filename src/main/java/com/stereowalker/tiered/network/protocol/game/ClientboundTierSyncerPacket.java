@@ -1,15 +1,16 @@
 package com.stereowalker.tiered.network.protocol.game;
 
-import static com.stereowalker.tiered.Tiered.TIER_DATA;
+import static com.stereowalker.tiered.Reforged.TIER_DATA;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.stereowalker.tiered.Tiered;
+import com.stereowalker.tiered.Reforged;
 import com.stereowalker.tiered.api.PotentialAttribute;
 import com.stereowalker.tiered.data.TierDataLoader;
 import com.stereowalker.unionlib.network.protocol.game.ClientboundUnionPacket;
+import com.stereowalker.unionlib.util.VersionHelper;
 
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,13 +22,13 @@ public class ClientboundTierSyncerPacket extends ClientboundUnionPacket {
     public static final Map<ResourceLocation, PotentialAttribute> CACHED_ATTRIBUTES = new HashMap<>();
 
     public ClientboundTierSyncerPacket(Map<ResourceLocation, PotentialAttribute> attribute) {
-    	super(Tiered.instance.channel);
+    	super(Reforged.instance.channel);
     	this.attribute = attribute;
         this.size = attribute.size();
     }
 
 	public ClientboundTierSyncerPacket(FriendlyByteBuf buf) {
-		super(buf, Tiered.instance.channel);
+		super(buf, Reforged.instance.channel);
 		this.size = buf.readInt();
 		this.attribute = Maps.newHashMap();
         for (int i = 0; i < this.size; i++) {
@@ -57,5 +58,11 @@ public class ClientboundTierSyncerPacket extends ClientboundUnionPacket {
         	TIER_DATA.replace(CACHED_ATTRIBUTES);
         }
 		return true;
+	}
+
+	public static ResourceLocation id = VersionHelper.toLoc("tiered", "tier_sync");
+	@Override
+	public ResourceLocation id() {
+		return id;
 	}
 }

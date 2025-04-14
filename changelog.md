@@ -1,1 +1,1 @@
-- Added a config option to allow reforging a broken item
+- Backported 1.20.6 changes

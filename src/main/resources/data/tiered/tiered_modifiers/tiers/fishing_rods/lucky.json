@@ -10,8 +10,8 @@
     {
       "type": "generic.luck",
       "modifier": {
-        "name": "tiered:lucky",
-        "operation": "MULTIPLY_TOTAL",
+        "id": "tiered:lucky",
+        "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.25
       },
       "optional_equipment_slots": [

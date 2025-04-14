@@ -18,6 +18,7 @@ import com.stereowalker.tiered.gson.EntityAttributeModifierDeserializer;
 import com.stereowalker.tiered.gson.EntityAttributeModifierSerializer;
 import com.stereowalker.tiered.gson.EquipmentSlotDeserializer;
 import com.stereowalker.unionlib.resource.ReloadListener;
+import com.stereowalker.unionlib.util.VersionHelper;
 import com.stereowalker.unionlib.world.entity.AccessorySlot;
 
 import net.minecraft.network.chat.Style;
@@ -87,6 +88,6 @@ public class TierDataLoader extends SimpleJsonResourceReloadListener implements 
 
 	@Override
 	public ResourceLocation id() {
-		return new ResourceLocation("tiered", "data_loader");
+		return VersionHelper.toLoc("tiered", "data_loader");
 	}
 }

@@ -10,8 +10,8 @@
     {
       "type": "generic.armor",
       "modifier": {
-        "name": "tiered:reinforced",
-        "operation": "ADDITION",
+        "id": "tiered:reinforced",
+        "operation": "ADD_VALUE",
         "amount": 2
       },
       "optional_equipment_slots": [

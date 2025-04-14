@@ -14,6 +14,7 @@ import com.google.gson.JsonParseException;
 import com.stereowalker.tiered.api.PotentialAttribute;
 import com.stereowalker.tiered.api.TierPool;
 import com.stereowalker.unionlib.resource.ReloadListener;
+import com.stereowalker.unionlib.util.VersionHelper;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -74,6 +75,6 @@ public class PoolDataLoader extends SimpleJsonResourceReloadListener implements 
 
 	@Override
 	public ResourceLocation id() {
-		return new ResourceLocation("tiered", "pool_data");
+		return VersionHelper.toLoc("tiered", "pool_data");
 	}
 }

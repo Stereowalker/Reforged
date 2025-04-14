@@ -10,8 +10,8 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:rare_tool",
-        "operation": "ADDITION",
+        "id": "tiered:rare_tool",
+        "operation": "ADD_VALUE",
         "amount": 0.25
       },
       "optional_equipment_slots": [
@@ -19,11 +19,11 @@
       ]
     },
     {
-      "type": "generic.armor",
+      "type": "generic.attack_speed",
       "modifier": {
-        "name": "tiered:rare_tool",
-        "operation": "ADDITION",
-        "amount": 1
+        "id": "tiered:rare_tool",
+        "operation": "ADD_VALUE",
+        "amount": 0.1
       },
       "optional_equipment_slots": [
         "MAINHAND"

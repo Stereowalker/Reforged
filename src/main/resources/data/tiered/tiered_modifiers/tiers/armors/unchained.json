@@ -10,8 +10,8 @@
     {
       "type": "generic.armor",
       "modifier": {
-        "name": "tiered:unchained",
-        "operation": "ADDITION",
+        "id": "tiered:unchained",
+        "operation": "ADD_VALUE",
         "amount": -2
       },
       "optional_equipment_slots": [
@@ -24,8 +24,8 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:unchained",
-        "operation": "MULTIPLY_TOTAL",
+        "id": "tiered:unchained",
+        "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.25
       },
       "optional_equipment_slots": [

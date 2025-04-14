@@ -1,26 +1,29 @@
-[6.0.7]
+[1.0.7]
+- Backported 1.20.6 changes
+
+[6.0.7-Tiered]
 - Added a config option to allow reforging a broken item
 
-[6.0.6]
+[6.0.6-Tiered]
 - Fix inconsistent armor values when multiple tiered armor are equipped 
 
-[6.0.5]
+[6.0.5-Tiered]
 - Removed unused tags
 - Fix tags breaking
 
-[6.0.4]
+[6.0.4-Tiered]
 - Updated to work with the latest version of Curios
 
-[6.0.3]
+[6.0.3-Tiered]
 - Updated UnionLib to 10.2.2
 
-[6.0.2]
+[6.0.2-Tiered]
 - Added the forge tool tags to the minecraft tool tags to allow compat with older versions of minecraft
 
-[6.0.1]
+[6.0.1-Tiered]
 - Restored 1.19 compatibility
 
-[6.0.0]
+[6.0.0-Tiered]
 - Updated to 1.20.1
 - Basic axe tiers are now reforgeable with the weaponsmiths hammer
 - Removed the "item_attribute" folder

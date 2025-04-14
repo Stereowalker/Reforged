@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,8 +16,9 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-import com.stereowalker.tiered.Tiered;
+import com.stereowalker.tiered.Reforged;
 import com.stereowalker.tiered.api.PotentialAttribute;
+import com.stereowalker.unionlib.util.VersionHelper;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -37,15 +39,15 @@ public abstract class ClientEventHandlerMixin {
 
     @SuppressWarnings("rawtypes")
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;getAmount()D"), method = "onTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
-    private void storeAttributeModifier(ItemTooltipEvent evt, CallbackInfo ci, ItemStack stack, Player player, List tooltip, CompoundTag tag, int i, Map map, Set curioTags, List slots, List tagTooltips, MutableComponent slotsTooltip, LazyOptional optionalCurio, List attributeTooltip, Iterator var14, String identifier, Multimap multimap, boolean init, Iterator var18, Map.Entry entry, AttributeModifier attributemodifier) {
-        isTiered = attributemodifier.getName().contains("tiered:");
+    private void storeAttributeModifier(ItemTooltipEvent evt, CallbackInfo ci, ItemStack stack, Player player, List tooltip, CompoundTag tag, int i, Map map, Set toRemove, Set curioTags, List slots, List tagTooltips, MutableComponent slotsTooltip, LazyOptional optionalCurio, List attributeTooltip, Iterator var15, String identifier, UUID uuid, Multimap multimap, Map collapsed, Iterator var20, Map.Entry entry, Attribute attribute, AttributeModifier attributemodifier) {
+        isTiered = attributemodifier.getName().contains("tiered_");
     }
 
-    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 3), method = "onTooltip")
+    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 6), method = "onTooltip")
     private MutableComponent getTextFormatting(MutableComponent translatableText, ChatFormatting formatting, ItemTooltipEvent evt) {
-        if(evt.getItemStack().hasTag() && evt.getItemStack().getTagElement(Tiered.NBT_SUBTAG_KEY) != null && isTiered) {
-            ResourceLocation tier = new ResourceLocation(evt.getItemStack().getOrCreateTagElement(Tiered.NBT_SUBTAG_KEY).getString(Tiered.NBT_SUBTAG_DATA_KEY));
-            PotentialAttribute attribute = Tiered.TIER_DATA.getTiers().get(tier);
+    	if(evt.getItemStack().hasTag() && evt.getItemStack().getTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY) != null && isTiered) {
+            ResourceLocation tier = VersionHelper.toLoc(evt.getItemStack().getOrCreateTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).getString(Reforged.ComponentsRegistry.NBT_SUBTAG_DATA_KEY));
+            PotentialAttribute attribute = Reforged.TIER_DATA.getTiers().get(tier);
 
             return translatableText.setStyle(attribute.getStyle());
         } else {

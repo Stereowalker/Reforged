@@ -6,10 +6,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.stereowalker.tiered.Tiered;
+import com.stereowalker.tiered.Reforged;
 import com.stereowalker.tiered.api.ModifierUtils;
 import com.stereowalker.tiered.api.PotentialAttribute;
 import com.stereowalker.unionlib.util.RegistryHelper;
+import com.stereowalker.unionlib.util.VersionHelper;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -30,8 +31,9 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 
 	@Inject(method = "onTake", at =@At(value = "INVOKE", target = "Lnet/minecraft/world/Container;setItem(ILnet/minecraft/world/item/ItemStack;)V", ordinal = 0))
 	private void saveReforgedAttribute(Player p_150474_, ItemStack p_150475_, CallbackInfo ci) {
-		if (this.inputSlots.getItem(0).getTagElement(Tiered.NBT_SUBTAG_KEY) != null) {
-			reforgedAttribute = new ResourceLocation(this.inputSlots.getItem(0).getTagElement(Tiered.NBT_SUBTAG_KEY).getString("Tier"));
+		if (Reforged.hasModifier(this.inputSlots.getItem(0))) {
+//			reforgedAttribute = this.inputSlots.getItem(0).get(Reforged.ComponentsRegistry.MODIFIER);
+			reforgedAttribute = VersionHelper.toLoc(this.inputSlots.getItem(0).getTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).getString("Tier"));
 		}
 	}
 
@@ -42,20 +44,24 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 	private void onTake_redirect(Container container, int pIndex, ItemStack pStack, Player p_150474_, ItemStack p_150475_) {
 		boolean deleteItem = true;
 		if (this.reforgedAttribute != null) {
-			PotentialAttribute potential = Tiered.TIER_DATA.getTiers().get(this.reforgedAttribute);
-			if (RegistryHelper.getItemKey(container.getItem(pIndex).getItem()).equals(new ResourceLocation(potential.getReforgeItem()))) {
+			PotentialAttribute potential = Reforged.TIER_DATA.getTiers().get(this.reforgedAttribute);
+			if (RegistryHelper.getItemKey(container.getItem(pIndex).getItem()).equals(VersionHelper.toLoc(potential.getReforgeItem()))) {
 				deleteItem = false;
 				ItemStack hammer = container.getItem(pIndex);
 				// attempt to get a random tier
 				ResourceLocation potentialAttributeID = this.reforgedAttribute;
 				int i = 0;
-				while (potentialAttributeID.equals(this.reforgedAttribute) && i < 2) {
+				while ((potentialAttributeID == null || potentialAttributeID.equals(this.reforgedAttribute)) && i < 2) {
 					potentialAttributeID = ModifierUtils.getRandomAttributeIDFor(p_150475_.getItem());
 					i++;
 				}
 				// found an ID
 				if(potentialAttributeID != null) {
-					p_150475_.getOrCreateTagElement(Tiered.NBT_SUBTAG_KEY).putString(Tiered.NBT_SUBTAG_DATA_KEY, potentialAttributeID.toString());
+//					p_150475_.set(Reforged.ComponentsRegistry.MODIFIER, potentialAttributeID);
+					p_150475_.getOrCreateTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).putString(Reforged.ComponentsRegistry.NBT_SUBTAG_DATA_KEY, potentialAttributeID.toString());
+				}
+				else {
+					Reforged.LOGGER.info("Failed to find an appropriate modifier for this item");
 				}
 
 				if ((hammer.getMaxDamage() - hammer.getDamageValue()) == potential.getReforgeDurabilityCost())

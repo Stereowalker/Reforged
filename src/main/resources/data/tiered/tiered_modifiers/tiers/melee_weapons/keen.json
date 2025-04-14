@@ -10,8 +10,8 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:keen",
-        "operation": "MULTIPLY_TOTAL",
+        "id": "tiered:keen",
+        "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.10
       },
       "optional_equipment_slots": [

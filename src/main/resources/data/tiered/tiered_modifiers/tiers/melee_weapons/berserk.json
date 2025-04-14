@@ -10,8 +10,8 @@
     {
       "type": "generic.attack_damage",
       "modifier": {
-        "name": "tiered:berserk",
-        "operation": "MULTIPLY_TOTAL",
+        "id": "tiered:berserk",
+        "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": 0.25
       },
       "optional_equipment_slots": [
@@ -21,8 +21,8 @@
     {
       "type": "generic.attack_speed",
       "modifier": {
-        "name": "tiered:berserk",
-        "operation": "MULTIPLY_TOTAL",
+        "id": "tiered:berserk",
+        "operation": "ADD_MULTIPLIED_TOTAL",
         "amount": -0.25
       },
       "optional_equipment_slots": [
@@ -30,10 +30,10 @@
       ]
     },
     {
-      "type": "forge:reach_distance",
+      "type": "minecraft:player.block_interaction_range",
       "modifier": {
-        "name": "tiered:berserk",
-        "operation": "ADDITION",
+        "id": "tiered:berserk",
+        "operation": "ADD_VALUE",
         "amount": -1
       },
       "optional_equipment_slots": [
@@ -41,10 +41,10 @@
       ]
     },
     {
-      "type": "forge:attack_range",
+      "type": "minecraft:player.entity_interaction_range",
       "modifier": {
-        "name": "tiered:berserk",
-        "operation": "ADDITION",
+        "id": "tiered:berserk",
+        "operation": "ADD_VALUE",
         "amount": -1
       },
       "optional_equipment_slots": [
