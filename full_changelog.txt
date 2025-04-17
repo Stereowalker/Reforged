@@ -1,3 +1,7 @@
+[1.0.7]
+- Used an insert to append attribute modifiers
+- Fix attributes for curios not being colored
+
 [1.0.6]
 - Updated UnionLib
 - Created a separate extended tier that can be reforged using a weaponsmiths hammer
