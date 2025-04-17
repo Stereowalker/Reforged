@@ -32,3 +32,5 @@ run/
 *.launch
 /Java Projects/
 /.apt_generated/
+runs/junit/junit_test_args.txt
+runs/junit/junit_jvm_args.txt
