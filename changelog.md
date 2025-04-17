@@ -1,4 +1,1 @@
-- Fix attributes not stacking
-- Updated UnionLib
-- Created a separate extended tier that can be reforged using a weaponsmiths hammer
-- Fix the swift tier not using the correct break speed attribute
+- Used an insert to append attribute modifiers
