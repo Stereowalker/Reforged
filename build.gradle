@@ -22,4 +22,8 @@ dependencies {
 	implementation ("net.neoforged:neoforge:${_loader_version}")
 	
 	implementation ("com.stereowalker.unionlib:UnionLib:${_minecraft_version}-${_unionlib_version}-${_loader}")
+	
+	compileOnly ("top.theillusivec4.curios:curios-neoforge:${curiosVersion}+${_minecraft_version}:api")
+	//runtimeOnly ("top.theillusivec4.curios:curios-neoforge:${curiosVersion}+${_minecraft_version}")
+	implementation ("top.theillusivec4.curios:curios-neoforge:${curiosVersion}+${_minecraft_version}")
 }
