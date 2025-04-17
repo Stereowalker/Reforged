@@ -13,7 +13,8 @@
   "client": [
     "ItemStackClientMixin",
     "unionlib.AccessoryStackCallsClientMixin",
-    "curios.ClientEventHandlerMixin"
+    "curios.ClientEventHandlerMixin",
+    "neoforge.AttributeUtilMixin"
   ],
   "injectors": {
     "defaultRequire": 1
