@@ -1,0 +1,11 @@
+{
+  "weight": 5,
+  "verifiers": [
+    {
+      "tag": "curios:ring"
+    }
+  ],
+  "tiers": [
+    "curios:dented2"
+  ]
+}
