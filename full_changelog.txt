@@ -1,3 +1,8 @@
+[1.0.7]
+- Used an insert to append attribute modifiers
+- Fix attributes not being colored
+- Fix tiers not being applied to armor
+
 [1.0.6]
 - Backported 1.20.6 to 1.20.1
 - Updated UnionLib

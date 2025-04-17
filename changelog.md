@@ -1,5 +1,3 @@
-- Backported 1.20.6 to 1.20.1
-- Updated UnionLib
-- Created a separate extended tier that can be reforged using a weaponsmiths hammer
-- Fix the swift tier not using the correct break speed attribute
-- Used id instead of name for attribute modifiers to match 1.21
+- Used an insert to append attribute modifiers
+- Fix attributes not being colored
+- Fix tiers not being applied to armor
