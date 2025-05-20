@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,7 +47,6 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -120,15 +120,24 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 		//return left.getTagElement(NBT_SUBTAG_KEY) != null;
 		return stack.has(ComponentsRegistry.MODIFIER);
 	}
-
-	@Override
-	public void onModConstruct() {
+	
+	static boolean hasComplainedAboutCurios = false;
+	public static void doCurio(Runnable onCurioLoaded) {
 		if (ModHelper.isCuriosLoaded()) {
 			boolean useCurios = false;
 			try {Class.forName("top.theillusivec4.curios.api.event.CurioAttributeModifierEvent"); useCurios = true;} 
-			catch (Exception e) {System.err.println("Curios support was disabled because the modifier event was not present");}
-			if (useCurios) CuriosCompat.load();
+			catch (Exception e) {
+				if (hasComplainedAboutCurios)
+					System.err.println("Curios support was disabled because the modifier event was not present");
+				hasComplainedAboutCurios = true;
+				}
+			if (useCurios) onCurioLoaded.run();
 		}
+	}
+
+	@Override
+	public void onModConstruct() {
+		doCurio(() -> CuriosCompat.load());
 	}
 	
 	@Override
@@ -303,7 +312,9 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	}
 
 	public static boolean isPreferredCurioSlot(ItemStack stack, String slot) {
-		return stack.is(TagKey.create(RegistryHelper.itemKey(), VersionHelper.toLoc("curios", slot)));
+		MutableBoolean isPreferred = new MutableBoolean();
+		doCurio(() -> isPreferred.setValue(stack.is(CuriosCompat.createCurioTag(slot))));
+		return isPreferred.booleanValue();
 	}
 	
 	@Override

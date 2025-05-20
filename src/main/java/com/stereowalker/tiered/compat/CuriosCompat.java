@@ -5,6 +5,8 @@ import java.util.function.Supplier;
 
 import com.stereowalker.tiered.Reforged;
 
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.Event;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -23,5 +25,9 @@ public class CuriosCompat {
 		}
 		;
 		NeoForge.EVENT_BUS.addListener(i.get());
+	}
+	
+	public static TagKey<Item> createCurioTag(String slot){
+		return top.theillusivec4.curios.api.CuriosTags.createItemTag(slot);
 	}
 }
