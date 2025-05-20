@@ -28,7 +28,6 @@ repositories {
 dependencies {
 	minecraft "net.minecraftforge:forge:${_minecraft_version}-" + _loader_version
 	annotationProcessor "org.spongepowered:mixin:"+modMixinVersion+":processor"
-	//implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 	
 	implementation ("com.stereowalker.unionlib:UnionLib:${_minecraft_version}-${_unionlib_version}-${_loader}")
     minecraftLibrary ("org.tomlj:tomlj:1.0.0") {
