@@ -1,2 +1,2 @@
-- Used an insert to append attribute modifiers
-- Fix attributes for curios not being colored
+- Added Chinese Simplified translation (by WolfGenerals)
+- Updated other translations
