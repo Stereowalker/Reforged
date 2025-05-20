@@ -1,1 +1,2 @@
-- Backported 1.20.6 changes
+- Added Chinese Simplified translation (by WolfGenerals)
+- Updated other translations

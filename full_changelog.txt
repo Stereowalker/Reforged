@@ -1,3 +1,7 @@
+[1.0.8]
+- Added Chinese Simplified translation (by WolfGenerals)
+- Updated other translations
+
 [1.0.7]
 - Backported 1.20.6 changes
 

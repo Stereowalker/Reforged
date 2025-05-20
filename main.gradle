@@ -61,6 +61,7 @@ publishMods {
         if ("${_mod_release}" == "alpha") type = ALPHA
         minecraftVersions.add("${_minecraft_version}")
         modLoaders.add("${_loader}")
+        modLoaders.add("NeoForge")
         requires('unionlib')
         file = project._mod_jar.archiveFile
         displayName = _mod_name+"-$project.version"
@@ -80,7 +81,7 @@ modrinth {
     versionType = "${_mod_release}"
     uploadFile = project._mod_jar
     gameVersions = ["${_minecraft_version}"]
-    loaders = ["${_loader}".toLowerCase()]
+    loaders = ["${_loader}".toLowerCase(), "neoforge"]
 	changelog = file('changelog.md').text
     dependencies {
         required.project "unionlib"
