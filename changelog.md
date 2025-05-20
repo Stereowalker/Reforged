@@ -1,3 +1,2 @@
-- Used an insert to append attribute modifiers
-- Fix attributes not being colored
-- Fix tiers not being applied to armor
+- Added Chinese Simplified translation (by WolfGenerals)
+- Updated other translations
