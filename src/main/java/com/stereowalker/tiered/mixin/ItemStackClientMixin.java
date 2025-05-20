@@ -35,6 +35,7 @@ public abstract class ItemStackClientMixin implements DataComponentHolder {
         isTiered = pModfier.id().toString().contains("tiered_");
     }
 
+    //Unused on neoforge
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 1), method = "addModifierTooltip")
     private MutableComponent getTextFormatting(MutableComponent translatableText, ChatFormatting formatting) {
         if(Reforged.hasModifier((ItemStack)(Object)this) && isTiered) {

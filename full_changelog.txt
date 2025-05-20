@@ -1,3 +1,8 @@
+[1.0.7]
+- Used an insert to append attribute modifiers
+- Fix attributes not being colored
+- Restore compatibility with curios
+
 [1.0.6]
 - Fix attributes not stacking
 - Updated UnionLib

@@ -1,15 +1,8 @@
 {
-  "id": "tiered:dented2",
-  "literal_name": "Custom",
   "weight": 3,
   "reforge_experience_cost": 2,
   "reforge_durability_cost": 2,
   "reforge_item": "tiered:armorers_hammer",
-  "verifiers": [
-    {
-      "tag": "curios:ring"
-    }
-  ],
   "style": {
     "color": "dark_gray"
   },
@@ -17,9 +10,9 @@
     {
       "type": "generic.armor",
       "modifier": {
-        "name": "tiered:dented",
-        "operation": "ADDITION",
-        "amount": -1
+        "id": "tiered:dented",
+        "operation": "ADD_VALUE",
+        "amount": 10
       },
       "optional_curio_slots": [
         "ring"
