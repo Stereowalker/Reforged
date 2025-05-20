@@ -1,1 +1,2 @@
-- Used an insert to append attribute modifiers
+- Added Chinese Simplified translation (by WolfGenerals)
+- Updated other translations
