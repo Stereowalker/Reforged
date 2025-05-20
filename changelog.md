@@ -1,3 +1,3 @@
-- Used an insert to append attribute modifiers
-- Fix attributes not being colored
-- Restore compatibility with curios
+- Used CuriosTags.createItemTag to create curio tag
+- Added Chinese Simplified translation (by WolfGenerals)
+- Updated other translations

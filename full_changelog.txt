@@ -1,3 +1,8 @@
+[1.0.8]
+- Used CuriosTags.createItemTag to create curio tag
+- Added Chinese Simplified translation (by WolfGenerals)
+- Updated other translations
+
 [1.0.7]
 - Used an insert to append attribute modifiers
 - Fix attributes not being colored
