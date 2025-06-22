@@ -12,7 +12,7 @@
       "modifier": {
         "id": "hasteful",
         "operation": "ADD_MULTIPLIED_TOTAL",
-        "amount": 0.10
+        "amount": 0.20
       },
       "optional_equipment_slots": [
         "MAINHAND"
