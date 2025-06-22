@@ -95,6 +95,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	};
 
 	public static final Map<String, UUID> CURIO_MODIFIERS = Util.make(Maps.newHashMap(), (map) -> {
+		map.put("back", UUID.fromString("fee48d8c-1b51-4c46-9f4b-c58162623a7a"));
 		map.put("ring", UUID.fromString("fee48d8c-1b51-4c46-9f4b-c58162623a7b"));
 	});
 
