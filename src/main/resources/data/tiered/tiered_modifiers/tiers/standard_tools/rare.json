@@ -8,11 +8,11 @@
   },
   "attributes": [
     {
-      "type": "generic.attack_damage",
+      "type": "player.block_break_speed",
       "modifier": {
         "id": "tiered:rare_tool",
         "operation": "ADD_VALUE",
-        "amount": 0.25
+        "amount": 0.05
       },
       "optional_equipment_slots": [
         "MAINHAND"
