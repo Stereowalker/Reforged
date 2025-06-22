@@ -1,3 +1,6 @@
+[1.0.9]
+- Reworked some tool tiers
+
 [1.0.8]
 - Added Chinese Simplified translation (by WolfGenerals)
 - Updated other translations
