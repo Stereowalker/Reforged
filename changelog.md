@@ -1,2 +1,1 @@
-- Added Chinese Simplified translation (by WolfGenerals)
-- Updated other translations
+- Reworked some tool tiers
