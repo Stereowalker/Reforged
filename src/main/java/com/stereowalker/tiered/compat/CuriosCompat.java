@@ -19,7 +19,7 @@ public class CuriosCompat {
 //					"CurioAttributeModifiers"/* , event.getModifiers() */,
 //					template -> template.getRequiredCurioSlot(), 
 //					template -> template.getOptionalCurioSlot(), 
-//					(template) -> template.realize(event::addModifier, event.getSlotContext().identifier()));
+//					(template) -> template.realize(event::addModifier, event.getSlotContext().identifier(), event.getSlotContext().index()));
 //		}
 //		;
 //		MinecraftForge.EVENT_BUS.addListener(i.get());

@@ -190,8 +190,8 @@ public class AttributeTemplate {
      * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    public void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, String slot) {
-        realize(actions, Reforged.CURIO_MODIFIERS.getOrDefault(slot, VersionHelper.toLoc("tiered",slot)));
+    public void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, String slot, int index) {
+        realize(actions, Reforged.CURIO_MODIFIERS.getOrDefault(slot, VersionHelper.toLoc("tiered",slot).withSuffix("_"+index)));
     }
 
     /**
