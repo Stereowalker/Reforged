@@ -150,8 +150,8 @@ public class AttributeTemplate {
      * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    public void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, String slot) {
-        realize(actions, Reforged.CURIO_MODIFIERS.getOrDefault(slot, UUID.nameUUIDFromBytes(slot.getBytes())), slot);
+    public void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, String slot, int index) {
+        realize(actions, Reforged.CURIO_MODIFIERS.getOrDefault(slot, UUID.nameUUIDFromBytes((slot+index).getBytes())), slot);
     }
 
     /**
