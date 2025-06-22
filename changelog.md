@@ -1,3 +1,3 @@
-- Used CuriosTags.createItemTag to create curio tag
-- Added Chinese Simplified translation (by WolfGenerals)
-- Updated other translations
+- Fixed multiple attributes not applying with curios
+- Ensure slot index is taken into account in curios
+- Reworked some tool tiers
