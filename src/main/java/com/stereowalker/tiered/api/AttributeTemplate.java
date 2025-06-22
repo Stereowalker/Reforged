@@ -191,7 +191,7 @@ public class AttributeTemplate {
      * @param slot
      */
     public void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, String slot) {
-        realize(actions, Reforged.CURIO_MODIFIERS.getOrDefault(slot, VersionHelper.toLoc("tiered","curio_rings")));
+        realize(actions, Reforged.CURIO_MODIFIERS.getOrDefault(slot, VersionHelper.toLoc("tiered",slot)));
     }
 
     /**

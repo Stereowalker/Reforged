@@ -97,6 +97,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	};
 
 	public static final Map<String, ResourceLocation> CURIO_MODIFIERS = Util.make(Maps.newHashMap(), (map) -> {
+		map.put("back", VersionHelper.toLoc("tiered","curio_back"));
 		map.put("ring", VersionHelper.toLoc("tiered","curio_rings"));
 	});
 
