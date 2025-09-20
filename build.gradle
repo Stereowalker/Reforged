@@ -15,6 +15,13 @@ repositories {
     maven {url "https://repo.spongepowered.org/maven"} // mixin
     maven {url 'https://maven.parchmentmc.org'}//Parchment
     maven {url "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"}//Fuzs Mod Resources
+    // Reach Entity Attributes
+    maven {
+        url "https://maven.jamieswhiteshirt.com/libs-release"
+        content {
+            includeGroup "com.jamieswhiteshirt"
+        }
+    }
 }
 
 dependencies {
@@ -25,6 +32,8 @@ dependencies {
 	}
 	modImplementation "net.fabricmc:fabric-loader:${project._loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project._loader_api_version}"
+
+    include modImplementation("com.jamieswhiteshirt:reach-entity-attributes:$project._rea_version")
 
 	modImplementation ("com.stereowalker.unionlib:UnionLib:${_minecraft_version}-${_unionlib_version}-${_loader}")
 }
