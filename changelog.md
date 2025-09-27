@@ -1,3 +1,1 @@
-- Fixed multiple attributes not applying with curios
-- Ensure slot index is taken into account in curios
-- Reworked some tool tiers
+- Fix potential null pointers
