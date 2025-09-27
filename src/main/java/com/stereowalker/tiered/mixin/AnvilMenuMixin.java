@@ -50,7 +50,7 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 				// attempt to get a random tier
 				ResourceLocation potentialAttributeID = this.reforgedAttribute;
 				int i = 0;
-				while ((potentialAttributeID == null || potentialAttributeID.equals(this.reforgedAttribute)) && i < 2) {
+				while ((potentialAttributeID == null || this.reforgedAttribute.equals(potentialAttributeID)) && i < 2) {
 					potentialAttributeID = ModifierUtils.getRandomAttributeIDFor(p_150475_.getItem());
 					i++;
 				}
