@@ -1,1 +1,1 @@
-- Reworked some tool tiers
+- Fix potential null pointers
