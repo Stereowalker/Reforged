@@ -179,7 +179,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 			if ((Config.canReforgeBroken || !left.isDamaged()) && hasModifier(left)) {
 //				PotentialAttribute reforgedAttribute = Reforged.TIER_DATA.getTiers().get(left.get(ComponentsRegistry.MODIFIER));
 				PotentialAttribute reforgedAttribute = Reforged.TIER_DATA.getTiers().get(new ResourceLocation(left.getTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).getString("Tier")));
-				if (reforgedAttribute.getReforgeItem() != null) {
+				if (reforgedAttribute != null) {
 					if (RegistryHelper.getItemKey(right.getItem()).equals(VersionHelper.toLoc(reforgedAttribute.getReforgeItem())) && (right.getMaxDamage() - right.getDamageValue()) >= reforgedAttribute.getReforgeDurabilityCost()) {
 						ItemStack copy = left.copy();
 //						copy.remove(ComponentsRegistry.MODIFIER);
