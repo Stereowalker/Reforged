@@ -188,7 +188,12 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 						cost.set(reforgedAttribute.getReforgeExperienceCost());
 					}
 				} else {
-					LOGGER.info(Reforged.getKey(reforgedAttribute)+" cannot be reforged because it either does not provide any reforging info or the info it provides is not complete");
+					if(reforgedAttribute == null){
+						LOGGER.info("INVALID KEY - Item cannot be reforged because it either does not provide any reforging info or the info it provides is not complete");
+
+					}else {
+						LOGGER.info(Reforged.getKey(reforgedAttribute)+" cannot be reforged because it either does not provide any reforging info or the info it provides is not complete");
+					}
 				}
 			}
 		});
