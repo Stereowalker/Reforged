@@ -179,7 +179,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 			if ((Config.canReforgeBroken || !left.isDamaged()) && hasModifier(left)) {
 //				PotentialAttribute reforgedAttribute = Reforged.TIER_DATA.getTiers().get(left.get(ComponentsRegistry.MODIFIER));
 				PotentialAttribute reforgedAttribute = Reforged.TIER_DATA.getTiers().get(new ResourceLocation(left.getTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).getString("Tier")));
-				if (reforgedAttribute.getReforgeItem() != null) {
+				if (reforgedAttribute != null) {
 					if (RegistryHelper.getItemKey(right.getItem()).equals(VersionHelper.toLoc(reforgedAttribute.getReforgeItem())) && (right.getMaxDamage() - right.getDamageValue()) >= reforgedAttribute.getReforgeDurabilityCost()) {
 						ItemStack copy = left.copy();
 //						copy.remove(ComponentsRegistry.MODIFIER);
@@ -188,7 +188,12 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 						cost.set(reforgedAttribute.getReforgeExperienceCost());
 					}
 				} else {
-					LOGGER.info(Reforged.getKey(reforgedAttribute)+" cannot be reforged because it either does not provide any reforging info or the info it provides is not complete");
+					if(reforgedAttribute == null){
+						LOGGER.info("INVALID KEY - Item cannot be reforged because it either does not provide any reforging info or the info it provides is not complete");
+
+					}else {
+						LOGGER.info(Reforged.getKey(reforgedAttribute)+" cannot be reforged because it either does not provide any reforging info or the info it provides is not complete");
+					}
 				}
 			}
 		});
@@ -241,6 +246,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	}
 	
 	public static void attemptToAffixTier(ItemStack stack) {
+		//LOGGER.warn("Affixer Called!"); A Leftover Debug call.
 		if(!hasModifier(stack) && !stack.isEmpty()) {
 			ResourceLocation potentialAttributeID = ModifierUtils.getRandomAttributeIDFor(stack.getItem());
 			if(potentialAttributeID != null) {
