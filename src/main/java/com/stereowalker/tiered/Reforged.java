@@ -246,6 +246,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	}
 	
 	public static void attemptToAffixTier(ItemStack stack) {
+		//LOGGER.warn("Affixer Called!"); A Leftover Debug call.
 		if(!hasModifier(stack) && !stack.isEmpty()) {
 			ResourceLocation potentialAttributeID = ModifierUtils.getRandomAttributeIDFor(stack.getItem());
 			if(potentialAttributeID != null) {

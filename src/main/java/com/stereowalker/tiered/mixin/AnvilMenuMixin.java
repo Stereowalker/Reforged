@@ -35,6 +35,11 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 //			reforgedAttribute = this.inputSlots.getItem(0).get(Reforged.ComponentsRegistry.MODIFIER);
 			reforgedAttribute = VersionHelper.toLoc(this.inputSlots.getItem(0).getTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).getString("Tier"));
 		}
+
+		if(reforgedAttribute == null){
+			reforgedAttribute = VersionHelper.toLoc("tiered:standard_tools/common"); // Force it to "Common" if it doesnt exist... cause by Spawned in / loot container items sometimes...
+		}
+
 	}
 
 	/**
@@ -45,6 +50,12 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 		boolean deleteItem = true;
 		if (this.reforgedAttribute != null) {
 			PotentialAttribute potential = Reforged.TIER_DATA.getTiers().get(this.reforgedAttribute);
+
+			// I left my Logging Calls in here, if you need them.
+			//	Reforged.LOGGER.warn(Reforged.TIER_DATA.getTiers().toString());
+			//	Reforged.LOGGER.warn(Reforged.TIER_DATA.getTiers().values().toString());
+
+			if(potential != null){
 			if (RegistryHelper.getItemKey(container.getItem(pIndex).getItem()).equals(VersionHelper.toLoc(potential.getReforgeItem()))) {
 				deleteItem = false;
 				ItemStack hammer = container.getItem(pIndex);
@@ -68,6 +79,9 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 					deleteItem = true;
 				else
 					hammer.setDamageValue(hammer.getDamageValue()+potential.getReforgeDurabilityCost());
+			}
+			}else{
+				Reforged.LOGGER.warn("Failed to load Potential as it is Null. Indicating TIER_DATA is missing.");
 			}
 		}
 		if (deleteItem)
