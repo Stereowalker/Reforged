@@ -13,10 +13,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
+import com.stereowalker.reforged.config.Config;
 import com.stereowalker.tiered.api.AttributeTemplate;
 import com.stereowalker.tiered.api.ModifierUtils;
 import com.stereowalker.tiered.api.PotentialAttribute;
-import com.stereowalker.tiered.config.Config;
 import com.stereowalker.tiered.data.PoolDataLoader;
 import com.stereowalker.tiered.data.TierAffixer;
 import com.stereowalker.tiered.data.TierDataLoader;
@@ -177,7 +177,12 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 						ItemStack copy = insert.left().copy();
 						copy.remove(ComponentsRegistry.MODIFIER);
 						insert.output().set(copy);
-						insert.cost().set(reforgedAttribute.getReforgeExperienceCost());
+						if (Config.enableReforgeExpCost)
+							insert.cost().set(reforgedAttribute.getReforgeExperienceCost());
+						else {
+							insert.canTakeOnZeroExp().set(true);
+							insert.cost().set(0L);
+						}
 					}
 				} else {
 					LOGGER.info(Reforged.getKey(reforgedAttribute)+" cannot be reforged because it either does not provide any reforging info or the info it provides is not complete");
