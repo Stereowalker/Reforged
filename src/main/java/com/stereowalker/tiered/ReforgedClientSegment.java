@@ -1,6 +1,6 @@
 package com.stereowalker.tiered;
 
-import com.stereowalker.tiered.config.Config;
+import com.stereowalker.reforged.config.Config;
 import com.stereowalker.unionlib.client.gui.screens.config.ConfigScreen;
 import com.stereowalker.unionlib.mod.ClientSegment;
 import com.stereowalker.unionlib.util.VersionHelper;
