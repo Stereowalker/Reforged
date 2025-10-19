@@ -45,5 +45,12 @@
 
 	"item.tiered.weaponsmiths_hammer": "Weaponsmiths Hammer",
 	"item.tiered.toolsmiths_hammer": "Toolsmiths Hammer",
-	"item.tiered.armorers_hammer": "Armorers Hammer"
+	"item.tiered.armorers_hammer": "Armorers Hammer",
+	
+	"config.reforged.can_reforge_broken": "Can Broken Items Be Reforged",
+	"config.reforged.can_reforge_broken.comment": "Disabling this will force all crafted items to recieve tiers without attributes \nThat would be the common tier for most items",
+	"config.reforged.can_crafted_receive_tier": "Can Crafted Items Receive Tiers",
+	"config.reforged.can_crafted_receive_tier.comment": "Disabling this will force all crafted items to recieve tiers without attributes \nThat would be the common tier for most items",
+	"config.reforged.enable_reforge_experience_cost": "Enable Reforge Experience Cost",
+	"config.reforged.enable_reforge_experience_cost.comment": "Disabling this will remove the experience cost when attempting to reforge any item"
 }
