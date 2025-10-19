@@ -138,29 +138,29 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	@SuppressWarnings("resource")
 	@Override
 	public void registerInserts(InsertCollector collector) {
-		collector.addInsert(Inserts.LOGGED_IN, (player -> {
-	        if(player.level().isClientSide) return;
-	        new ClientboundTierSyncerPacket(TIER_DATA.getTiers()).send(((ServerPlayer)player));
-		}));
-		collector.addInsert(Inserts.MENU_OPEN, (player, menu) -> {
-			menu.getItems().forEach(Reforged::attemptToAffixTier);
+		collector.addInsert(Inserts.LOGGED_IN, insert -> {
+	        if(insert.player().level().isClientSide) return;
+	        new ClientboundTierSyncerPacket(TIER_DATA.getTiers()).send(((ServerPlayer)insert.player()));
 		});
-		collector.addInsert(Inserts.ITEM_CRAFTED, (player, stack, matrix, slot) -> {
+		collector.addInsert(Inserts.MENU_OPEN, insert -> {
+			insert.menu().getItems().forEach(Reforged::attemptToAffixTier);
+		});
+		collector.addInsert(Inserts.ITEM_CRAFTED, insert -> {
 			if (!Config.canCraftedReceiveTier) {
 //				stack.set(ComponentsRegistry.MODIFIER, ModifierUtils.getBlankAttributeIDFor(stack.getItem()));
-				stack.getOrCreateTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).putString(ComponentsRegistry.NBT_SUBTAG_DATA_KEY, ModifierUtils.getBlankAttributeIDFor(stack.getItem()).toString());
+				insert.craftingStack().getOrCreateTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).putString(ComponentsRegistry.NBT_SUBTAG_DATA_KEY, ModifierUtils.getBlankAttributeIDFor(insert.craftingStack().getItem()).toString());
 			}
 		});
-		collector.addInsert(ServerInserts.VILLAGER_TRADES, (profession, trades, experimental) -> {
-			if (profession == VillagerProfession.ARMORER)
-				trades.get(3).add(new VillagerTrades.ItemsForEmeralds(ItemRegistries.ARMORERS_HAMMER, 64, 1, 1, 10));
-			if (profession == VillagerProfession.TOOLSMITH)
-				trades.get(3).add(new VillagerTrades.ItemsForEmeralds(ItemRegistries.TOOLSMITHS_HAMMER, 64, 1, 1, 10));
-			if (profession == VillagerProfession.WEAPONSMITH)
-				trades.get(4).add(new VillagerTrades.ItemsForEmeralds(ItemRegistries.WEAPONSMITHS_HAMMER, 64, 1, 1, 10));
+		collector.addInsert(ServerInserts.VILLAGER_TRADES, insert -> {
+			if (insert.profession() == VillagerProfession.ARMORER)
+				insert.trades().get(3).add(new VillagerTrades.ItemsForEmeralds(ItemRegistries.ARMORERS_HAMMER, 64, 1, 1, 10));
+			if (insert.profession() == VillagerProfession.TOOLSMITH)
+				insert.trades().get(3).add(new VillagerTrades.ItemsForEmeralds(ItemRegistries.TOOLSMITHS_HAMMER, 64, 1, 1, 10));
+			if (insert.profession() == VillagerProfession.WEAPONSMITH)
+				insert.trades().get(4).add(new VillagerTrades.ItemsForEmeralds(ItemRegistries.WEAPONSMITHS_HAMMER, 64, 1, 1, 10));
 		});
-		collector.addInsert(Inserts.LIVING_TICK, (living) -> {
-			if (living instanceof TierAffixer affixer) {
+		collector.addInsert(Inserts.LIVING_TICK, insert -> {
+			if (insert.living() instanceof TierAffixer affixer) {
 				 // if items copy is null, set it to player inventory and check each stack
 		        if(affixer.InvCopy() == null) {
 		            affixer.SetInvCopy(affixer.copyDefaultedList(affixer.player().inventory.items));
@@ -174,28 +174,28 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 		        }
 			}
 		});
-		collector.addInsert(Inserts.ANVIL_CONTENT_CHANGE, (left,right,name,player,output,cost,materialCost,cancel)->{
-			if ((Config.canReforgeBroken || !left.isDamaged()) && hasModifier(left)) {
+		collector.addInsert(Inserts.ANVIL_CONTENT_CHANGE, insert -> {
+			if ((Config.canReforgeBroken || !insert.left().isDamaged()) && hasModifier(insert.left())) {
 //				PotentialAttribute reforgedAttribute = Reforged.TIER_DATA.getTiers().get(left.get(ComponentsRegistry.MODIFIER));
-				PotentialAttribute reforgedAttribute = Reforged.TIER_DATA.getTiers().get(new ResourceLocation(left.getTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).getString("Tier")));
+				PotentialAttribute reforgedAttribute = Reforged.TIER_DATA.getTiers().get(new ResourceLocation(insert.left().getTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).getString("Tier")));
 				if (reforgedAttribute.getReforgeItem() != null) {
-					if (RegistryHelper.getItemKey(right.getItem()).equals(VersionHelper.toLoc(reforgedAttribute.getReforgeItem())) && (right.getMaxDamage() - right.getDamageValue()) >= reforgedAttribute.getReforgeDurabilityCost()) {
-						ItemStack copy = left.copy();
+					if (RegistryHelper.getItemKey(insert.right().getItem()).equals(VersionHelper.toLoc(reforgedAttribute.getReforgeItem())) && (insert.right().getMaxDamage() - insert.right().getDamageValue()) >= reforgedAttribute.getReforgeDurabilityCost()) {
+						ItemStack copy = insert.left().copy();
 //						copy.remove(ComponentsRegistry.MODIFIER);
 						copy.removeTagKey(ComponentsRegistry.NBT_SUBTAG_KEY);
-						output.set(copy);
-						cost.set(reforgedAttribute.getReforgeExperienceCost());
+						insert.output().set(copy);
+						insert.cost().set(reforgedAttribute.getReforgeExperienceCost());
 					}
 				} else {
 					LOGGER.info(Reforged.getKey(reforgedAttribute)+" cannot be reforged because it either does not provide any reforging info or the info it provides is not complete");
 				}
 			}
 		});
-		collector.addInsert(Inserts.ITEM_ATTRIBUTE_MODIFIER, (item, slot, mod) -> {
-			Reforged.AppendAttributesToOriginal(item, slot, Reforged.isPreferredEquipmentSlot(item, slot), "AttributeModifiers",
+		collector.addInsert(Inserts.ITEM_ATTRIBUTE_MODIFIER, insert -> {
+			Reforged.AppendAttributesToOriginal(insert.itemStack(), insert.slot(), Reforged.isPreferredEquipmentSlot(insert.itemStack(), insert.slot()), "AttributeModifiers",
 					template -> template.getRequiredEquipmentSlot(), 
 					template -> template.getOptionalEquipmentSlot(), 
-					(template) -> template.realize(mod::add, slot));
+					(template) -> template.realize(insert.attributes()::add, insert.slot()));
 		});
 	}
 
