@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.apache.logging.log4j.LogManager;
@@ -43,7 +42,6 @@ import com.stereowalker.unionlib.util.VersionHelper;
 import com.stereowalker.unionlib.world.entity.AccessorySlot;
 import com.stereowalker.unionlib.world.item.AccessoryItem;
 
-import net.fabricmc.fabric.api.item.v1.ModifyItemAttributeModifiersCallback;
 import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -115,8 +113,8 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	
 	//TODO: Copy this over to 1.20.1 >
 	public static boolean hasModifier(ItemStack stack) {
-		return stack.getTagElement(ComponentsRegistry.NBT_SUBTAG_KEY) != null;
-//		return stack.has(ComponentsRegistry.MODIFIER);
+		//return left.getTagElement(NBT_SUBTAG_KEY) != null;
+		return ComponentsRegistry.MODIFIER_D.hasData(stack) && ComponentsRegistry.MODIFIER_D.getData(stack) != ModifierUtils.BLANK;
 	}
 
 	@Override
@@ -226,12 +224,18 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 //		public static final DataComponentType<ResourceLocation> MODIFIER = register(
 //				p_333150_ -> p_333150_.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC)
 //				);
+		public static final String NBT_SUBTAG_KEY = "Reforged";
+		public static final String NBT_SUBTAG_DATA_KEY = "Tier";
+		
+		public static final VersionHelper.Data<ResourceLocation> MODIFIER_D = new VersionHelper.Data<ResourceLocation>(
+				(stack) -> stack.getTag() != null && stack.getTagElement(NBT_SUBTAG_KEY) != null,
+				(stack) -> VersionHelper.toLoc(stack.getOrCreateTagElement(NBT_SUBTAG_KEY).getString(NBT_SUBTAG_DATA_KEY)),
+				(stack, dat) -> stack.getOrCreateTagElement(NBT_SUBTAG_KEY).putString(NBT_SUBTAG_DATA_KEY, dat.toString()),
+				(stack) -> stack.removeTagKey(NBT_SUBTAG_KEY));
 //
 //		private static <T> DataComponentType<T> register(UnaryOperator<DataComponentType.Builder<T>> pBuilder) {
 //			return pBuilder.apply(DataComponentType.builder()).build();
 //		}
-		public static final String NBT_SUBTAG_KEY = "Reforged";
-		public static final String NBT_SUBTAG_DATA_KEY = "Tier";
 	}
 
 	@RegistryHolder(namespace = "tiered")
