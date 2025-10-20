@@ -39,7 +39,7 @@ public abstract class ItemStackClientMixin implements DataComponentHolder {
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 1), method = "addModifierTooltip")
     private MutableComponent getTextFormatting(MutableComponent translatableText, ChatFormatting formatting) {
         if(Reforged.hasModifier((ItemStack)(Object)this) && isTiered) {
-            ResourceLocation tier = get(Reforged.ComponentsRegistry.MODIFIER);
+            ResourceLocation tier = Reforged.ComponentsRegistry.MODIFIER_D.getData((ItemStack)(Object)this);
             PotentialAttribute attribute = Reforged.TIER_DATA.getTiers().get(tier);
 
             return translatableText.setStyle(attribute.getStyle());
@@ -55,7 +55,7 @@ public abstract class ItemStackClientMixin implements DataComponentHolder {
     )
     private void modifyName(CallbackInfoReturnable<Component> cir) {
         if(this.get(DataComponents.CUSTOM_NAME) == null && Reforged.hasModifier((ItemStack)(Object)this)) {
-            ResourceLocation tier = get(Reforged.ComponentsRegistry.MODIFIER);
+            ResourceLocation tier = Reforged.ComponentsRegistry.MODIFIER_D.getData((ItemStack)(Object)this);
 
             // attempt to display attribute if it is valid
             PotentialAttribute potentialAttribute = Reforged.TIER_DATA.getTiers().get(tier);
