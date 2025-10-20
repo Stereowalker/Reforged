@@ -42,8 +42,13 @@
 	"tier.tiered.standard_weapons.common": "普通",
 	"tier.tiered.tools.extended": "延长",
 	"tier.tiered.melee_weapons.extended": "延长",
-	
 	"item.tiered.weaponsmiths_hammer": "武器匠之锤",
 	"item.tiered.toolsmiths_hammer": "工具匠之锤",
-	"item.tiered.armorers_hammer": "盔甲匠之锤"
+	"item.tiered.armorers_hammer": "盔甲匠之锤",
+	"config.reforged.can_reforge_broken": "Can Broken Items Be Reforged",
+	"config.reforged.can_reforge_broken.comment": "Disabling this will force all crafted items to recieve tiers without attributes \nThat would be the common tier for most items",
+	"config.reforged.can_crafted_receive_tier": "Can Crafted Items Receive Tiers",
+	"config.reforged.can_crafted_receive_tier.comment": "Disabling this will force all crafted items to recieve tiers without attributes \nThat would be the common tier for most items",
+	"config.reforged.enable_reforge_experience_cost": "Enable Reforge Experience Cost",
+	"config.reforged.enable_reforge_experience_cost.comment": "Disabling this will remove the experience cost when attempting to reforge any item"
 }
