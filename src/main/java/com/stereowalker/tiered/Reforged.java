@@ -254,9 +254,8 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	public static void attemptToAffixTier(ItemStack stack) {
 		if(!hasModifier(stack) && !stack.isEmpty()) {
 			ResourceLocation potentialAttributeID = ModifierUtils.getRandomAttributeIDFor(stack.getItem());
-			if(potentialAttributeID != null) {
-//				stack.set(ComponentsRegistry.MODIFIER, potentialAttributeID);
-				stack.getOrCreateTagElement(ComponentsRegistry.NBT_SUBTAG_KEY).putString(ComponentsRegistry.NBT_SUBTAG_DATA_KEY, potentialAttributeID.toString());
+			if(potentialAttributeID != ModifierUtils.BLANK) {
+				ComponentsRegistry.MODIFIER_D.setData(stack, potentialAttributeID);
 			}
 		}
 	}
