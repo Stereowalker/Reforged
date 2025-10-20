@@ -17,7 +17,6 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import com.stereowalker.tiered.Reforged;
 import com.stereowalker.tiered.api.PotentialAttribute;
-import com.stereowalker.unionlib.util.VersionHelper;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -51,8 +50,8 @@ public abstract class ItemStackClientMixin/* implements DataComponentHolder */ {
 
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 5), method = "getTooltipLines")
     private MutableComponent getTextFormatting(MutableComponent translatableText, ChatFormatting formatting) {
-    	if(Reforged.hasModifier((ItemStack)(Object)this) && isTiered) {
-        	ResourceLocation tier = VersionHelper.toLoc(this.getOrCreateTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).getString(Reforged.ComponentsRegistry.NBT_SUBTAG_DATA_KEY));
+        if(Reforged.hasModifier((ItemStack)(Object)this) && isTiered) {
+            ResourceLocation tier = Reforged.ComponentsRegistry.MODIFIER_D.getData((ItemStack)(Object)this);
             PotentialAttribute attribute = Reforged.TIER_DATA.getTiers().get(tier);
 
             return translatableText.setStyle(attribute.getStyle());
@@ -88,8 +87,8 @@ public abstract class ItemStackClientMixin/* implements DataComponentHolder */ {
             cancellable = true
     )
     private void modifyName(CallbackInfoReturnable<Component> cir) {
-        if(this.hasTag() && this.getTagElement("display") == null && this.getTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY) != null) {
-            ResourceLocation tier = new ResourceLocation(getOrCreateTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).getString(Reforged.ComponentsRegistry.NBT_SUBTAG_DATA_KEY));
+        if(this.hasTag() && this.getTagElement("display") == null && Reforged.hasModifier((ItemStack)(Object)this)) {
+            ResourceLocation tier = Reforged.ComponentsRegistry.MODIFIER_D.getData((ItemStack)(Object)this);
 
             // attempt to display attribute if it is valid
             PotentialAttribute potentialAttribute = Reforged.TIER_DATA.getTiers().get(tier);
