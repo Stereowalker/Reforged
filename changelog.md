@@ -1,3 +1,1 @@
-- Updated unionlib to 12.1.0
-- Allowed items to be reforged with zero exp if enabled in the config
-- Prevented attempting to reforge items that can't have a tier in an anvil
+- Fix items not stacking when immediately picked up
