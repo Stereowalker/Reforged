@@ -119,7 +119,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	//TODO: Copy this over to 1.20.1 >
 	public static boolean hasModifier(ItemStack stack) {
 		//return left.getTagElement(NBT_SUBTAG_KEY) != null;
-		return stack.has(ComponentsRegistry.MODIFIER);
+		return ComponentsRegistry.MODIFIER_D.hasData(stack) && ComponentsRegistry.MODIFIER_D.getData(stack) != ModifierUtils.BLANK;
 	}
 
 	@Override
@@ -226,6 +226,12 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 		public static final DataComponentType<ResourceLocation> MODIFIER = register(
 				p_333150_ -> p_333150_.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC)
 				);
+		
+		public static final VersionHelper.Data<ResourceLocation> MODIFIER_D = new VersionHelper.Data<ResourceLocation>(
+				(stack) -> stack.has(ComponentsRegistry.MODIFIER),
+				(stack) -> stack.get(ComponentsRegistry.MODIFIER),
+				(stack, dat) -> stack.set(ComponentsRegistry.MODIFIER, dat),
+				(stack) -> stack.remove(ComponentsRegistry.MODIFIER));
 
 		private static <T> DataComponentType<T> register(UnaryOperator<DataComponentType.Builder<T>> pBuilder) {
 			return pBuilder.apply(DataComponentType.builder()).build();
