@@ -21,6 +21,7 @@ public class ModifierUtils {
 	 * @param item  {@link Item} to generate a random attribute for
 	 * @return  id of random attribute for item in {@link ResourceLocation} form, or null if there are no valid options
 	 */
+	public static final ResourceLocation BLANK = Reforged.id("blank");
 	public static ResourceLocation getRandomAttributeIDFor(Item item) {
 		ResourceLocation itemKey = RegistryHelper.getItemKey(item);
 		TierPool pool = GeneralUtilities.getRandomFrom(Reforged.POOL_DATA.getPools().values(), (p) -> p.isValid(itemKey));
@@ -46,7 +47,7 @@ public class ModifierUtils {
 			if(attribute.isValid(itemKey)) potentialAttributes.add(id);
 		});
 		if(potentialAttributes.size() > 0) return potentialAttributes.get(new Random().nextInt(potentialAttributes.size()));
-		else return null;
+		else return BLANK;
 	}
 	
 	public static ResourceLocation getBlankAttributeIDFor(Item item) {
@@ -76,7 +77,7 @@ public class ModifierUtils {
 			if(attribute.isValid(itemKey)) potentialAttributes.add(id);
 		});
 		if(potentialAttributes.size() > 0) return potentialAttributes.get(new Random().nextInt(potentialAttributes.size()));
-		else return null;
+		else return BLANK;
 	}
 
 	private ModifierUtils() {
