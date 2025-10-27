@@ -51,7 +51,7 @@ public class ModifierUtils {
 	
 	public static ResourceLocation getBlankAttributeIDFor(Item item) {
 		ResourceLocation itemKey = RegistryHelper.getItemKey(item);
-		PotentialAttribute chosen_tier = null
+		PotentialAttribute chosen_tier = null;
 		for (TierPool pool : Reforged.POOL_DATA.getPools().values()){
 			if (pool == null)
 				chosen_tier = GeneralUtilities.getRandomFrom(Reforged.TIER_DATA.getTiers().values(), (a) -> a.isValid(itemKey) && a.getAttributes().size() == 0);

@@ -81,9 +81,11 @@ public class TierDataLoader extends SimpleJsonResourceReloadListener implements 
     }
     public void clear() {
         itemAttributes.clear();
+        LOGGER.info("Tier Data CLEAR");
     }
     public void replace(Map<ResourceLocation, PotentialAttribute> i){
         itemAttributes = i;
+        LOGGER.info("Tier Data REPLACE");
     }
 
 	@Override

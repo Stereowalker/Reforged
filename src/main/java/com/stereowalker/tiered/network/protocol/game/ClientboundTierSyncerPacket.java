@@ -51,8 +51,8 @@ public class ClientboundTierSyncerPacket extends ClientboundUnionPacket {
 	@Override
 	public boolean handleOnClient(LocalPlayer player) {
 		CACHED_ATTRIBUTES.putAll(TIER_DATA.getTiers());
+		Reforged.LOGGER.warn("Tier Data Handle on Client");
 		TIER_DATA.clear();
-
 		TIER_DATA.replace(this.attribute);
         if (TIER_DATA.getTiers().size() == 0) {
         	TIER_DATA.replace(CACHED_ATTRIBUTES);

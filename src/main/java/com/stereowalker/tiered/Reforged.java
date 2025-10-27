@@ -140,8 +140,14 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	@Override
 	public void registerInserts(InsertCollector collector) {
 		collector.addInsert(Inserts.LOGGED_IN, (player -> {
-	        if(player.level().isClientSide) return;
-	        new ClientboundTierSyncerPacket(TIER_DATA.getTiers()).send(((ServerPlayer)player));
+			LOGGER.info("on");
+			if(player.level().isClientSide){
+				LOGGER.info("ON CLIENT YAAA");
+				return;
+			}else{
+				new ClientboundTierSyncerPacket(TIER_DATA.getTiers()).send(((ServerPlayer) player));
+				LOGGER.info("Tier Sync Gemachtr!");
+			}
 		}));
 		collector.addInsert(Inserts.MENU_OPEN, (player, menu) -> {
 			menu.getItems().forEach(Reforged::attemptToAffixTier);
