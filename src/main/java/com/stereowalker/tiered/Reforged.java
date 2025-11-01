@@ -115,9 +115,9 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-		Reforged.LOGGER.info("called logged in event");
+		//Reforged.LOGGER.info("called logged in event");
 		if (!(event.getEntity() instanceof ServerPlayer player)) return;
-		Reforged.LOGGER.info("Sync data von Custom event2");
+		Reforged.LOGGER.info("Syncing Data to Clients...");
 		new ClientboundTierSyncerPacket(TIER_DATA.getTiers()).send(player);
 	}
 	
@@ -154,7 +154,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	@SuppressWarnings("resource")
 	@Override
 	public void registerInserts(InsertCollector collector) {
-		collector.addInsert(Inserts.LOGGED_IN, (player -> {
+		/*collector.addInsert(Inserts.LOGGED_IN, (player -> {
 			LOGGER.info("on");
 			if(player.level().isClientSide){
 				LOGGER.info("ON CLIENT YAAA");
@@ -163,7 +163,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 				new ClientboundTierSyncerPacket(TIER_DATA.getTiers()).send(((ServerPlayer) player));
 				LOGGER.info("Tier Sync Gemachtr!");
 			}
-		}));
+		}));*/
 		collector.addInsert(Inserts.MENU_OPEN, (player, menu) -> {
 			menu.getItems().forEach(Reforged::attemptToAffixTier);
 		});
