@@ -1,6 +1,8 @@
 # Reforged REWORKED
 
-Reforged REWORKED is a fixxed version of [Stereowalkers Reforged Mod](https://github.com/Stereowalker/Reforged). This version fixxes several crashes in the Client and force-syncs Data between Client & Server's (as the Original has issues with this)
+Reforged REWORKED is a fixxed version of [Stereowalkers Reforged Mod](https://github.com/Stereowalker/Reforged). This version fixxes several crashes in the Client and force-syncs Data between Client & Server's (as the Original has issues with this, caused by UnionLib)
+
+This mod requires UnionLib - https://www.curseforge.com/minecraft/mc-mods/unionlib
 
 ## Stereowalker's Original Description:
 
@@ -63,5 +65,6 @@ Tiered provides 4 armor tags (`fabric:helmets`, `fabric:chestplates`, `fabric:le
 
 ### License
 Tiered is licensed under MIT. You are free to use the code inside this repo as you want.
+
 
 
