@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -107,6 +110,15 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 		super("tiered", () -> new ReforgedClientSegment(), () -> new ServerSegment());
 		instance = this;
 		UnionLib.Modulo.Default_Bow_Draw_Speed.enable();
+		MinecraftForge.EVENT_BUS.register(this);
+	}
+
+	@SubscribeEvent
+	public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+		Reforged.LOGGER.info("called logged in event");
+		if (!(event.getEntity() instanceof ServerPlayer player)) return;
+		Reforged.LOGGER.info("Sync data von Custom event2");
+		new ClientboundTierSyncerPacket(TIER_DATA.getTiers()).send(player);
 	}
 	
 	@Override
@@ -135,6 +147,9 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 		reloadListener.listenTo(TIER_DATA);
 		reloadListener.listenTo(POOL_DATA);
 	}
+
+
+
 
 	@SuppressWarnings("resource")
 	@Override
