@@ -1,6 +1,6 @@
-# Tiered [heavy beta]
+# Reforged REWORKED
 
-Tiered is a Fabric mod inspired by [Quality Tools](https://www.curseforge.com/minecraft/mc-mods/quality-tools). Every tool you make will have a special modifier, as seen below:
+Reforged REWORKED is a fixxed version of [Stereowalkers Reforged Mod](https://github.com/Stereowalker/Reforged). This version fixxes several crashes in the Client and force-syncs Data between Client & Server's (as the Original has issues with this)
 
 <img src="resources/legendary_chestplate.png" width="400">
 
@@ -61,3 +61,4 @@ Tiered provides 4 armor tags (`fabric:helmets`, `fabric:chestplates`, `fabric:le
 
 ### License
 Tiered is licensed under MIT. You are free to use the code inside this repo as you want.
+
