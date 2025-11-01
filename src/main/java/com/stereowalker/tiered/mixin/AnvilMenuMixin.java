@@ -34,9 +34,11 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 		if (Reforged.hasModifier(this.inputSlots.getItem(0))) {
 //			reforgedAttribute = this.inputSlots.getItem(0).get(Reforged.ComponentsRegistry.MODIFIER);
 			reforgedAttribute = VersionHelper.toLoc(this.inputSlots.getItem(0).getTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).getString("Tier"));
+			Reforged.LOGGER.info("setting attribute id");
 		}
 
 		if(reforgedAttribute == null){
+			Reforged.LOGGER.info("Forced to common!");
 			reforgedAttribute = VersionHelper.toLoc("tiered:standard_tools/common"); // Force it to "Common" if it doesnt exist... cause by Spawned in / loot container items sometimes...
 		}
 
@@ -52,8 +54,8 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 			PotentialAttribute potential = Reforged.TIER_DATA.getTiers().get(this.reforgedAttribute);
 
 			// I left my Logging Calls in here, if you need them.
-			//	Reforged.LOGGER.warn(Reforged.TIER_DATA.getTiers().toString());
-			//	Reforged.LOGGER.warn(Reforged.TIER_DATA.getTiers().values().toString());
+				Reforged.LOGGER.warn(Reforged.TIER_DATA.getTiers().toString());
+				Reforged.LOGGER.warn(Reforged.TIER_DATA.getTiers().values().toString());
 
 			if(potential != null){
 			if (RegistryHelper.getItemKey(container.getItem(pIndex).getItem()).equals(VersionHelper.toLoc(potential.getReforgeItem()))) {
@@ -64,11 +66,13 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 				int i = 0;
 				while ((potentialAttributeID == null || this.reforgedAttribute.equals(potentialAttributeID)) && i < 2) {
 					potentialAttributeID = ModifierUtils.getRandomAttributeIDFor(p_150475_.getItem());
+					Reforged.LOGGER.info("Trying new Potential Called");
 					i++;
 				}
 				// found an ID
 				if(potentialAttributeID != null) {
 //					p_150475_.set(Reforged.ComponentsRegistry.MODIFIER, potentialAttributeID);
+Reforged.LOGGER.info("Added Attribute to Item!");
 					p_150475_.getOrCreateTagElement(Reforged.ComponentsRegistry.NBT_SUBTAG_KEY).putString(Reforged.ComponentsRegistry.NBT_SUBTAG_DATA_KEY, potentialAttributeID.toString());
 				}
 				else {
