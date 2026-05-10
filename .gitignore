@@ -26,11 +26,9 @@ hs_err_pid*
 .project
 .settings/
 bin/
-build/
+build*/
 CREDITS.txt
-run/
+run*/
 *.launch
 /Java Projects/
 /.apt_generated/
-runs/junit/junit_test_args.txt
-runs/junit/junit_jvm_args.txt
