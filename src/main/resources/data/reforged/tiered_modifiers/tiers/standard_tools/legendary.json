@@ -1,0 +1,44 @@
+{
+  "weight": 1,
+  "reforge_experience_cost": 10,
+  "reforge_durability_cost": 5,
+  "reforge_item": "reforged:toolsmiths_hammer",
+  "style": {
+    "color": "gold"
+  },
+  "attributes": [
+    {
+      "type": "player.block_break_speed",
+      "modifier": {
+        "id": "reforged:legendary_tool_0",
+        "operation": "ADD_VALUE",
+        "amount": 0.125
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "generic.attack_speed",
+      "modifier": {
+        "id": "reforged:legendary_tool_1",
+        "operation": "ADD_VALUE",
+        "amount": 1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "generic.luck",
+      "modifier": {
+        "id": "reforged:legendary_tool_2",
+        "operation": "ADD_VALUE",
+        "amount": 0.5
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
+}
