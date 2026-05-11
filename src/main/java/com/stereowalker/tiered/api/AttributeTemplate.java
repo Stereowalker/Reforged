@@ -7,7 +7,7 @@ import java.util.function.BiConsumer;
 
 import com.google.common.collect.Multimap;
 import com.google.gson.annotations.SerializedName;
-import com.stereowalker.tiered.Reforged;
+import com.stereowalker.reforged.Reforged;
 import com.stereowalker.unionlib.util.VersionHelper;
 import com.stereowalker.unionlib.world.entity.AccessorySlot;
 

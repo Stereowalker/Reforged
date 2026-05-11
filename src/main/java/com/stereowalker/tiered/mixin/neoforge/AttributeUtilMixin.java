@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.google.common.collect.Multimap;
-import com.stereowalker.tiered.Reforged;
+import com.stereowalker.reforged.Reforged;
 import com.stereowalker.tiered.api.PotentialAttribute;
 
 import net.minecraft.core.Holder;
