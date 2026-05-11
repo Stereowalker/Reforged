@@ -8,7 +8,7 @@
   },
   "attributes": [
     {
-      "type": "generic.luck",
+      "type": "luck",
       "modifier": {
         "id": "reforged:lucky",
         "operation": "ADD_MULTIPLIED_TOTAL",

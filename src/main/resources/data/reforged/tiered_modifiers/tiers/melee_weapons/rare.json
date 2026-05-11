@@ -8,7 +8,7 @@
   },
   "attributes": [
     {
-      "type": "generic.attack_damage",
+      "type": "attack_damage",
       "modifier": {
         "id": "reforged:rare_weapon_0",
         "operation": "ADD_VALUE",
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "type": "generic.attack_speed",
+      "type": "attack_speed",
       "modifier": {
         "id": "reforged:rare_weapon_1",
         "operation": "ADD_VALUE",
