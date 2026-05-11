@@ -1,0 +1,23 @@
+{
+  "weight": 5,
+  "verifiers": [
+    {
+      "tag": "minecraft:swords"
+    },
+    {
+      "tag": "minecraft:axes"
+    },
+    {
+      "tag": "forge:tools/tridents"
+    },
+    {
+      "tag": "forge:tools/bows"
+    },
+    {
+      "id": "minecraft:mace"
+    }
+  ],
+  "tiers": [
+    "reforged:standard_weapons/common"
+  ]
+}

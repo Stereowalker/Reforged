@@ -1,0 +1,21 @@
+{
+  "weight": 3,
+  "verifiers": [
+    {
+      "tag": "minecraft:head_armor"
+    },
+    {
+      "tag": "minecraft:chest_armor"
+    },
+    {
+      "tag": "minecraft:leg_armor"
+    },
+    {
+      "tag": "minecraft:foot_armor"
+    }
+  ],
+  "tiers": [
+    "reforged:armors/dented",
+    "reforged:armors/unchained"
+  ]
+}
