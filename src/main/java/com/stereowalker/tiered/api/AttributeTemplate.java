@@ -208,8 +208,8 @@ public class AttributeTemplate {
                 attributeModifier.operation()
         );
 
-        Optional<Reference<Attribute>> key = BuiltInRegistries.ATTRIBUTE.getHolder((VersionHelper.toLoc(attributeTypeID)));
-//        Holder<Attribute> key = RegistryHelper.getAttribute(new ResourceLocation(attributeTypeID));
+    	Optional<Reference<Attribute>> key = BuiltInRegistries.ATTRIBUTE.getHolder((VersionHelper.AttributeHelper.backportAttribute(attributeTypeID)));
+//        Holder<Attribute> key = RegistryHelper.getAttribute(VersionHelper.toLoc(attributeTypeID));
         if(key == null || key.isEmpty()) {
             Reforged.LOGGER.warn(String.format("%s was referenced as an attribute type, but it does not exist! A data file in /tiered/item_attributes/ has an invalid type property.", attributeTypeID));
         } else {
