@@ -8,7 +8,7 @@
   },
   "attributes": [
     {
-      "type": "player.block_break_speed",
+      "type": "block_break_speed",
       "modifier": {
         "id": "reforged:hasteful",
         "operation": "ADD_MULTIPLIED_TOTAL",
