@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import com.stereowalker.tiered.Reforged;
+import com.stereowalker.reforged.Reforged;
 import com.stereowalker.unionlib.util.GeneralUtilities;
 import com.stereowalker.unionlib.util.RegistryHelper;
 import com.stereowalker.unionlib.util.VersionHelper;
