@@ -1,0 +1,44 @@
+{
+  "weight": 2,
+  "reforge_experience_cost": 8,
+  "reforge_durability_cost": 4,
+  "reforge_item": "reforged:weaponsmiths_hammer",
+  "style": {
+    "color": "dark_purple"
+  },
+  "attributes": [
+    {
+      "type": "unionlib:generic.draw_speed",
+      "modifier": {
+        "id": "reforged:epic_bow_0",
+        "operation": "ADD_VALUE",
+        "amount": 0.3
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "unionlib:generic.arrow_damage",
+      "modifier": {
+        "id": "reforged:epic_bow_1",
+        "operation": "ADD_VALUE",
+        "amount": 0.6
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "unionlib:generic.arrow_velocity",
+      "modifier": {
+        "id": "reforged:epic_bow_2",
+        "operation": "ADD_VALUE",
+        "amount": 0.4
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
+}

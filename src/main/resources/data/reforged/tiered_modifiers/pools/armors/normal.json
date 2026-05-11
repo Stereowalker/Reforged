@@ -1,0 +1,110 @@
+{
+  "weight": 5,
+  "verifiers": [
+    {
+      "tag": "minecraft:head_armor"
+    },
+    {
+      "tag": "c:helmets"
+    },
+    {
+      "id": "minecraft:leather_helmet"
+    },
+    {
+      "id": "minecraft:chainmail_helmet"
+    },
+    {
+      "id": "minecraft:golden_helmet"
+    },
+    {
+      "id": "minecraft:iron_helmet"
+    },
+    {
+      "id": "minecraft:diamond_helmet"
+    },
+    {
+      "id": "minecraft:netherite_helmet"
+    },
+    {
+      "id": "minecraft:turtle_helmet"
+    },
+    {
+      "tag": "minecraft:chest_armor"
+    },
+    {
+      "tag": "c:chestplates"
+    },
+    {
+      "id": "minecraft:leather_chestplate"
+    },
+    {
+      "id": "minecraft:chainmail_chestplate"
+    },
+    {
+      "id": "minecraft:golden_chestplate"
+    },
+    {
+      "id": "minecraft:iron_chestplate"
+    },
+    {
+      "id": "minecraft:diamond_chestplate"
+    },
+    {
+      "id": "minecraft:netherite_chestplate"
+    },
+    {
+      "tag": "minecraft:leg_armor"
+    },
+    {
+      "tag": "c:leggings"
+    },
+    {
+      "id": "minecraft:leather_leggings"
+    },
+    {
+      "id": "minecraft:chainmail_leggings"
+    },
+    {
+      "id": "minecraft:golden_leggings"
+    },
+    {
+      "id": "minecraft:iron_leggings"
+    },
+    {
+      "id": "minecraft:diamond_leggings"
+    },
+    {
+      "id": "minecraft:netherite_leggings"
+    },
+    {
+      "tag": "minecraft:foot_armor"
+    },
+    {
+      "tag": "c:boots"
+    },
+    {
+      "id": "minecraft:leather_boots"
+    },
+    {
+      "id": "minecraft:chainmail_boots"
+    },
+    {
+      "id": "minecraft:golden_boots"
+    },
+    {
+      "id": "minecraft:iron_boots"
+    },
+    {
+      "id": "minecraft:diamond_boots"
+    },
+    {
+      "id": "minecraft:netherite_boots"
+    },
+    {
+      "tag": "c:shields"
+    }
+  ],
+  "tiers": [
+    "reforged:standard_armors/common"
+  ]
+}

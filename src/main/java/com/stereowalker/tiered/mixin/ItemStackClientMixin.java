@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-import com.stereowalker.tiered.Reforged;
+import com.stereowalker.reforged.Reforged;
 import com.stereowalker.tiered.api.PotentialAttribute;
 
 import net.minecraft.ChatFormatting;

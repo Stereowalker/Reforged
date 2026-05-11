@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-import com.stereowalker.tiered.Reforged;
+import com.stereowalker.reforged.Reforged;
 import com.stereowalker.unionlib.hook.AccessoryStackCalls;
 import com.stereowalker.unionlib.world.entity.AccessorySlot;
 import com.stereowalker.unionlib.world.item.AccessoryItem;

@@ -19,10 +19,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.stereowalker.tiered.Reforged"
+      "com.stereowalker.reforged.Reforged"
     ],
     "client": [
-      "com.stereowalker.tiered.Reforged"
+      "com.stereowalker.reforged.Reforged"
     ]
   },
   "mixins": [
