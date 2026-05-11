@@ -8,7 +8,7 @@
   },
   "attributes": [
     {
-      "type": "player.block_break_speed",
+      "type": "block_break_speed",
       "modifier": {
         "id": "reforged:swift_0",
         "operation": "ADD_MULTIPLIED_TOTAL",
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "type": "generic.movement_speed",
+      "type": "movement_speed",
       "modifier": {
         "id": "reforged:swift_1",
         "operation": "ADD_MULTIPLIED_TOTAL",
