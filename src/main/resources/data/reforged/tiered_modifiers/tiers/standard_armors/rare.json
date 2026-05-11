@@ -8,7 +8,7 @@
   },
   "attributes": [
     {
-      "type": "generic.max_health",
+      "type": "max_health",
       "modifier": {
         "id": "reforged:rare_armor_0",
         "operation": "ADD_VALUE",
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "type": "generic.armor",
+      "type": "armor",
       "modifier": {
         "id": "reforged:rare_armor_1",
         "operation": "ADD_VALUE",
