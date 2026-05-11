@@ -1,0 +1,19 @@
+{
+  "weight": 3,
+  "verifiers": [
+    {
+      "tag": "minecraft:shovels"
+    },
+    {
+      "tag": "minecraft:pickaxes"
+    },
+    {
+      "tag": "minecraft:hoes"
+    }
+  ],
+  "tiers": [
+    "reforged:standard_tools/epic",
+    "reforged:standard_tools/legendary",
+    "reforged:standard_tools/rare"
+  ]
+}

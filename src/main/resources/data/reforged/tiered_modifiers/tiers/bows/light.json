@@ -1,0 +1,22 @@
+{
+  "weight": 3,
+  "reforge_experience_cost": 4,
+  "reforge_durability_cost": 2,
+  "reforge_item": "reforged:weaponsmiths_hammer",
+  "style": {
+    "color": "aqua"
+  },
+  "attributes": [
+    {
+      "type": "unionlib:generic.accuracy",
+      "modifier": {
+        "id": "reforged:light",
+        "operation": "ADD_VALUE",
+        "amount": 0.4
+      },
+      "optional_equipment_slots": [
+        "HAND"
+      ]
+    }
+  ]
+}

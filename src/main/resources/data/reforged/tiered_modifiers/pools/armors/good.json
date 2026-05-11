@@ -1,0 +1,26 @@
+{
+  "weight": 2,
+  "verifiers": [
+    {
+      "tag": "minecraft:head_armor"
+    },
+    {
+      "tag": "minecraft:chest_armor"
+    },
+    {
+      "tag": "minecraft:leg_armor"
+    },
+    {
+      "tag": "minecraft:foot_armor"
+    }
+  ],
+  "tiers": [
+    "reforged:armors/fortified",
+    "reforged:armors/heavy",
+    "reforged:armors/reinforced",
+    "reforged:armors/resilient",
+    "reforged:standard_armors/epic",
+    "reforged:standard_armors/legendary",
+    "reforged:standard_armors/rare"
+  ]
+}

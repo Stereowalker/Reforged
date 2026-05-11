@@ -3,7 +3,7 @@ package com.stereowalker.tiered.compat;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.stereowalker.tiered.Reforged;
+import com.stereowalker.reforged.Reforged;
 
 
 public class CuriosCompat {
