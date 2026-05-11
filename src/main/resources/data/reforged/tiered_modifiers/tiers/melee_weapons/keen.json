@@ -8,7 +8,7 @@
   },
   "attributes": [
     {
-      "type": "generic.attack_damage",
+      "type": "attack_damage",
       "modifier": {
         "id": "reforged:keen",
         "operation": "ADD_MULTIPLIED_TOTAL",

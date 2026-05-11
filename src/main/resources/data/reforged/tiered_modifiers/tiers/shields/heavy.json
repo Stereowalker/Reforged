@@ -8,7 +8,7 @@
   },
   "attributes": [
     {
-      "type": "generic.knockback_resistance",
+      "type": "knockback_resistance",
       "modifier": {
         "id": "reforged:heavy",
         "operation": "ADD_MULTIPLIED_TOTAL",
