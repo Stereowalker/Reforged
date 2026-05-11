@@ -8,7 +8,7 @@
   },
   "attributes": [
     {
-      "type": "generic.max_health",
+      "type": "max_health",
       "modifier": {
         "id": "reforged:resilient",
         "operation": "ADD_VALUE",
