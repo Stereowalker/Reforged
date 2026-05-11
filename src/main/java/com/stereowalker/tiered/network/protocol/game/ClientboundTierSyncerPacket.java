@@ -1,6 +1,6 @@
 package com.stereowalker.tiered.network.protocol.game;
 
-import static com.stereowalker.tiered.Reforged.TIER_DATA;
+import static com.stereowalker.reforged.Reforged.TIER_DATA;
 
 import java.util.HashMap;
 import java.util.Map;

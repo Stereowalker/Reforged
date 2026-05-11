@@ -1,0 +1,18 @@
+{
+  "weight": 3,
+  "verifiers": [
+    {
+      "tag": "minecraft:swords"
+    },
+    {
+      "tag": "minecraft:axes"
+    },
+    {
+      "id": "minecraft:mace"
+    }
+  ],
+  "tiers": [
+    "reforged:melee_weapons/dull",
+    "reforged:melee_weapons/berserk"
+  ]
+}
