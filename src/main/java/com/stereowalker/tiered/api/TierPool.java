@@ -2,11 +2,23 @@ package com.stereowalker.tiered.api;
 
 import java.util.List;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.stereowalker.unionlib.util.GeneralUtilities.WeightedObject;
 
 import net.minecraft.resources.ResourceLocation;
 
 public class TierPool implements WeightedObject {
+	public static final Codec<TierPool> CODEC = RecordCodecBuilder.create(
+			i -> i.group(
+					Codec.INT.optionalFieldOf("weight", 0).forGetter(TierPool::getWeight),
+					ItemVerifier.CODEC.listOf().fieldOf("verifiers").forGetter(TierPool::getVerifiers),
+					ItemVerifier.CODEC.listOf().optionalFieldOf("exclusions", List.of()).forGetter(TierPool::getExclusions),
+					Codec.STRING.listOf().fieldOf("tiers").forGetter(TierPool::getTiers)
+					)
+			.apply(i, (weight, verifiers, exclusions, tiers) ->
+					new TierPool(null, weight, verifiers, exclusions, tiers))
+			);
 
 	private final int weight;
 	private final List<ItemVerifier> verifiers;
