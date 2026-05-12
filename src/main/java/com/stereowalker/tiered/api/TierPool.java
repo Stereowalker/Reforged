@@ -6,7 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.stereowalker.unionlib.util.GeneralUtilities.WeightedObject;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class TierPool implements WeightedObject {
 	public static final Codec<TierPool> CODEC = RecordCodecBuilder.create(
@@ -45,7 +45,7 @@ public class TierPool implements WeightedObject {
 		return exclusions;
 	}
 
-	public boolean isValid(ResourceLocation id) {
+	public boolean isValid(Identifier id) {
 		if (exclusions != null)
 			for(ItemVerifier exclusion : exclusions)
 				if(exclusion.isValid(id)) return false;

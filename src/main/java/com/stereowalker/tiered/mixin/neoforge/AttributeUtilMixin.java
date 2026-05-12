@@ -13,7 +13,7 @@ import com.stereowalker.tiered.api.PotentialAttribute;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +28,7 @@ public abstract class AttributeUtilMixin {
     private static MutableComponent getTextFormatting(Attribute translatableText, AttributeModifier modif, TooltipFlag flag, ItemStack stack, Consumer<Component> tooltip, Multimap<Holder<Attribute>, AttributeModifier> modifierMap, AttributeTooltipContext ctx) {
     	boolean isTiered = modif.id().toString().contains("tiered_");
         if(Reforged.hasModifier(stack) && isTiered) {
-            ResourceLocation tier = stack.get(Reforged.ComponentsRegistry.MODIFIER);
+            Identifier tier = stack.get(Reforged.ComponentsRegistry.MODIFIER);
             PotentialAttribute attribute = Reforged.TIER_DATA.getTiers().get(tier);
 
             return translatableText.toComponent(modif, flag).setStyle(attribute.getStyle());
