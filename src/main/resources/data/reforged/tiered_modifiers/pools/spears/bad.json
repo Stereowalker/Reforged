@@ -2,11 +2,18 @@
   "weight": 3,
   "verifiers": [
     {
+      "tag": "c:tools/tridents"
+    },
+    {
       "tag": "c:tools/spears"
+    },
+    {
+      "tag": "minecraft:spears"
     }
   ],
   "tiers": [
-    "reforged:melee_weapons/dull",
-    "reforged:melee_weapons/berserk"
+    "reforged:spears/blunt",
+    "reforged:spears/wobbly",
+    "reforged:spears/top_heavy"
   ]
 }

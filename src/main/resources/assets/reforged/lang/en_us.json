@@ -42,6 +42,12 @@
 	"tier.reforged.standard_weapons.common": "Common",
 	"tier.reforged.tools.extended": "Extended",
 	"tier.reforged.melee_weapons.extended": "Extended",
+	"tier.reforged.spears.piercing": "Piercing",
+	"tier.reforged.spears.forceful": "Forceful",
+	"tier.reforged.spears.wobbly": "Wobbly",
+	"tier.reforged.spears.blunt": "Blunt",
+	"tier.reforged.spears.top_heavy": "Top Heavy",
+	"tier.reforged.spears.anchoring": "Anchoring",
 
 	"item.reforged.weaponsmiths_hammer": "Weaponsmiths Hammer",
 	"item.reforged.toolsmiths_hammer": "Toolsmiths Hammer",

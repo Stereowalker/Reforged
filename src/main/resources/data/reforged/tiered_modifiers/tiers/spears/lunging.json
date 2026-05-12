@@ -1,0 +1,33 @@
+{
+  "weight": 2,
+  "reforge_experience_cost": 2,
+  "reforge_durability_cost": 2,
+  "reforge_item": "reforged:weaponsmiths_hammer",
+  "style": {
+    "color": "white"
+  },
+  "attributes": [
+    {
+      "type": "attack_speed",
+      "modifier": {
+        "id": "reforged:lunging_0",
+        "operation": "ADD_VALUE",
+        "amount": 0.25
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "entity_interaction_range",
+      "modifier": {
+        "id": "reforged:lunging_1",
+        "operation": "ADD_VALUE",
+        "amount": 1.5
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
+}
