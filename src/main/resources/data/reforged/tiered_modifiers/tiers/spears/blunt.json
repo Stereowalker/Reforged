@@ -1,0 +1,22 @@
+{
+  "weight": 2,
+  "reforge_experience_cost": 2,
+  "reforge_durability_cost": 2,
+  "reforge_item": "reforged:weaponsmiths_hammer",
+  "style": {
+    "color": "#832fd6"
+  },
+  "attributes": [
+    {
+      "type": "attack_damage",
+      "modifier": {
+        "id": "reforged:blunt",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.2
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
+}
