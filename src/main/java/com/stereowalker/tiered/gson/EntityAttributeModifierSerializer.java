@@ -21,7 +21,7 @@ public class EntityAttributeModifierSerializer implements JsonSerializer<Attribu
         return obj;
     }
     
-    private String opToSt(Operation op) {
+    public static String opToSt(Operation op) {
     	if (op == Operation.ADDITION) return "ADD_VALUE";
     	else if (op == Operation.MULTIPLY_TOTAL) return "ADD_MULTIPLIED_TOTAL";
     	else if (op == Operation.MULTIPLY_BASE) return "ADD_MULTIPLIED_BASE";

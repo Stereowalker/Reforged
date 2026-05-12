@@ -1,13 +1,32 @@
 package com.stereowalker.tiered.api;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.stereowalker.unionlib.util.GeneralUtilities.WeightedObject;
 
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 
 public class PotentialAttribute implements WeightedObject {
+	public static final Codec<PotentialAttribute> CODEC = RecordCodecBuilder.create(
+			i -> i.group(
+					Codec.STRING.optionalFieldOf("id").forGetter(pa -> Optional.ofNullable(pa.getID())),
+			        Codec.STRING.optionalFieldOf("literal_name").forGetter(pa -> Optional.ofNullable(pa.getLiteralName())),
+					Codec.INT.fieldOf("weight").forGetter(PotentialAttribute::getWeight),
+					Codec.INT.fieldOf("reforge_durability_cost").forGetter(PotentialAttribute::getReforgeDurabilityCost),
+					Codec.INT.fieldOf("reforge_experience_cost").forGetter((pa) -> pa.reforge_experience_cost),
+					Codec.STRING.fieldOf("reforge_item").forGetter(PotentialAttribute::getReforgeItem),
+					ItemVerifier.CODEC.listOf().optionalFieldOf("verifiers", List.of()).forGetter(PotentialAttribute::getVerifiers),
+					ItemVerifier.CODEC.listOf().optionalFieldOf("exclusions", List.of()).forGetter(PotentialAttribute::getExclusions),
+//					Style.Serializer.CODEC.fieldOf("style").forGetter(PotentialAttribute::getStyle),
+					AttributeTemplate.CODEC.listOf().fieldOf("attributes").forGetter(PotentialAttribute::getAttributes)
+					)
+			.apply(i, (id, literal_name, weight, reforge_durability_cost, reforge_experience_cost, reforge_item, verifiers, exclusions/*, style*/, attributes) ->
+					new PotentialAttribute(id.orElse(null), literal_name.orElse(null), weight, reforge_durability_cost, reforge_experience_cost, reforge_item, verifiers, exclusions, /*style*/null, attributes))
+			);
 
 	private final String id;
 	private final String literal_name;
