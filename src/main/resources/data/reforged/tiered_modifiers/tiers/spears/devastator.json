@@ -1,0 +1,44 @@
+{
+  "weight": 2,
+  "reforge_experience_cost": 2,
+  "reforge_durability_cost": 2,
+  "reforge_item": "reforged:weaponsmiths_hammer",
+  "style": {
+    "color": "white"
+  },
+  "attributes": [
+    {
+      "type": "attack_damage",
+      "modifier": {
+        "id": "reforged:devastator_0",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": 0.35
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "attack_speed",
+      "modifier": {
+        "id": "reforged:devastator_1",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.3
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "entity_interaction_range",
+      "modifier": {
+        "id": "reforged:devastator_2",
+        "operation": "ADD_VALUE",
+        "amount": -1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
+}
