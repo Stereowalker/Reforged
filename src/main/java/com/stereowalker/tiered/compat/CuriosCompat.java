@@ -6,7 +6,6 @@ import java.util.function.Supplier;
 import com.stereowalker.reforged.Reforged;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.Event;
 
 public class CuriosCompat {
 	public static void load() {

@@ -5,6 +5,7 @@ println('Java: ' + System.getProperty('java.version'))
 println('JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 println('Mod Name: ' + _mod_name + ', Mod Version: ' + _mod_version + ', Minecraft Version: ' + _minecraft_version + ', '+"${_loader} Version: " + _loader_version)
 
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 version = _minecraft_version + "-" +_mod_version +"-${_loader}"
 group = modGroup
 base {
@@ -107,6 +108,6 @@ tasks.register('uploadToAllSitesAndMaven') {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-    it.options.release = 21
+    it.options.release = 25
     options.compilerArgs += ['-parameters']
 }

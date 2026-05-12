@@ -6,7 +6,6 @@ project.ext._mod_jar = jar
 //}
 
 minecraft {
-    //mappings channel: 'official', version: '1.21.1'
     mappings channel: mappingsChannel, version: mappingsVersion
 
 	accessTransformers = files("src/main/resources/META-INF/accesstransformer.cfg")

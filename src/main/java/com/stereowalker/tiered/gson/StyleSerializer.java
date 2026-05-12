@@ -14,10 +14,11 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
 import com.stereowalker.unionlib.util.VersionHelper;
 
-import net.minecraft.ResourceLocationException;
+import net.minecraft.IdentifierException;
+import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.GsonHelper;
 
 public class StyleSerializer implements JsonDeserializer<Style>, JsonSerializer<Style> {
@@ -38,24 +39,24 @@ public class StyleSerializer implements JsonDeserializer<Style>, JsonSerializer<
             String string = getInsertion(jsonObject);
 //            ClickEvent clickEvent = getClickEvent(jsonObject);
 //            HoverEvent hoverEvent = getHoverEvent(jsonObject);
-            ResourceLocation resourceLocation = getFont(jsonObject);
+            Identifier resourceLocation = getFont(jsonObject);
             return Style.EMPTY
             		.withColor(textColor).withBold(boolean_).withItalic(boolean2)
             		.withUnderlined(boolean3).withStrikethrough(boolean4).withObfuscated(boolean5)
-            		.withInsertion(string).withFont(resourceLocation);
+            		.withInsertion(string).withFont(new FontDescription.Resource(resourceLocation));
 //            return new Style(textColor, boolean_, boolean2, boolean3, boolean4, boolean5, clickEvent, hoverEvent, string, resourceLocation);
         }
         return null;
     }
 
     @Nullable
-    private static ResourceLocation getFont(JsonObject json) {
+    private static Identifier getFont(JsonObject json) {
         if (json.has("font")) {
             String string = GsonHelper.getAsString(json, "font");
             try {
                 return VersionHelper.toLoc(string);
             }
-            catch (ResourceLocationException resourceLocationException) {
+            catch (IdentifierException resourceLocationException) {
                 throw new JsonSyntaxException("Invalid font name: " + string);
             }
         }

@@ -7,7 +7,6 @@ plugins {
     id "me.modmuss50.mod-publish-plugin" version "0.7.4"
 	id "com.modrinth.minotaur" version "2.+"
 }
-layout.buildDirectory = file("build${_minecraft_version}-${_loader}")
 apply from: "main.gradle"
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
@@ -29,7 +28,7 @@ minecraft.mavenizer(it) // In Kotlin, it = this
 
 dependencies {
 	implementation minecraft.dependency("net.minecraftforge:forge:${_minecraft_version}-${_loader_version}")
-    //annotationProcessor 'net.minecraftforge:eventbus-validator:7.0.1'
+    annotationProcessor 'net.minecraftforge:eventbus-validator:7.0.1'
 	//annotationProcessor "org.spongepowered:mixin:"+modMixinVersion+":processor"
 	
 	implementation ("com.stereowalker.unionlib:UnionLib:${_minecraft_version}-${_unionlib_version}-${_loader}")

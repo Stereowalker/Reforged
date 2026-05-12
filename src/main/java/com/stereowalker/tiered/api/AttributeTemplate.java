@@ -19,7 +19,7 @@ import com.stereowalker.unionlib.world.entity.AccessorySlot;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Holder.Reference;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -60,7 +60,7 @@ public class AttributeTemplate {
 			);
 	public static final MapCodec<AttributeModifier> MAP_CODEC = RecordCodecBuilder.mapCodec(
 	        i -> i.group(
-	                ResourceLocation.CODEC.fieldOf("id").forGetter(AttributeModifier::id),
+	                Identifier.CODEC.fieldOf("id").forGetter(AttributeModifier::id),
 	                Codec.DOUBLE.fieldOf("amount").forGetter(AttributeModifier::amount),
 	                LENIENT_OPERATION_CODEC.fieldOf("operation").forGetter(AttributeModifier::operation)
 	            )
@@ -267,15 +267,15 @@ public class AttributeTemplate {
      * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    private void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, ResourceLocation id) {
+    private void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, Identifier id) {
     	AttributeModifier cloneModifier = new AttributeModifier(
     			id.withPrefix("tiered_"+attributeModifier.id().getPath()),
                 attributeModifier.amount(),
                 attributeModifier.operation()
         );
 
-        Optional<Reference<Attribute>> key = BuiltInRegistries.ATTRIBUTE.getHolder((VersionHelper.AttributeHelper.backportAttribute(attributeTypeID)));
-//        Holder<Attribute> key = RegistryHelper.getAttribute(new ResourceLocation(attributeTypeID));
+        Optional<Reference<Attribute>> key = BuiltInRegistries.ATTRIBUTE.get((VersionHelper.AttributeHelper.backportAttribute(attributeTypeID)));
+//        Holder<Attribute> key = RegistryHelper.getAttribute(new Identifier(attributeTypeID));
         if(key == null || key.isEmpty()) {
             Reforged.LOGGER.warn(String.format("%s was referenced as an attribute type, but it does not exist! A data file in /tiered/item_attributes/ has an invalid type property.", attributeTypeID));
         } else {
