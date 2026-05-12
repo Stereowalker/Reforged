@@ -1,5 +1,9 @@
 package com.stereowalker.tiered.api;
 
+import java.util.Optional;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.stereowalker.reforged.Reforged;
 import com.stereowalker.unionlib.util.RegistryHelper;
 import com.stereowalker.unionlib.util.VersionHelper;
@@ -11,6 +15,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemVerifier {
+	public static final Codec<ItemVerifier> CODEC = RecordCodecBuilder.create(
+			i -> i.group(
+					Codec.STRING.optionalFieldOf("id").forGetter(v -> Optional.ofNullable(v.id)),
+					Codec.STRING.optionalFieldOf("tag").forGetter(v -> Optional.ofNullable(v.tag))
+					)
+			.apply(i, (id, tag) -> new ItemVerifier(id.orElse(null), tag.orElse(null))));
 
     private final String id;
     private final String tag;
