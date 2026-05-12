@@ -30,7 +30,6 @@ import com.stereowalker.unionlib.api.registries.RegistryCollector;
 import com.stereowalker.unionlib.core.registries.RegistryHolder;
 import com.stereowalker.unionlib.core.registries.RegistryObject;
 import com.stereowalker.unionlib.insert.Inserts;
-import com.stereowalker.unionlib.insert.ServerInserts;
 import com.stereowalker.unionlib.mod.MinecraftMod;
 import com.stereowalker.unionlib.mod.PacketHolder;
 import com.stereowalker.unionlib.mod.ServerSegment;
@@ -40,16 +39,14 @@ import com.stereowalker.unionlib.util.VersionHelper;
 import com.stereowalker.unionlib.world.entity.AccessorySlot;
 import com.stereowalker.unionlib.world.item.AccessoryItem;
 
-import net.minecraft.Util;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -59,13 +56,13 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 
 	public static final TierDataLoader TIER_DATA = new TierDataLoader();
 	public static final PoolDataLoader POOL_DATA = new PoolDataLoader();
-	public static ResourceLocation getKey(PotentialAttribute tier) {
+	public static Identifier getKey(PotentialAttribute tier) {
 		return TIER_DATA.getTiers().entrySet().stream()
 	      .filter(entry -> tier.equals(entry.getValue()))
 	      .map(Map.Entry::getKey).findFirst().get();
 	}
 
-	public static final ResourceLocation[] MODIFIERS = new ResourceLocation[] {
+	public static final Identifier[] MODIFIERS = new Identifier[] {
 			//Equipment
 			VersionHelper.toLoc("tiered","any"),
 			VersionHelper.toLoc("tiered","mainhand"),
@@ -93,7 +90,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 			VersionHelper.toLoc("tiered","rings")
 	};
 
-	public static final Map<String, ResourceLocation> CURIO_MODIFIERS = Util.make(Maps.newHashMap(), (map) -> {
+	public static final Map<String, Identifier> CURIO_MODIFIERS = Util.make(Maps.newHashMap(), (map) -> {
 		map.put("back", VersionHelper.toLoc("tiered","curio_back"));
 		map.put("ring", VersionHelper.toLoc("tiered","curio_rings"));
 	});
@@ -140,7 +137,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	@Override
 	public void registerInserts(InsertCollector collector) {
 		collector.addInsert(Inserts.LOGGED_IN, insert -> {
-	        if(insert.player().level().isClientSide) return;
+	        if(insert.player().level().isClientSide()) return;
 	        new ClientboundTierSyncerPacket(TIER_DATA.getTiers()).send(((ServerPlayer)insert.player()));
 		});
 		collector.addInsert(Inserts.MENU_OPEN, insert -> {
@@ -150,14 +147,6 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 			if (!Config.canCraftedReceiveTier) {
 				insert.craftingStack().set(ComponentsRegistry.MODIFIER, ModifierUtils.getBlankAttributeIDFor(insert.craftingStack().getItem()));
 			}
-		});
-		collector.addInsert(ServerInserts.VILLAGER_TRADES, insert -> {
-			if (insert.profession() == VillagerProfession.ARMORER)
-				insert.trades().get(3).add(new VillagerTrades.ItemsForEmeralds(ItemRegistries.ARMORERS_HAMMER, 64, 1, 1, 10));
-			if (insert.profession() == VillagerProfession.TOOLSMITH)
-				insert.trades().get(3).add(new VillagerTrades.ItemsForEmeralds(ItemRegistries.TOOLSMITHS_HAMMER, 64, 1, 1, 10));
-			if (insert.profession() == VillagerProfession.WEAPONSMITH)
-				insert.trades().get(4).add(new VillagerTrades.ItemsForEmeralds(ItemRegistries.WEAPONSMITHS_HAMMER, 64, 1, 1, 10));
 		});
 		collector.addInsert(Inserts.LIVING_TICK, insert -> {
 			if (insert.living() instanceof TierAffixer affixer) {
@@ -221,11 +210,11 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	@RegistryHolder(namespace = ID)
 	public class ComponentsRegistry {
 		@RegistryObject("reforged_modifier")
-		public static final DataComponentType<ResourceLocation> MODIFIER = register(
-				p_333150_ -> p_333150_.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC)
+		public static final DataComponentType<Identifier> MODIFIER = register(
+				p_333150_ -> p_333150_.persistent(Identifier.CODEC).networkSynchronized(Identifier.STREAM_CODEC)
 				);
 		
-		public static final VersionHelper.Data<ResourceLocation> MODIFIER_D = new VersionHelper.Data<ResourceLocation>(
+		public static final VersionHelper.Data<Identifier> MODIFIER_D = new VersionHelper.Data<Identifier>(
 				(stack) -> stack.has(ComponentsRegistry.MODIFIER),
 				(stack) -> stack.get(ComponentsRegistry.MODIFIER),
 				(stack, dat) -> stack.set(ComponentsRegistry.MODIFIER, dat),
@@ -248,7 +237,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	
 	public static void attemptToAffixTier(ItemStack stack) {
 		if(!hasModifier(stack) && !stack.isEmpty()) {
-			ResourceLocation potentialAttributeID = ModifierUtils.getRandomAttributeIDFor(stack.getItem());
+			Identifier potentialAttributeID = ModifierUtils.getRandomAttributeIDFor(stack.getItem());
 			if(potentialAttributeID != ModifierUtils.BLANK) {
 				ComponentsRegistry.MODIFIER_D.setData(stack, potentialAttributeID);
 			}
@@ -256,12 +245,12 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	}
 
 	/**
-	 * Returns an {@link ResourceLocation} namespaced with this mod's modid ("tiered").
+	 * Returns an {@link Identifier} namespaced with this mod's modid ("tiered").
 	 *
 	 * @param path  path of identifier (eg. apple in "minecraft:apple")
-	 * @return  ResourceLocation created with a namespace of this mod's modid ("tiered") and provided path
+	 * @return  Identifier created with a namespace of this mod's modid ("tiered") and provided path
 	 */
-	public static ResourceLocation id(String path) {
+	public static Identifier id(String path) {
 		return VersionHelper.toLoc("tiered", path);
 	}
 
@@ -326,7 +315,7 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 			Function<AttributeTemplate,T[]> optionalSlotsArray, Consumer<AttributeTemplate> realize) {
 		//		Multimap<Attribute, AttributeModifier> newMap = LinkedListMultimap.create();
 		if(hasModifier(stack)) {
-			ResourceLocation tier = stack.get(ComponentsRegistry.MODIFIER);
+			Identifier tier = stack.get(ComponentsRegistry.MODIFIER);
 
 //			if(!stack.hasTag() || !stack.getTag().contains(customAttributes, 9)) {
 				PotentialAttribute potentialAttribute = Reforged.TIER_DATA.getTiers().get(tier);

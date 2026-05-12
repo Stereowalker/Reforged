@@ -7,12 +7,12 @@ import com.stereowalker.unionlib.util.VersionHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ReforgedClientSegment extends ClientSegment {
 
 	@Override
-	public ResourceLocation getModIcon() {
+	public Identifier getModIcon() {
 		return VersionHelper.toLoc(Reforged.ID, "textures/icon.png");
 	}
 	

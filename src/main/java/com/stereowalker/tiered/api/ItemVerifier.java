@@ -9,7 +9,7 @@ import com.stereowalker.unionlib.util.RegistryHelper;
 import com.stereowalker.unionlib.util.VersionHelper;
 
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,18 +31,18 @@ public class ItemVerifier {
     }
 
     /**
-     * Returns whether the given {@link ResourceLocation} is valid for this ItemVerifier, which may check direct against either a {@link ResourceLocation} or {@link Tag<Item>}.
-     * <p>The given {@link ResourceLocation} should be the ID of an {@link Item} in {@link Registry#ITEM}.
+     * Returns whether the given {@link Identifier} is valid for this ItemVerifier, which may check direct against either a {@link Identifier} or {@link Tag<Item>}.
+     * <p>The given {@link Identifier} should be the ID of an {@link Item} in {@link Registry#ITEM}.
      *
      * @param itemID  item registry ID to check against this verifier
      * @return  whether the check succeeded
      */
-    public boolean isValid(ResourceLocation itemID) {
+    public boolean isValid(Identifier itemID) {
         return isValid(itemID.toString());
     }
 
     /**
-     * Returns whether the given {@link String} is valid for this ItemVerifier, which may check direct against either a {@link ResourceLocation} or {@link Tag<Item>}.
+     * Returns whether the given {@link String} is valid for this ItemVerifier, which may check direct against either a {@link Identifier} or {@link Tag<Item>}.
      * <p>The given {@link String} should be the ID of an {@link Item} in {@link Registry#ITEM}.
      *
      * @param itemID  item registry ID to check against this verifier

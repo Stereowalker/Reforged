@@ -10,20 +10,20 @@ import com.stereowalker.unionlib.util.GeneralUtilities;
 import com.stereowalker.unionlib.util.RegistryHelper;
 import com.stereowalker.unionlib.util.VersionHelper;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 
 public class ModifierUtils {
 	/**
-	 * Returns the ID of a random attribute that is valid for the given {@link Item} in {@link ResourceLocation} form.
+	 * Returns the ID of a random attribute that is valid for the given {@link Item} in {@link Identifier} form.
 	 * <p> If there is no valid attribute for the given {@link Item}, null is returned.
 	 *
 	 * @param item  {@link Item} to generate a random attribute for
-	 * @return  id of random attribute for item in {@link ResourceLocation} form, or null if there are no valid options
+	 * @return  id of random attribute for item in {@link Identifier} form, or null if there are no valid options
 	 */
-	public static final ResourceLocation BLANK = Reforged.id("blank");
-	public static ResourceLocation getRandomAttributeIDFor(Item item) {
-		ResourceLocation itemKey = RegistryHelper.getItemKey(item);
+	public static final Identifier BLANK = Reforged.id("blank");
+	public static Identifier getRandomAttributeIDFor(Item item) {
+		Identifier itemKey = RegistryHelper.getItemKey(item);
 		TierPool pool = GeneralUtilities.getRandomFrom(Reforged.POOL_DATA.getPools().values(), (p) -> p.isValid(itemKey));
 		PotentialAttribute chosen_tier;
 		if (pool == null)
@@ -37,11 +37,11 @@ public class ModifierUtils {
 		if (chosen_tier != null) {
 			if (chosen_tier.isOld)
 				return VersionHelper.toLoc(chosen_tier.getID());
-			else for (Entry<ResourceLocation, PotentialAttribute> cho : Reforged.TIER_DATA.getTiers().entrySet())
+			else for (Entry<Identifier, PotentialAttribute> cho : Reforged.TIER_DATA.getTiers().entrySet())
 				if (cho.getValue() == chosen_tier) return cho.getKey();
 		}
 		//Fallback if the main system fails
-		List<ResourceLocation> potentialAttributes = new ArrayList<>();
+		List<Identifier> potentialAttributes = new ArrayList<>();
 		// collect all valid attributes for the given item
 		Reforged.TIER_DATA.getTiers().forEach((id, attribute) -> {
 			if(attribute.isValid(itemKey)) potentialAttributes.add(id);
@@ -50,8 +50,8 @@ public class ModifierUtils {
 		else return BLANK;
 	}
 	
-	public static ResourceLocation getBlankAttributeIDFor(Item item) {
-		ResourceLocation itemKey = RegistryHelper.getItemKey(item);
+	public static Identifier getBlankAttributeIDFor(Item item) {
+		Identifier itemKey = RegistryHelper.getItemKey(item);
 		PotentialAttribute chosen_tier = null;
 		for (TierPool pool : Reforged.POOL_DATA.getPools().values()){
 			if (pool == null)
@@ -67,11 +67,11 @@ public class ModifierUtils {
 		if (chosen_tier != null) {
 			if (chosen_tier.isOld)
 				return VersionHelper.toLoc(chosen_tier.getID());
-			else for (Entry<ResourceLocation, PotentialAttribute> cho : Reforged.TIER_DATA.getTiers().entrySet())
+			else for (Entry<Identifier, PotentialAttribute> cho : Reforged.TIER_DATA.getTiers().entrySet())
 				if (cho.getValue() == chosen_tier) return cho.getKey();
 		}
 		//Fallback if the main system fails
-		List<ResourceLocation> potentialAttributes = new ArrayList<>();
+		List<Identifier> potentialAttributes = new ArrayList<>();
 		// collect all valid attributes for the given item
 		Reforged.TIER_DATA.getTiers().forEach((id, attribute) -> {
 			if(attribute.isValid(itemKey)) potentialAttributes.add(id);

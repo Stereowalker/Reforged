@@ -12,40 +12,54 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.stereowalker.reforged.Reforged;
 import com.stereowalker.tiered.api.PotentialAttribute;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentHolder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackClientMixin implements DataComponentHolder {
 
-    private boolean isTiered = false;
+	private static final ThreadLocal<ItemStack> CURRENT_STACK = new ThreadLocal<>();
 
-    @SuppressWarnings("rawtypes")
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;amount()D"), method = "addModifierTooltip")
-    private void storeAttributeModifier(Consumer arg0, Player arg1, Holder arg2, AttributeModifier pModfier, CallbackInfo ci) {
-        isTiered = pModfier.id().toString().contains("tiered_");
-    }
+	@Inject(method = "addAttributeTooltips", at = @At("HEAD"))
+	private void captureStack(CallbackInfo ci) {
+		CURRENT_STACK.set((ItemStack)(Object)this);
+	}
 
-    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 1), method = "addModifierTooltip")
-    private MutableComponent getTextFormatting(MutableComponent translatableText, ChatFormatting formatting) {
-        if(Reforged.hasModifier((ItemStack)(Object)this) && isTiered) {
-            ResourceLocation tier = Reforged.ComponentsRegistry.MODIFIER_D.getData((ItemStack)(Object)this);
-            PotentialAttribute attribute = Reforged.TIER_DATA.getTiers().get(tier);
+	@Inject(method = "addAttributeTooltips", at = @At("RETURN"))
+	private void releaseStack(CallbackInfo ci) {
+		CURRENT_STACK.remove();
+	}
 
-            return translatableText.setStyle(attribute.getStyle());
-        } else {
-            return translatableText.withStyle(formatting);
-        }
-    }
+	@Redirect(
+			method = "lambda$addAttributeTooltips$0",
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers$Display;apply(Ljava/util/function/Consumer;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/core/Holder;Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;)V")
+			)
+	private static void redirectDisplayApply(ItemAttributeModifiers.Display display, Consumer<Component> consumer,
+			Player player,
+			Holder<Attribute> attribute,
+			AttributeModifier modifier) {
+		ItemStack stack = CURRENT_STACK.get();
+		if (stack != null && modifier.id().toString().contains("tiered_") && Reforged.hasModifier(stack)) {
+			Identifier tier = Reforged.ComponentsRegistry.MODIFIER_D.getData(stack);
+			PotentialAttribute attr = Reforged.TIER_DATA.getTiers().get(tier);
+			if (attr != null) {
+				display.apply(component -> consumer.accept(component instanceof MutableComponent mc ? mc.setStyle(attr.getStyle()) : component), player, attribute, modifier);
+				return;
+			}
+		}
+
+		display.apply(consumer, player, attribute, modifier);
+	}
 
     @Inject(
             method = "getHoverName",
@@ -54,7 +68,7 @@ public abstract class ItemStackClientMixin implements DataComponentHolder {
     )
     private void modifyName(CallbackInfoReturnable<Component> cir) {
         if(this.get(DataComponents.CUSTOM_NAME) == null && Reforged.hasModifier((ItemStack)(Object)this)) {
-            ResourceLocation tier = Reforged.ComponentsRegistry.MODIFIER_D.getData((ItemStack)(Object)this);
+            Identifier tier = Reforged.ComponentsRegistry.MODIFIER_D.getData((ItemStack)(Object)this);
 
             // attempt to display attribute if it is valid
             PotentialAttribute potentialAttribute = Reforged.TIER_DATA.getTiers().get(tier);

@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.10-SNAPSHOT'
+	id 'net.fabricmc.fabric-loom' version "1.16-SNAPSHOT"
 	id 'maven-publish'
 	id "me.modmuss50.mod-publish-plugin" version "0.7.4"
 	id "com.modrinth.minotaur" version "2.+"
@@ -18,12 +18,8 @@ repositories {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project._minecraft_version}"
-	mappings loom.layered() {
-  		officialMojangMappings()
-  		//parchment("org.parchmentmc.data:parchment-"+mappingsVersion+"@zip")
-	}
-	modImplementation "net.fabricmc:fabric-loader:${project._loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project._loader_api_version}"
+	implementation "net.fabricmc:fabric-loader:${project._loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project._loader_api_version}"
 
-	modImplementation ("com.stereowalker.unionlib:UnionLib:${_minecraft_version}-${_unionlib_version}-${_loader}")
+	implementation ("com.stereowalker.unionlib:UnionLib:${_minecraft_version}-${_unionlib_version}-${_loader}")
 }

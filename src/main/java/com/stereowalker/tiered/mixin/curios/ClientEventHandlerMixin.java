@@ -21,7 +21,7 @@ import com.stereowalker.tiered.api.PotentialAttribute;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
@@ -45,7 +45,7 @@ public abstract class ClientEventHandlerMixin {
 //    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 3), method = "onTooltip")
 //    private MutableComponent getTextFormatting(MutableComponent translatableText, ChatFormatting formatting, ItemTooltipEvent evt) {
 //        if(evt.getItemStack().hasTag() && evt.getItemStack().getTagElement(Tiered.NBT_SUBTAG_KEY) != null && isTiered) {
-//            ResourceLocation tier = new ResourceLocation(evt.getItemStack().getOrCreateTagElement(Tiered.NBT_SUBTAG_KEY).getString(Tiered.NBT_SUBTAG_DATA_KEY));
+//            Identifier tier = new Identifier(evt.getItemStack().getOrCreateTagElement(Tiered.NBT_SUBTAG_KEY).getString(Tiered.NBT_SUBTAG_DATA_KEY));
 //            PotentialAttribute attribute = Tiered.TIER_DATA.getTiers().get(tier);
 //
 //            return translatableText.setStyle(attribute.getStyle());

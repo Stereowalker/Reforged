@@ -31,7 +31,7 @@
 
   "depends": {
     "fabricloader": [">=${loader_version_min}", "<${loader_version_max}"],
-    "fabric": "*",
+    "fabric-api": "*",
     "minecraft": [">=${minecraft_version_min}", "<${minecraft_version_max}"],
     "java": ">=17",
 	"unionlib": [">=${unionlib_version_min}", "<${unionlib_version_max}"]

@@ -8,7 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.stereowalker.unionlib.util.GeneralUtilities.WeightedObject;
 
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class PotentialAttribute implements WeightedObject {
 	public static final Codec<PotentialAttribute> CODEC = RecordCodecBuilder.create(
@@ -88,7 +88,7 @@ public class PotentialAttribute implements WeightedObject {
 		return exclusions;
 	}
 
-	public boolean isValid(ResourceLocation id) {
+	public boolean isValid(Identifier id) {
 		if (exclusions != null)
 			for(ItemVerifier exclusion : exclusions)
 				if(exclusion.isValid(id)) return false;
