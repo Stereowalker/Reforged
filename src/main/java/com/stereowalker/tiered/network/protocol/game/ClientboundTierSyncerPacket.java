@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.stereowalker.tiered.Reforged;
 import com.stereowalker.tiered.api.PotentialAttribute;
 import com.stereowalker.tiered.data.TierDataLoader;
 import com.stereowalker.unionlib.network.protocol.game.ClientboundUnionPacket;
@@ -22,13 +21,13 @@ public class ClientboundTierSyncerPacket extends ClientboundUnionPacket {
     public static final Map<ResourceLocation, PotentialAttribute> CACHED_ATTRIBUTES = new HashMap<>();
 
     public ClientboundTierSyncerPacket(Map<ResourceLocation, PotentialAttribute> attribute) {
-    	super(Reforged.instance.channel);
+    	super(null);
     	this.attribute = attribute;
         this.size = attribute.size();
     }
 
 	public ClientboundTierSyncerPacket(FriendlyByteBuf buf) {
-		super(buf, Reforged.instance.channel);
+		super(buf);
 		this.size = buf.readInt();
 		this.attribute = Maps.newHashMap();
         for (int i = 0; i < this.size; i++) {
