@@ -243,4 +243,13 @@ public class AttributeTemplate {
             actions.accept(key/*.get()*/, cloneModifier);
         }
     }
+
+    public boolean attributeExists(String keyChecked) {
+    	Attribute key = RegistryHelper.getAttribute(VersionHelper.AttributeHelper.backportAttribute(attributeTypeID));
+        if(key == null/* || key.isEmpty()*/) {
+    		Reforged.LOGGER.warn(String.format("%s was referenced as an attribute type in %s, but it does not exist!", attributeTypeID, keyChecked));
+    		return false;
+    	}
+    	return true;
+    }
 }
