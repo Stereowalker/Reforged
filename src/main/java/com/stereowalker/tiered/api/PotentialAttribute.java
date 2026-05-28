@@ -1,5 +1,6 @@
 package com.stereowalker.tiered.api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,7 @@ public class PotentialAttribute implements WeightedObject {
 	private final List<ItemVerifier> exclusions;
 	private final Style style;
 	private final List<AttributeTemplate> attributes;
+	private List<AttributeTemplate> filteredAttributes = new ArrayList<>();
 
 	public PotentialAttribute(String id, String literal_name, 
 			int weight, int reforge_durability_cost, int reforge_experience_cost, 
@@ -54,6 +56,7 @@ public class PotentialAttribute implements WeightedObject {
 		this.exclusions = exclusions;
 		this.style = style;
 		this.attributes = attributes;
+		filteredAttributes.addAll(attributes);
 	}
 
 	public String getID() {
@@ -102,8 +105,17 @@ public class PotentialAttribute implements WeightedObject {
 		return style;
 	}
 
-	public List<AttributeTemplate> getAttributes() {
+	public List<AttributeTemplate> getUnfilteredAttributes() {
 		return attributes;
+	}
+
+	public List<AttributeTemplate> getAttributes() {
+		if (filteredAttributes == null) {
+			filteredAttributes = new ArrayList<>();
+			filteredAttributes.addAll(attributes);
+		}
+		
+		return filteredAttributes;
 	}
 	
 	//Remove in a later update
