@@ -1,6 +1,8 @@
 package com.stereowalker.tiered.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.stereowalker.tiered.api.AttributeTemplate;
 import com.stereowalker.tiered.api.PotentialAttribute;
 import com.stereowalker.tiered.gson.AccessoryGroupDeserializer;
 import com.stereowalker.tiered.gson.AccessorySlotDeserializer;
@@ -53,7 +56,16 @@ public class TierDataLoader extends SimpleJsonResourceReloadListener<PotentialAt
 
     @Override
     protected void apply(Map<Identifier, PotentialAttribute> loader, ResourceManager manager, ProfilerFiller profiler) {
-        itemAttributes = loader;
+    	for (var attr : loader.entrySet()) {
+    		List<AttributeTemplate> exists = new ArrayList<>();
+    		for (var att : attr.getValue().getUnfilteredAttributes()) {
+    			if (att.attributeExists(attr.getKey().toString())) exists.add(att);
+    		}
+    		attr.getValue().getAttributes().clear();
+    		attr.getValue().getAttributes().addAll(exists);
+    	}
+    	itemAttributes.clear();
+        itemAttributes.putAll(loader);
         LOGGER.info(LOADED_RECIPES_MESSAGE, loader.size());
     }
 
