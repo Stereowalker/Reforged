@@ -8,6 +8,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.stereowalker.unionlib.util.GeneralUtilities.WeightedObject;
 
+import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
 
@@ -102,7 +103,9 @@ public class PotentialAttribute implements WeightedObject {
 	}
 
 	public Style getStyle() {
-		return style;
+//		System.out.println("Style is null "+(style == null)+" "+this.reforge_item);
+//		if (style != null) System.out.println("Potential Font "+style.getFont());
+		return style == null ? Style.EMPTY : style.withFont(FontDescription.DEFAULT) ;
 	}
 
 	public List<AttributeTemplate> getUnfilteredAttributes() {
