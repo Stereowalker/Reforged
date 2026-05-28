@@ -1,6 +1,8 @@
 package com.stereowalker.tiered.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.stereowalker.tiered.api.AttributeTemplate;
 import com.stereowalker.tiered.api.PotentialAttribute;
 import com.stereowalker.tiered.gson.AccessoryGroupDeserializer;
 import com.stereowalker.tiered.gson.AccessorySlotDeserializer;
@@ -27,7 +30,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
@@ -69,7 +71,16 @@ public class TierDataLoader extends SimpleJsonResourceReloadListener implements 
             }
         }
 
-        itemAttributes = readItemAttributes;
+    	for (var attr : readItemAttributes.entrySet()) {
+    		List<AttributeTemplate> exists = new ArrayList<>();
+    		for (var att : attr.getValue().getUnfilteredAttributes()) {
+    			if (att.attributeExists(attr.getKey().toString())) exists.add(att);
+    		}
+    		attr.getValue().getAttributes().clear();
+    		attr.getValue().getAttributes().addAll(exists);
+    	}
+    	itemAttributes.clear();
+        itemAttributes.putAll(readItemAttributes);
         LOGGER.info(LOADED_RECIPES_MESSAGE, readItemAttributes.size());
     }
 
