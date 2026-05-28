@@ -51,7 +51,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
@@ -251,11 +250,11 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	@RegistryHolder(namespace = ID)
 	public class ItemRegistries {
 		@RegistryObject("armorers_hammer")
-		public static final Item ARMORERS_HAMMER = new Item(new Item.Properties().durability(20));
+		public static final Item ARMORERS_HAMMER = new Item(VersionHelper.itemPropertyWithId(VersionHelper.toLoc(ID, "armorers_hammer")).durability(20));
 		@RegistryObject("toolsmiths_hammer")
-		public static final Item TOOLSMITHS_HAMMER = new Item(new Item.Properties().durability(20));
+		public static final Item TOOLSMITHS_HAMMER = new Item(VersionHelper.itemPropertyWithId(VersionHelper.toLoc(ID, "toolsmiths_hammer")).durability(20));
 		@RegistryObject("weaponsmiths_hammer")
-		public static final Item WEAPONSMITHS_HAMMER = new Item(new Item.Properties().durability(20));
+		public static final Item WEAPONSMITHS_HAMMER = new Item(VersionHelper.itemPropertyWithId(VersionHelper.toLoc(ID, "weaponsmiths_hammer")).durability(20));
 	}
 	
 	public static void attemptToAffixTier(ItemStack stack) {
@@ -278,11 +277,8 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	}
 
 	public static boolean isPreferredEquipmentSlot(ItemStack stack, EquipmentSlotGroup slot) {
-		if(stack.getItem() instanceof ArmorItem) {
-			ArmorItem item = (ArmorItem) stack.getItem();
-			//TODO: Use version helper to make this compatible with older versions
-			return slot.test(item.getEquipmentSlot());
-//			return VersionHelper.isEquippableInSlot(item, slot);
+		if(VersionHelper.isEquippableInSlot(stack, slot)) {
+			return true;
 		}
 
 		if(stack.getItem() instanceof ShieldItem) {
@@ -293,10 +289,8 @@ public class Reforged extends MinecraftMod implements PacketHolder {
 	}
 
 	public static boolean isPreferredEquipmentSlot(ItemStack stack, EquipmentSlot slot) {
-		if(stack.getItem() instanceof ArmorItem) {
-			ArmorItem item = (ArmorItem) stack.getItem();
-			//TODO: Use version helper to make this compatible with older versions
-			return VersionHelper.isEquippableInSlot(item, slot);
+		if(VersionHelper.isEquippableInSlot(stack, slot)) {
+			return true;
 		}
 
 		if(stack.getItem() instanceof ShieldItem) {
