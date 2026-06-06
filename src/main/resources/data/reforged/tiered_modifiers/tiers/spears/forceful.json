@@ -1,0 +1,33 @@
+{
+  "weight": 2,
+  "reforge_experience_cost": 2,
+  "reforge_durability_cost": 2,
+  "reforge_item": "reforged:weaponsmiths_hammer",
+  "style": {
+    "color": "#7cd63c"
+  },
+  "attributes": [
+    {
+      "type": "attack_knockback",
+      "modifier": {
+        "id": "reforged:forceful_0",
+        "operation": "ADD_VALUE",
+        "amount": 1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "attack_damage",
+      "modifier": {
+        "id": "reforged:forceful_1",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": 0.1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
+}
