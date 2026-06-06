@@ -1,0 +1,44 @@
+{
+  "weight": 2,
+  "reforge_experience_cost": 2,
+  "reforge_durability_cost": 2,
+  "reforge_item": "reforged:weaponsmiths_hammer",
+  "style": {
+    "color": "#a13271"
+  },
+  "attributes": [
+    {
+      "type": "attack_knockback",
+      "modifier": {
+        "id": "reforged:anchoring_0",
+        "operation": "ADD_VALUE",
+        "amount": 2
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "entity_interaction_range",
+      "modifier": {
+        "id": "reforged:anchoring_1",
+        "operation": "ADD_VALUE",
+        "amount": 1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "attack_speed",
+      "modifier": {
+        "id": "reforged:anchoring_2",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.25
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
+}
