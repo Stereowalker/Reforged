@@ -1,6 +1,6 @@
-project.ext._mod_jar = jar
+project.ext._mod_jar = "jar"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(_java_version.toInteger())
 
 tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
