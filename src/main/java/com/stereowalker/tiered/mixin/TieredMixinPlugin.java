@@ -21,7 +21,7 @@ public class TieredMixinPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
     	if (mixinClassName.contains("mixin.curios"))
         {
-            try{Class.forName("top.theillusivec4.curios.api.type.util.ICuriosHelper");return true;}
+            try{Class.forName("top.theillusivec4.curios.api.event.SlotModifiersUpdatedEvent");return true;}
             catch (ClassNotFoundException e){return false;}
         }
     	else return true;
