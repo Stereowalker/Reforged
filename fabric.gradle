@@ -1,4 +1,4 @@
-project.ext._mod_jar = jar
+project.ext._mod_jar = "jar"
 
 loom {
 	mixin.defaultRefmapName.set("${_mod_id}.refmap.json")
@@ -9,18 +9,14 @@ loom {
 	}
 }
 
-tasks.withType(JavaCompile).configureEach {
-	it.options.release = 25
-}
-
 java {
 	withSourcesJar()
-	sourceCompatibility = JavaVersion.VERSION_25
-	targetCompatibility = JavaVersion.VERSION_25
+	sourceCompatibility = JavaVersion.toVersion(_java_version)
+	targetCompatibility = JavaVersion.toVersion(_java_version)
 }
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
+		rename { "${it}_${project._mod_name}"}
 	}
 }

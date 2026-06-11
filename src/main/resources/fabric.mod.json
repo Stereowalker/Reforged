@@ -19,10 +19,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.stereowalker.reforged.Reforged"
+      "${mod_entrypoint}"
     ],
     "client": [
-      "com.stereowalker.reforged.Reforged"
+      "${mod_entrypoint}"
     ]
   },
   "mixins": [
@@ -33,7 +33,7 @@
     "fabricloader": [">=${loader_version_min}", "<${loader_version_max}"],
     "fabric-api": "*",
     "minecraft": [">=${minecraft_version_min}", "<${minecraft_version_max}"],
-    "java": ">=17",
+    "java": ">=${java_version}",
 	"unionlib": [">=${unionlib_version_min}", "<${unionlib_version_max}"]
   },
   "accessWidener": "${mod_id}.accesswidener",
