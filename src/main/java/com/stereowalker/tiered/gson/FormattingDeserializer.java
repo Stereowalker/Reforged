@@ -14,6 +14,6 @@ public class FormattingDeserializer implements JsonDeserializer<ChatFormatting> 
 
     @Override
     public ChatFormatting deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return ChatFormatting.getByName(json.getAsString().toUpperCase());
+        return ChatFormatting.valueOf(json.getAsString().toUpperCase());
     }
 }
