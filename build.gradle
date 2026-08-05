@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+	id 'java'
 	id 'eclipse'
     id 'idea'
     id 'maven-publish'
@@ -7,7 +7,6 @@ plugins {
     id "me.modmuss50.mod-publish-plugin" version "0.7.4"
 	id "com.modrinth.minotaur" version "2.+"
 }
-layout.buildDirectory = file("build${_minecraft_version}-${_loader}")
 apply from: "main.gradle"
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
@@ -16,11 +15,11 @@ apply plugin: 'maven-publish'
 
 // Should exist on all loaders and is loader specific
 repositories {
-minecraft.mavenizer(it) // In Kotlin, it = this
-    maven fg.forgeMaven
+maven fg.forgeMaven
+	mavenLocal()
+	minecraft.mavenizer(it) // In Kotlin, it = this
     maven fg.minecraftLibsMaven
     mavenCentral()
-	mavenLocal()
 	maven {url "https://modmaven.dev/" }// UnionLib
 	maven {url "https://girafi.dk/maven/"}
 	maven {url "https://www.cursemaven.com"} //CurseForge
