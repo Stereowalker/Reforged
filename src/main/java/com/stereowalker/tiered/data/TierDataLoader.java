@@ -1,16 +1,16 @@
 package com.stereowalker.tiered.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
+import com.stereowalker.tiered.api.AttributeTemplate;
 import com.stereowalker.tiered.api.PotentialAttribute;
 import com.stereowalker.tiered.gson.AccessoryGroupDeserializer;
 import com.stereowalker.tiered.gson.AccessorySlotDeserializer;
@@ -23,15 +23,15 @@ import com.stereowalker.unionlib.util.VersionHelper;
 import com.stereowalker.unionlib.world.entity.AccessorySlot;
 
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
-public class TierDataLoader extends SimpleJsonResourceReloadListener implements ReloadListener {
+public class TierDataLoader extends SimpleJsonResourceReloadListener<PotentialAttribute> implements ReloadListener {
 
     public static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
@@ -48,29 +48,25 @@ public class TierDataLoader extends SimpleJsonResourceReloadListener implements 
     private static final String LOADED_RECIPES_MESSAGE = "Loaded {} item tiers";
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private Map<ResourceLocation, PotentialAttribute> itemAttributes = new HashMap<>();
+    private Map<Identifier, PotentialAttribute> itemAttributes = new HashMap<>();
 
     public TierDataLoader() {
-        super(GSON, "tiered_modifiers/tiers");
+        super(PotentialAttribute.CODEC, FileToIdConverter.json("tiered_modifiers/tiers"));
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> loader, ResourceManager manager, ProfilerFiller profiler) {
-        Map<ResourceLocation, PotentialAttribute> readItemAttributes = Maps.newHashMap();
-
-        for (Map.Entry<ResourceLocation, JsonElement> entry : loader.entrySet()) {
-            ResourceLocation identifier = entry.getKey();
-
-            try {
-                PotentialAttribute itemAttribute = GSON.fromJson(entry.getValue(), PotentialAttribute.class);
-                readItemAttributes.put(identifier, itemAttribute);
-            } catch (IllegalArgumentException | JsonParseException exception) {
-                LOGGER.error(PARSING_ERROR_MESSAGE, identifier, exception);
-            }
-        }
-
-        itemAttributes = readItemAttributes;
-        LOGGER.info(LOADED_RECIPES_MESSAGE, readItemAttributes.size());
+    protected void apply(Map<Identifier, PotentialAttribute> loader, ResourceManager manager, ProfilerFiller profiler) {
+    	for (var attr : loader.entrySet()) {
+    		List<AttributeTemplate> exists = new ArrayList<>();
+    		for (var att : attr.getValue().getUnfilteredAttributes()) {
+    			if (att.attributeExists(attr.getKey().toString())) exists.add(att);
+    		}
+    		attr.getValue().getAttributes().clear();
+    		attr.getValue().getAttributes().addAll(exists);
+    	}
+    	itemAttributes.clear();
+        itemAttributes.putAll(loader);
+        LOGGER.info(LOADED_RECIPES_MESSAGE, loader.size());
     }
 
     /**
@@ -78,18 +74,18 @@ public class TierDataLoader extends SimpleJsonResourceReloadListener implements 
      *
      * @return  list of potential read item attributes
      */
-    public Map<ResourceLocation, PotentialAttribute> getTiers() {
+    public Map<Identifier, PotentialAttribute> getTiers() {
         return itemAttributes;
     }
     public void clear() {
         itemAttributes.clear();
     }
-    public void replace(Map<ResourceLocation, PotentialAttribute> i){
+    public void replace(Map<Identifier, PotentialAttribute> i){
         itemAttributes = i;
     }
 
 	@Override
-	public ResourceLocation id() {
+	public Identifier id() {
 		return VersionHelper.toLoc("tiered", "data_loader");
 	}
 }

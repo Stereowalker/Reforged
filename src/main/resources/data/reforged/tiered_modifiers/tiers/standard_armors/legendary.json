@@ -1,0 +1,67 @@
+{
+  "weight": 1,
+  "reforge_experience_cost": 10,
+  "reforge_durability_cost": 5,
+  "reforge_item": "reforged:armorers_hammer",
+  "style": {
+    "color": "gold"
+  },
+  "attributes": [
+    {
+      "type": "max_health",
+      "modifier": {
+        "id": "reforged:legendary_armor_0",
+        "operation": "ADD_VALUE",
+        "amount": 10
+      },
+      "optional_equipment_slots": [
+        "FEET",
+        "LEGS",
+        "CHEST",
+        "HEAD"
+      ]
+    },
+    {
+      "type": "armor",
+      "modifier": {
+        "id": "reforged:legendary_armor_1",
+        "operation": "ADD_VALUE",
+        "amount": 4
+      },
+      "optional_equipment_slots": [
+        "FEET",
+        "LEGS",
+        "CHEST",
+        "HEAD"
+      ]
+    },
+    {
+      "type": "luck",
+      "modifier": {
+        "id": "reforged:legendary_armor_2",
+        "operation": "ADD_VALUE",
+        "amount": 0.5
+      },
+      "optional_equipment_slots": [
+        "FEET",
+        "LEGS",
+        "CHEST",
+        "HEAD"
+      ]
+    },
+    {
+      "type": "armor_toughness",
+      "modifier": {
+        "id": "reforged:legendary_armor_3",
+        "operation": "ADD_VALUE",
+        "amount": 2
+      },
+      "optional_equipment_slots": [
+        "FEET",
+        "LEGS",
+        "CHEST",
+        "HEAD"
+      ]
+    }
+  ]
+}

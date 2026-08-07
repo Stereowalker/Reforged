@@ -1,20 +1,25 @@
 package com.stereowalker.tiered.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
 import com.google.common.collect.Multimap;
 import com.google.gson.annotations.SerializedName;
-import com.stereowalker.tiered.Reforged;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.stereowalker.reforged.Reforged;
 import com.stereowalker.unionlib.util.VersionHelper;
 import com.stereowalker.unionlib.world.entity.AccessorySlot;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.Holder.Reference;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -33,6 +38,67 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
  * The EquipmentSlot is used to only apply this template to certain items.
  */
 public class AttributeTemplate {
+	public static final Codec<EquipmentSlotGroup> LENIENT_SLOT_GROUP_CODEC = Codec.STRING.xmap(
+			s -> {
+				String lower = s.toLowerCase(Locale.ROOT);
+				for (EquipmentSlotGroup group : EquipmentSlotGroup.values()) {
+					if (group.getSerializedName().equals(lower)) return group;
+				}
+				throw new IllegalArgumentException("Unknown EquipmentSlotGroup: " + s);
+			},
+			EquipmentSlotGroup::getSerializedName
+			);
+	private static final Codec<AttributeModifier.Operation> LENIENT_OPERATION_CODEC = Codec.STRING.xmap(
+			s -> {
+				String lower = s.toLowerCase(Locale.ROOT);
+				for (AttributeModifier.Operation op : AttributeModifier.Operation.values()) {
+					if (op.getSerializedName().equals(lower)) return op;
+				}
+				throw new IllegalArgumentException("Unknown AttributeModifier.Operation: " + s);
+			},
+			AttributeModifier.Operation::getSerializedName
+			);
+	public static final MapCodec<AttributeModifier> MAP_CODEC = RecordCodecBuilder.mapCodec(
+	        i -> i.group(
+	                Identifier.CODEC.fieldOf("id").forGetter(AttributeModifier::id),
+	                Codec.DOUBLE.fieldOf("amount").forGetter(AttributeModifier::amount),
+	                LENIENT_OPERATION_CODEC.fieldOf("operation").forGetter(AttributeModifier::operation)
+	            )
+	            .apply(i, AttributeModifier::new)
+	    );
+	
+	public static final Codec<AttributeTemplate> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+		    Codec.STRING.fieldOf("type").forGetter(t -> t.attributeTypeID),
+		    MAP_CODEC.codec().fieldOf("modifier").forGetter(t -> t.attributeModifier),
+		    LENIENT_SLOT_GROUP_CODEC.listOf().optionalFieldOf("required_equipment_slots", List.of())
+		    .forGetter(t -> t.requiredEquipmentSlotTypes == null ? List.of() : Arrays.asList(t.requiredEquipmentSlotTypes)),
+		    LENIENT_SLOT_GROUP_CODEC.listOf().optionalFieldOf("optional_equipment_slots", List.of())
+		    .forGetter(t -> t.optionalEquipmentSlotTypes == null ? List.of() : Arrays.asList(t.optionalEquipmentSlotTypes)),
+		    AccessorySlot.CODEC.listOf().optionalFieldOf("required_accessory_slots", List.of())
+		        .forGetter(t -> t.requiredAccessorySlotTypes == null ? List.of() : Arrays.asList(t.requiredAccessorySlotTypes)),
+		    AccessorySlot.CODEC.listOf().optionalFieldOf("optional_accessory_slots", List.of())
+		        .forGetter(t -> t.optionalAccessorySlotTypes == null ? List.of() : Arrays.asList(t.optionalAccessorySlotTypes)),
+		    AccessorySlot.Group.CODEC.listOf().optionalFieldOf("required_accessory_groups", List.of())
+		        .forGetter(t -> t.requiredAccessoryGroupTypes == null ? List.of() : Arrays.asList(t.requiredAccessoryGroupTypes)),
+		    AccessorySlot.Group.CODEC.listOf().optionalFieldOf("optional_accessory_groups", List.of())
+		        .forGetter(t -> t.optionalAccessoryGroupTypes == null ? List.of() : Arrays.asList(t.optionalAccessoryGroupTypes)),
+		    Codec.STRING.listOf().optionalFieldOf("required_curio_slots", List.of())
+		        .forGetter(t -> t.requiredCurioSlotTypes == null ? List.of() : Arrays.asList(t.requiredCurioSlotTypes)),
+		    Codec.STRING.listOf().optionalFieldOf("optional_curio_slots", List.of())
+		        .forGetter(t -> t.optionalCurioSlotTypes == null ? List.of() : Arrays.asList(t.optionalCurioSlotTypes))
+		).apply(instance, (type, modifier, reqEquip, optEquip, reqAccSlot, optAccSlot, reqAccGroup, optAccGroup, reqCurio, optCurio) ->
+		    new AttributeTemplate(
+		        type, modifier,
+		        reqEquip.toArray(new EquipmentSlotGroup[0]),
+		        optEquip.toArray(new EquipmentSlotGroup[0]),
+		        reqAccSlot.toArray(new AccessorySlot[0]),
+		        optAccSlot.toArray(new AccessorySlot[0]),
+		        reqAccGroup.toArray(new AccessorySlot.Group[0]),
+		        optAccGroup.toArray(new AccessorySlot.Group[0]),
+		        reqCurio.toArray(new String[0]),
+		        optCurio.toArray(new String[0])
+		    )
+		));
 
     @SerializedName("type")
     private final String attributeTypeID;
@@ -201,19 +267,28 @@ public class AttributeTemplate {
      * @param actions  map to add {@link AttributeTemplate}
      * @param slot
      */
-    private void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, ResourceLocation id) {
+    private void realize(BiConsumer<Holder<Attribute>, AttributeModifier> actions, Identifier id) {
     	AttributeModifier cloneModifier = new AttributeModifier(
     			id.withPrefix("tiered_"+attributeModifier.id().getPath()),
                 attributeModifier.amount(),
                 attributeModifier.operation()
         );
 
-        Optional<Reference<Attribute>> key = BuiltInRegistries.ATTRIBUTE.getHolder((VersionHelper.toLoc(attributeTypeID)));
-//        Holder<Attribute> key = RegistryHelper.getAttribute(new ResourceLocation(attributeTypeID));
+    	Optional<Reference<Attribute>> key = BuiltInRegistries.ATTRIBUTE.get((VersionHelper.AttributeHelper.backportAttribute(attributeTypeID)));
+//        Holder<Attribute> key = RegistryHelper.getAttribute(VersionHelper.toLoc(attributeTypeID));
         if(key == null || key.isEmpty()) {
             Reforged.LOGGER.warn(String.format("%s was referenced as an attribute type, but it does not exist! A data file in /tiered/item_attributes/ has an invalid type property.", attributeTypeID));
         } else {
             actions.accept(key.get(), cloneModifier);
         }
+    }
+
+    public boolean attributeExists(String keyChecked) {
+    	Optional<Reference<Attribute>> key = BuiltInRegistries.ATTRIBUTE.get((VersionHelper.AttributeHelper.backportAttribute(attributeTypeID)));
+    	if (key == null || key.isEmpty()) {
+    		Reforged.LOGGER.warn(String.format("%s was referenced as an attribute type in %s, but it does not exist!", attributeTypeID, keyChecked));
+    		return false;
+    	}
+    	return true;
     }
 }

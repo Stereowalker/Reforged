@@ -1,0 +1,22 @@
+{
+  "weight": 3,
+  "reforge_experience_cost": 4,
+  "reforge_durability_cost": 2,
+  "reforge_item": "reforged:toolsmiths_hammer",
+  "style": {
+    "color": "green"
+  },
+  "attributes": [
+    {
+      "type": "block_break_speed",
+      "modifier": {
+        "id": "reforged:hasteful",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": 0.20
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
+}

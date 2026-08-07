@@ -1,6 +1,6 @@
 package com.stereowalker.tiered.network.protocol.game;
 
-import static com.stereowalker.tiered.Reforged.TIER_DATA;
+import static com.stereowalker.reforged.Reforged.TIER_DATA;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,14 +14,14 @@ import com.stereowalker.unionlib.util.VersionHelper;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ClientboundTierSyncerPacket extends ClientboundUnionPacket {
     public int size;
-    public Map<ResourceLocation, PotentialAttribute> attribute;
-    public static final Map<ResourceLocation, PotentialAttribute> CACHED_ATTRIBUTES = new HashMap<>();
+    public Map<Identifier, PotentialAttribute> attribute;
+    public static final Map<Identifier, PotentialAttribute> CACHED_ATTRIBUTES = new HashMap<>();
 
-    public ClientboundTierSyncerPacket(Map<ResourceLocation, PotentialAttribute> attribute) {
+    public ClientboundTierSyncerPacket(Map<Identifier, PotentialAttribute> attribute) {
     	super(null);
     	this.attribute = attribute;
         this.size = attribute.size();
@@ -32,7 +32,7 @@ public class ClientboundTierSyncerPacket extends ClientboundUnionPacket {
 		this.size = buf.readInt();
 		this.attribute = Maps.newHashMap();
         for (int i = 0; i < this.size; i++) {
-            ResourceLocation id = buf.readResourceLocation();
+            Identifier id = buf.readIdentifier();
             PotentialAttribute pa = TierDataLoader.GSON.fromJson(buf.readUtf(), PotentialAttribute.class);
             this.attribute.put(id, pa);
         }
@@ -43,7 +43,7 @@ public class ClientboundTierSyncerPacket extends ClientboundUnionPacket {
         buf.writeInt(this.size);
 
         this.attribute.forEach((id, attribute) -> {
-            buf.writeResourceLocation(id);
+            buf.writeIdentifier(id);
             buf.writeUtf(TierDataLoader.GSON.toJson(attribute));
         });
 	}
@@ -60,9 +60,9 @@ public class ClientboundTierSyncerPacket extends ClientboundUnionPacket {
 		return true;
 	}
 
-	public static ResourceLocation id = VersionHelper.toLoc("tiered", "tier_sync");
+	public static Identifier id = VersionHelper.toLoc("tiered", "tier_sync");
 	@Override
-	public ResourceLocation id() {
+	public Identifier id() {
 		return id;
 	}
 }

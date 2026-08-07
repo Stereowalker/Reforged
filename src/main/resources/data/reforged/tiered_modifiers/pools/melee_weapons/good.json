@@ -1,0 +1,22 @@
+{
+  "weight": 2,
+  "verifiers": [
+    {
+      "tag": "minecraft:swords"
+    },
+    {
+      "tag": "minecraft:axes"
+    },
+    {
+      "id": "minecraft:mace"
+    }
+  ],
+  "tiers": [
+    "reforged:melee_weapons/sharp",
+    "reforged:melee_weapons/keen",
+    "reforged:melee_weapons/critical",
+    "reforged:melee_weapons/epic",
+    "reforged:melee_weapons/legendary",
+    "reforged:melee_weapons/rare"
+  ]
+}

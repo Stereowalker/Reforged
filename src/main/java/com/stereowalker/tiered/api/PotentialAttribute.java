@@ -1,13 +1,34 @@
 package com.stereowalker.tiered.api;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.stereowalker.unionlib.util.GeneralUtilities.WeightedObject;
 
+import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class PotentialAttribute implements WeightedObject {
+	public static final Codec<PotentialAttribute> CODEC = RecordCodecBuilder.create(
+			i -> i.group(
+					Codec.STRING.optionalFieldOf("id").forGetter(pa -> Optional.ofNullable(pa.getID())),
+			        Codec.STRING.optionalFieldOf("literal_name").forGetter(pa -> Optional.ofNullable(pa.getLiteralName())),
+					Codec.INT.fieldOf("weight").forGetter(PotentialAttribute::getWeight),
+					Codec.INT.fieldOf("reforge_durability_cost").forGetter(PotentialAttribute::getReforgeDurabilityCost),
+					Codec.INT.fieldOf("reforge_experience_cost").forGetter((pa) -> pa.reforge_experience_cost),
+					Codec.STRING.fieldOf("reforge_item").forGetter(PotentialAttribute::getReforgeItem),
+					ItemVerifier.CODEC.listOf().optionalFieldOf("verifiers", List.of()).forGetter(PotentialAttribute::getVerifiers),
+					ItemVerifier.CODEC.listOf().optionalFieldOf("exclusions", List.of()).forGetter(PotentialAttribute::getExclusions),
+					Style.Serializer.CODEC.fieldOf("style").forGetter(PotentialAttribute::getStyle),
+					AttributeTemplate.CODEC.listOf().fieldOf("attributes").forGetter(PotentialAttribute::getAttributes)
+					)
+			.apply(i, (id, literal_name, weight, reforge_durability_cost, reforge_experience_cost, reforge_item, verifiers, exclusions, style, attributes) ->
+					new PotentialAttribute(id.orElse(null), literal_name.orElse(null), weight, reforge_durability_cost, reforge_experience_cost, reforge_item, verifiers, exclusions, style, attributes))
+			);
 
 	private final String id;
 	private final String literal_name;
@@ -20,6 +41,7 @@ public class PotentialAttribute implements WeightedObject {
 	private final List<ItemVerifier> exclusions;
 	private final Style style;
 	private final List<AttributeTemplate> attributes;
+	private List<AttributeTemplate> filteredAttributes = new ArrayList<>();
 
 	public PotentialAttribute(String id, String literal_name, 
 			int weight, int reforge_durability_cost, int reforge_experience_cost, 
@@ -35,6 +57,7 @@ public class PotentialAttribute implements WeightedObject {
 		this.exclusions = exclusions;
 		this.style = style;
 		this.attributes = attributes;
+		filteredAttributes.addAll(attributes);
 	}
 
 	public String getID() {
@@ -69,7 +92,7 @@ public class PotentialAttribute implements WeightedObject {
 		return exclusions;
 	}
 
-	public boolean isValid(ResourceLocation id) {
+	public boolean isValid(Identifier id) {
 		if (exclusions != null)
 			for(ItemVerifier exclusion : exclusions)
 				if(exclusion.isValid(id)) return false;
@@ -80,11 +103,22 @@ public class PotentialAttribute implements WeightedObject {
 	}
 
 	public Style getStyle() {
-		return style;
+//		System.out.println("Style is null "+(style == null)+" "+this.reforge_item);
+//		if (style != null) System.out.println("Potential Font "+style.getFont());
+		return style == null ? Style.EMPTY : style.withFont(FontDescription.DEFAULT) ;
+	}
+
+	public List<AttributeTemplate> getUnfilteredAttributes() {
+		return attributes;
 	}
 
 	public List<AttributeTemplate> getAttributes() {
-		return attributes;
+		if (filteredAttributes == null) {
+			filteredAttributes = new ArrayList<>();
+			filteredAttributes.addAll(attributes);
+		}
+		
+		return filteredAttributes;
 	}
 	
 	//Remove in a later update

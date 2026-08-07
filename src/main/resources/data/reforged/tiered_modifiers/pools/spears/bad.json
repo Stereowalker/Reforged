@@ -1,0 +1,16 @@
+{
+  "weight": 3,
+  "verifiers": [
+    {
+      "tag": "c:tools/tridents"
+    },
+    {
+      "tag": "minecraft:spears"
+    }
+  ],
+  "tiers": [
+    "reforged:spears/blunt",
+    "reforged:spears/wobbly",
+    "reforged:spears/top_heavy"
+  ]
+}

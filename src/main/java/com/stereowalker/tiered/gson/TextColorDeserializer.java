@@ -14,6 +14,6 @@ public class TextColorDeserializer implements JsonDeserializer<TextColor> {
 
     @Override
     public TextColor deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return TextColor.fromLegacyFormat(ChatFormatting.getByName(json.getAsString().toUpperCase()));
+        return TextColor.fromLegacyFormat(ChatFormatting.valueOf(json.getAsString().toUpperCase()));
     }
 }

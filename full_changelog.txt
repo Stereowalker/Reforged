@@ -1,3 +1,12 @@
+[1.1.0]
+- Updated tiers to use modern attribute names
+- Added new spear tiers
+- Prevented loading an attribute in a tier if it doesn't exist
+- Updated unionlob to 13.0
+
+[1.0.12]
+- Fix items not stacking when immediately picked up
+
 [1.0.11]
 - Updated unionlib to 12.1.0
 - Allowed items to be reforged with zero exp if enabled in the config

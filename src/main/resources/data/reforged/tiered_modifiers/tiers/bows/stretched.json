@@ -1,0 +1,33 @@
+{
+  "weight": 3,
+  "reforge_experience_cost": 2,
+  "reforge_durability_cost": 2,
+  "reforge_item": "reforged:weaponsmiths_hammer",
+  "style": {
+    "color": "gray"
+  },
+  "attributes": [
+    {
+      "type": "unionlib:generic.arrow_damage",
+      "modifier": {
+        "id": "reforged:stretched_0",
+        "operation": "ADD_VALUE",
+        "amount": -0.2
+      },
+      "optional_equipment_slots": [
+        "HAND"
+      ]
+    },
+    {
+      "type": "unionlib:generic.arrow_velocity",
+      "modifier": {
+        "id": "reforged:stretched_1",
+        "operation": "ADD_VALUE",
+        "amount": -0.2
+      },
+      "optional_equipment_slots": [
+        "HAND"
+      ]
+    }
+  ]
+}

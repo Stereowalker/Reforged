@@ -1,3 +1,4 @@
-- Updated unionlib to 12.1.0
-- Allowed items to be reforged with zero exp if enabled in the config
-- Prevented attempting to reforge items that can't have a tier in an anvil
+- Updated tiers to use modern attribute names
+- Added new spear tiers
+- Prevented loading an attribute in a tier if it doesn't exist
+- Updated unionlob to 13.0

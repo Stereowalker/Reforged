@@ -1,0 +1,33 @@
+{
+  "weight": 2,
+  "reforge_experience_cost": 8,
+  "reforge_durability_cost": 4,
+  "reforge_item": "reforged:toolsmiths_hammer",
+  "style": {
+    "color": "dark_purple"
+  },
+  "attributes": [
+    {
+      "type": "block_break_speed",
+      "modifier": {
+        "id": "reforged:epic_tool_1",
+        "operation": "ADD_VALUE",
+        "amount": 0.075
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "attack_speed",
+      "modifier": {
+        "id": "reforged:epic_tool_2",
+        "operation": "ADD_VALUE",
+        "amount": 0.5
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
+}

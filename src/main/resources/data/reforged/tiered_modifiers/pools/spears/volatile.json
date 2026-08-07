@@ -1,0 +1,15 @@
+{
+  "weight": 1,
+  "verifiers": [
+    {
+      "tag": "c:tools/tridents"
+    },
+    {
+      "tag": "minecraft:spears"
+    }
+  ],
+  "tiers": [
+    "reforged:spears/devastator",
+    "reforged:spears/anchoring"
+  ]
+}
