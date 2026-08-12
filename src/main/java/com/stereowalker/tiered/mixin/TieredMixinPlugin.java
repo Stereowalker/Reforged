@@ -6,6 +6,7 @@ import java.util.Set;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+import org.spongepowered.asm.service.MixinService;
 
 public class TieredMixinPlugin implements IMixinConfigPlugin {
     @Override
@@ -21,8 +22,8 @@ public class TieredMixinPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
     	if (mixinClassName.contains("mixin.curios"))
         {
-            try{Class.forName("top.theillusivec4.curios.api.event.SlotModifiersUpdatedEvent");return true;}
-            catch (ClassNotFoundException e){return false;}
+            try{MixinService.getService().getBytecodeProvider().getClassNode("top.theillusivec4.curios.api.event.SlotModifiersUpdatedEvent");return true;}
+            catch (Exception e){return false;}
         }
     	else return true;
     }
